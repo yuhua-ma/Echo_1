@@ -1,0 +1,230 @@
+---
+title: "FINAL SHANK3 ASO Mechanism-of-Action Report"
+author: "R / targets chemistry-aware bioinformatics workflow"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    theme: flatly
+    number_sections: true
+  pdf_document:
+    toc: true
+    number_sections: true
+    latex_engine: xelatex
+    keep_tex: false
+mainfont: DejaVu Sans
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.width = 8, fig.height = 4)
+suppressPackageStartupMessages({
+  library(dplyr)
+  library(readr)
+  library(yaml)
+})
+root <- if (file.exists("_config.yml")) {
+  getwd()
+} else if (file.exists("../_config.yml")) {
+  normalizePath("..")
+} else {
+  getwd()
+}
+cfg <- yaml::read_yaml(file.path(root, "_config.yml"))
+read_safe <- function(path) {
+  if (!file.exists(path)) return(NULL)
+  tryCatch(readr::read_tsv(path, show_col_types = FALSE), error = function(e) NULL)
+}
+qc <- read_safe(file.path(root, "results/01_sequence_qc.tsv"))
+map <- read_safe(file.path(root, "results/02_shank3_mapping.tsv"))
+struct <- read_safe(file.path(root, "results/03_rna_structure.tsv"))
+acc <- read_safe(file.path(root, "results/03_accessibility.tsv"))
+clip <- read_safe(file.path(root, "results/04_rbp_clip_overlap.tsv"))
+motif <- read_safe(file.path(root, "results/04_rbp_motif_overlap.tsv"))
+expr <- read_safe(file.path(root, "results/04_rbp_expression.tsv"))
+func <- read_safe(file.path(root, "results/04_rbp_function.tsv"))
+tf <- read_safe(file.path(root, "results/05_tf_chromatin.tsv"))
+ranked <- read_safe(file.path(root, "results/06_ranked_rbps.tsv"))
+hyp <- read_safe(file.path(root, "results/07_mechanism_hypotheses.tsv"))
+val <- read_safe(file.path(root, "results/07_validation_recommendations.tsv"))
+prov <- read_safe(file.path(root, "data/raw/PROVENANCE.tsv"))
+`%||%` <- function(a, b) if (is.null(a) || length(a) == 0 || (is.character(a) && !nzchar(a[[1]]))) b else a
+```
+
+# Executive summary
+
+This report summarizes a reproducible **R-only** workflow for two SHANK3-associated ASOs
+(`r paste(vapply(cfg$asos, function(x) x$id, character(1)), collapse = ", ")`)
+in *Homo sapiens* **GRCh38**. Both ASOs are linked to **increased SHANK3 expression**. Chemistry is **phosphorothioate + 2'-MOE with all cytosines as 5-methyl-dC**; **architecture is unknown** and **RNase-H compatibility is unknown**. Sequence/database evidence is used only to generate **ranked hypotheses**, not confirmed mechanisms.
+
+```{r}
+exact_n <- if (is.null(map)) 0 else sum(map$exact_shank3_match, na.rm = TRUE)
+approx_n <- if (is.null(map)) 0 else sum(map$approximate_shank3_match, na.rm = TRUE)
+top_mech <- if (is.null(hyp)) NULL else hyp %>% dplyr::filter(is_top)
+knitr::kable(data.frame(
+  metric = c("Exact SHANK3 mapping rows", "Approximate mapping rows", "Top mechanism labels"),
+  value = c(
+    as.character(exact_n),
+    as.character(approx_n),
+    if (is.null(top_mech)) "n/a" else paste(paste0(top_mech$aso_id, "=", top_mech$mechanism_label), collapse = "; ")
+  )
+))
+```
+
+# ASO sequences and chemistry
+
+```{r}
+if (!is.null(qc)) knitr::kable(qc %>% dplyr::select(aso_id, cleaned_sequence, length_nt, gc_percent,
+  chemistry_backbone, chemistry_moe, chemistry_five_methyl_dC, chemistry_architecture,
+  chemistry_rnase_h_compatible, qc_warnings, status))
+```
+
+**Chemistry rules applied throughout:** do not assume gapmer architecture; do not assume RNase-H activity; annotate every C as 5m-dC while retaining canonical bases for alignment/motifs.
+
+# Target gene and phenotype context
+
+- Gene: **SHANK3** (neuronal synaptic scaffolding; dosage-sensitive ASD/Phelan-McDermid relevant gene).
+- Cell types of interest: **neuron**, **neural precursor cell**.
+- Phenotype for both ASOs: **increased SHANK3 expression**.
+- Implication: mechanisms that **destroy** SHANK3 mRNA via RNase-H are directionally inconsistent with the stated phenotype for simple on-target knockdown (unless isoform switching/feedback is demonstrated).
+
+# Transcript and genomic mapping (GRCh38)
+
+```{r}
+if (exact_n == 0) cat("**Ambiguity statement:** ", cfg$ambiguity_statement, "\n", sep = "")
+if (!is.null(map)) knitr::kable(map %>% dplyr::select(dplyr::any_of(c(
+  "aso_id","match_class","exact_shank3_match","approximate_shank3_match","feature_type",
+  "transcript_id","chrom","start","end","strand","mismatches","rank","support_note","status","warning"
+))))
+```
+
+Windows (±`r cfg$window_upstream` / ±`r cfg$window_downstream` nt) are written to `results/02_target_windows.fasta` and `.bed`.
+
+# RNA structure and accessibility
+
+ViennaRNA (`RNAfold`/`RNAplfold`) is invoked only via `system2()`. Missing tools produce warnings and empty numeric fields - **results are never fabricated**. All energies are canonical-RNA approximations unsuitable as exact MOE/PS/5m-dC biochemical measurements.
+
+```{r}
+if (!is.null(struct)) knitr::kable(struct %>% dplyr::select(dplyr::any_of(c(
+  "aso_id","window_id","context","mfe_kcal_mol","site_structure_class",
+  "mean_unpaired_probability","approx_hybridization_energy","status","warning","chemistry_caveat"
+))))
+```
+
+# RBP CLIP, motif, expression, and function evidence
+
+Sources referenced: ENCODE eCLIP, UCSC ENCODE tracks, POSTAR3, oRNAment, ATtRACT, RBPDB, RBP2GO (see provenance). **No CLIP peaks are invented.**
+
+## CLIP overlaps
+
+```{r}
+if (!is.null(clip)) knitr::kable(clip)
+```
+
+## Motif overlaps (sample)
+
+```{r}
+if (!is.null(motif)) knitr::kable(utils::head(motif, 30))
+```
+
+## Expression priors (neuron / NPC)
+
+```{r}
+if (!is.null(expr)) knitr::kable(utils::head(expr, 20))
+```
+
+## Function annotation
+
+```{r}
+if (!is.null(func)) knitr::kable(utils::head(func, 20))
+```
+
+# Ranked RBP hypotheses
+
+Transparent scoring: **+3 / +2 / +1 / -2** rules in `R/06_mechanism_ranking.R`. Top 3-5 RBPs per ASO attempt to include repressive, activating/stabilizing, and structure-related classes.
+
+```{r}
+if (!is.null(ranked)) knitr::kable(ranked %>% dplyr::filter(in_top_report) %>%
+  dplyr::select(aso_id, rank, rbp, score, rbp_class, regulatory_direction_hint, score_rationale, warning))
+```
+
+# TF and chromatin (conditional)
+
+TF motifs are evaluated on **genomic DNA only** when locus class suggests nuclear regulatory / intronic / promoter / enhancer / antisense context. This evidence stream is separate from RBP analysis.
+
+```{r}
+if (!is.null(tf)) knitr::kable(tf)
+```
+
+# Chemistry-aware mechanism ranking
+
+Eight chemistry/mechanism rules are applied (architecture unknown; RNase-H unknown; phenotype direction; PS protein engagement; MOE occupancy bias; 5m-dC caveats; structure hypothetical; sequence≠proof). Labels scored as hypotheses only.
+
+```{r}
+if (!is.null(hyp)) knitr::kable(hyp %>% dplyr::filter(rank <= 5) %>%
+  dplyr::select(aso_id, rank, mechanism_label, hypothesis_score, rnase_h_status,
+                exact_shank3_match, top_rbps, rationale, caveat))
+```
+
+# Per-ASO interpretation
+
+```{r, results='asis'}
+if (!is.null(hyp) && !is.null(ranked)) {
+  for (aso in cfg$asos) {
+    id <- aso$id
+    cat("## ", id, " (`", aso$sequence, "`)\n\n", sep = "")
+    tm <- hyp %>% dplyr::filter(aso_id == id, is_top)
+    tr <- ranked %>% dplyr::filter(aso_id == id, in_top_report) %>% dplyr::arrange(dplyr::desc(score))
+    cat("- Top mechanism hypothesis: **", tm$mechanism_label[1] %||% "unresolved", "**\n", sep = "")
+    cat("- Top RBPs: ", paste(tr$rbp, collapse = ", "), "\n", sep = "")
+    cat("- RNase-H: **unknown** (unsupported by chemistry assumption; architecture unknown; phenotype argues against simple on-target RNase-H knockdown)\n")
+    cat("- Exact SHANK3 match present: ", any(map$aso_id == id & map$exact_shank3_match, na.rm = TRUE), "\n\n", sep = "")
+  }
+}
+```
+
+# Off-target considerations
+
+A limited **chr22 genomic exact reverse-complement** screen is recorded in `results/02_offtargets_chr22.tsv`. This is **not** a full transcriptome off-target proof. Off-target mechanisms remain possible, especially without exact SHANK3 transcript confirmation.
+
+# Validation recommendations
+
+For every high-priority RBP, the following ten experiment types are recommended (each states which hypothesis it tests):
+
+```{r}
+if (!is.null(val)) knitr::kable(utils::head(val, 60))
+```
+
+# Resource provenance
+
+```{r}
+if (!is.null(prov)) knitr::kable(prov) else cat("No provenance table yet.")
+```
+
+# Limitations and missing information
+
+- ASO **architecture** not provided (cannot confirm gapmer / mixmer / fully modified).
+- **RNase-H compatibility unknown**; not assumed.
+- Neuron/NPC **eCLIP peak overlaps** at the precise site generally unavailable in this automated run (metadata may be cached; peaks not fabricated).
+- Motif/expression layers include **explicitly labeled priors**.
+- Structure values omit MOE/PS/5m-dC parameterization.
+- No experimental ASO engagement assay integrated.
+- Genome builds other than GRCh38 were **not** used.
+
+# Conclusions (non-confirmatory)
+
+```{r, results='asis'}
+cat("Both ASOs should be interpreted under chemistry-aware occupancy / RBP / structure / splicing hypotheses rather than assumed RNase-H gapmer knockdown. ")
+cat("The highest-scoring mechanism labels are **hypotheses only**. ")
+if (exact_n == 0) cat(cfg$ambiguity_statement, " ")
+cat("Definitive mechanism assignment requires the validation suite above, architecture disclosure, and locus-resolved CLIP/structure/functional genetics in neuron/NPC systems.\n")
+```
+
+# Reproducibility
+
+```r
+cd shank3-aso-mechanism
+Rscript -e 'targets::tar_make()'
+```
+
+Pipeline orchestrated with the `targets` package; modules in `R/01_*.R`-`R/07_*.R`; config in `_config.yml`.

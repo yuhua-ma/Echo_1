@@ -1,0 +1,14 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+_targets/
+*.tar.gz
+*.gtf.gz
+data/raw/gencode*
+data/processed/vienna/
+.Renviron
+*.pdf
+.DS_Store
+renv/library/
+renv/staging/

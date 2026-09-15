@@ -1,0 +1,31 @@
+---
+title: "SHANK3 ASO Mechanism - Intermediate Final Report"
+output:
+  html_document:
+    toc: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+root <- if (file.exists("_config.yml")) getwd() else if (file.exists("../_config.yml")) normalizePath("..") else getwd()
+hyp <- readr::read_tsv(file.path(root, "results/07_mechanism_hypotheses.tsv"), show_col_types = FALSE)
+sumtxt <- tryCatch(readLines(file.path(root, "results/PIPELINE_SUMMARY.txt")), error = function(e) "Summary not yet written.")
+```
+
+# Chemistry reminder
+
+PS backbone, 2'-MOE, all cytosines 5m-dC; architecture **unknown**; RNase-H compatibility **unknown**. Phenotype: increased SHANK3 expression for both ASOs.
+
+# Top mechanism hypotheses
+
+```{r}
+knitr::kable(hyp %>% dplyr::filter(rank <= 3))
+```
+
+# Pipeline summary
+
+```{r, results='asis'}
+cat(paste(sumtxt, collapse = "\n"))
+```
+
+See `FINAL_SHANK3_ASO_MECHANISM_REPORT.Rmd` for the full 15-section report.

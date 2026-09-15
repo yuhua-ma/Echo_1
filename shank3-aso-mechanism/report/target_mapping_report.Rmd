@@ -1,0 +1,49 @@
+---
+title: "SHANK3 ASO Target Mapping Report"
+output:
+  html_document:
+    toc: true
+    theme: flatly
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+root <- if (file.exists("_config.yml")) getwd() else if (file.exists("../_config.yml")) normalizePath("..") else getwd()
+if (file.exists(file.path(root, "R/00_bootstrap.R"))) source(file.path(root, "R/00_bootstrap.R"))
+cfg <- yaml::read_yaml(file.path(root, "_config.yml"))
+map <- readr::read_tsv(file.path(root, "results/02_shank3_mapping.tsv"), show_col_types = FALSE)
+prov <- tryCatch(readr::read_tsv(file.path(root, "data/processed/02_annotation_provenance.tsv"), show_col_types = FALSE), error = function(e) NULL)
+```
+
+# Scope
+
+Genome build **GRCh38 only**. Gene: **SHANK3**. Mapping uses reverse-complement exact matches against SHANK3 transcripts and genomic locus; approximate 1-2 mismatch matches are secondary.
+
+# Annotation provenance
+
+```{r}
+if (!is.null(prov)) knitr::kable(prov) else cat("Provenance file not found.")
+```
+
+# Mapping results
+
+```{r}
+knitr::kable(map)
+```
+
+# Ambiguity handling
+
+```{r}
+exact <- sum(map$exact_shank3_match, na.rm = TRUE)
+if (exact == 0) {
+  cat(cfg$ambiguity_statement)
+} else {
+  cat("Exact SHANK3 match rows:", exact, "\nNo invented transcripts were used.")
+}
+```
+
+# Caveats
+
+- Exact sequence match ≠ confirmed functional target engagement.
+- Off-target screen in this pipeline is limited (chr22 genomic exact RC screen).
+- Chemistry (PS/MOE/5m-dC) is not used to invent mapping coordinates.

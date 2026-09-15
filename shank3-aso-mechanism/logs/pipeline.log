@@ -1,0 +1,23 @@
+2026-09-15 14:00:13 | Step 01 sequence QC complete: 2 ASOs 
+2026-09-15 14:00:58 | Step 02 mapping complete. exact rows=13 
+2026-09-15 14:00:59 | Step 04 RBP analysis complete. motif_hits=101 
+2026-09-15 14:00:59 | Step 05 TF/chromatin skipped (non-regulatory context) 
+2026-09-15 14:01:45 | Step 03 structure complete. vienna_fold=TRUE 
+2026-09-15 14:01:45 | Step 05 TF/chromatin skipped (non-regulatory context) 
+2026-09-15 14:01:45 | Step 06 RBP ranking complete 
+2026-09-15 14:01:45 | Step 07 mechanism ranking complete 
+2026-09-15 14:01:47 | Render failed for report/FINAL_SHANK3_ASO_MECHANISM_REPORT.Rmd: Failed to parse the inline R code: `r paste(vapply(cfg$asos, `
+Reason: <text>:2:0: unexpected end of input
+1: paste(vapply(cfg$asos, 
+   ^ 
+2026-09-15 14:01:47 | PDF render failed: Failed to parse the inline R code: `r paste(vapply(cfg$asos, `
+Reason: <text>:2:0: unexpected end of input
+1: paste(vapply(cfg$asos, 
+   ^ 
+2026-09-15 14:04:38 | Step 03 structure complete. vienna_fold=TRUE 
+2026-09-15 14:04:38 | Step 06 RBP ranking complete 
+2026-09-15 14:04:38 | Step 07 mechanism ranking complete 
+2026-09-15 14:04:41 | PDF render failed: LaTeX failed to compile FINAL_SHANK3_ASO_MECHANISM_REPORT.tex. See https://yihui.org/tinytex/r/#debugging for debugging tips. See FINAL_SHANK3_ASO_MECHANISM_REPORT.log for more info. 
+2026-09-15 14:06:39 | Step 03 structure complete. vienna_fold=TRUE 
+2026-09-15 14:06:40 | Step 06 RBP ranking complete 
+2026-09-15 14:06:40 | Step 07 mechanism ranking complete 
