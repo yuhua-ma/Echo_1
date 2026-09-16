@@ -11,7 +11,7 @@
 
 <meta name="author" content="R / targets chemistry-aware bioinformatics workflow" />
 
-<meta name="date" content="2026-09-15" />
+<meta name="date" content="2026-09-16" />
 
 <title>FINAL SHANK3 ASO Mechanism-of-Action Report</title>
 
@@ -372,7 +372,7 @@ display: none;
 Report</h1>
 <h4 class="author">R / targets chemistry-aware bioinformatics
 workflow</h4>
-<h4 class="date">2026-09-15</h4>
+<h4 class="date">2026-09-16</h4>
 
 </div>
 
@@ -479,8 +479,8 @@ chemistry</h1>
 <tr class="header">
 <th align="left">aso_id</th>
 <th align="left">cleaned_sequence</th>
-<th align="right">length_nt</th>
-<th align="right">gc_percent</th>
+<th align="left">length_nt</th>
+<th align="left">gc_percent</th>
 <th align="left">chemistry_backbone</th>
 <th align="left">chemistry_moe</th>
 <th align="left">chemistry_five_methyl_dC</th>
@@ -494,11 +494,11 @@ chemistry</h1>
 <tr class="odd">
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">TCCTGACTGTGCGCTGGG</td>
-<td align="right">18</td>
-<td align="right">38.89</td>
+<td align="left">18</td>
+<td align="left">38.89</td>
 <td align="left">phosphorothioate</td>
-<td align="left">TRUE</td>
-<td align="left">TRUE</td>
+<td align="left">T</td>
+<td align="left">T</td>
 <td align="left">unknown</td>
 <td align="left">unknown</td>
 <td align="left">NA</td>
@@ -507,11 +507,11 @@ chemistry</h1>
 <tr class="even">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">AGGGCACTAAGCAATGTA</td>
-<td align="right">18</td>
-<td align="right">27.78</td>
+<td align="left">18</td>
+<td align="left">27.78</td>
 <td align="left">phosphorothioate</td>
-<td align="left">TRUE</td>
-<td align="left">TRUE</td>
+<td align="left">T</td>
+<td align="left">T</td>
 <td align="left">unknown</td>
 <td align="left">unknown</td>
 <td align="left">NA</td>
@@ -519,6 +519,8 @@ chemistry</h1>
 </tr>
 </tbody>
 </table>
+<p><em>Full table (all columns):</em>
+<code>results/01_sequence_qc.tsv</code></p>
 <p><strong>Chemistry rules applied throughout:</strong> do not assume
 gapmer architecture; do not assume RNase-H activity; annotate every C as
 5m-dC while retaining canonical bases for alignment/motifs.</p>
@@ -569,11 +571,11 @@ mapping (GRCh38)</h1>
 <th align="left">feature_type</th>
 <th align="left">transcript_id</th>
 <th align="left">chrom</th>
-<th align="right">start</th>
-<th align="right">end</th>
+<th align="left">start</th>
+<th align="left">end</th>
 <th align="left">strand</th>
-<th align="right">mismatches</th>
-<th align="right">rank</th>
+<th align="left">mismatches</th>
+<th align="left">rank</th>
 <th align="left">support_note</th>
 <th align="left">status</th>
 <th align="left">warning</th>
@@ -583,16 +585,16 @@ mapping (GRCh38)</h1>
 <tr class="odd">
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">exact_transcript_rc</td>
-<td align="left">TRUE</td>
-<td align="left">FALSE</td>
+<td align="left">T</td>
+<td align="left">F</td>
 <td align="left">transcript_exon_spliced</td>
 <td align="left">ENST00000414786.7</td>
 <td align="left">chr22</td>
-<td align="right">5599</td>
-<td align="right">5616</td>
+<td align="left">5599</td>
+<td align="left">5616</td>
 <td align="left">+</td>
-<td align="right">0</td>
-<td align="right">1</td>
+<td align="left">0</td>
+<td align="left">1</td>
 <td align="left">Exact reverse-complement match in SHANK3 spliced
 transcript</td>
 <td align="left">ok</td>
@@ -601,16 +603,16 @@ transcript</td>
 <tr class="even">
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">exact_transcript_rc</td>
-<td align="left">TRUE</td>
-<td align="left">FALSE</td>
+<td align="left">T</td>
+<td align="left">F</td>
 <td align="left">transcript_exon_spliced</td>
 <td align="left">ENST00000673971.2</td>
 <td align="left">chr22</td>
-<td align="right">6295</td>
-<td align="right">6312</td>
+<td align="left">6295</td>
+<td align="left">6312</td>
 <td align="left">+</td>
-<td align="right">0</td>
-<td align="right">2</td>
+<td align="left">0</td>
+<td align="left">2</td>
 <td align="left">Exact reverse-complement match in SHANK3 spliced
 transcript</td>
 <td align="left">ok</td>
@@ -619,16 +621,16 @@ transcript</td>
 <tr class="odd">
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">exact_transcript_rc</td>
-<td align="left">TRUE</td>
-<td align="left">FALSE</td>
+<td align="left">T</td>
+<td align="left">F</td>
 <td align="left">transcript_exon_spliced</td>
 <td align="left">ENST00000262795.7</td>
 <td align="left">chr22</td>
-<td align="right">5465</td>
-<td align="right">5482</td>
+<td align="left">5465</td>
+<td align="left">5482</td>
 <td align="left">+</td>
-<td align="right">0</td>
-<td align="right">3</td>
+<td align="left">0</td>
+<td align="left">3</td>
 <td align="left">Exact reverse-complement match in SHANK3 spliced
 transcript</td>
 <td align="left">ok</td>
@@ -637,16 +639,16 @@ transcript</td>
 <tr class="even">
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">exact_transcript_rc</td>
-<td align="left">TRUE</td>
-<td align="left">FALSE</td>
+<td align="left">T</td>
+<td align="left">F</td>
 <td align="left">transcript_exon_spliced</td>
 <td align="left">ENST00000445220.7</td>
 <td align="left">chr22</td>
-<td align="right">4067</td>
-<td align="right">4084</td>
+<td align="left">4067</td>
+<td align="left">4084</td>
 <td align="left">+</td>
-<td align="right">0</td>
-<td align="right">4</td>
+<td align="left">0</td>
+<td align="left">4</td>
 <td align="left">Exact reverse-complement match in SHANK3 spliced
 transcript</td>
 <td align="left">ok</td>
@@ -655,16 +657,16 @@ transcript</td>
 <tr class="odd">
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">exact_transcript_rc</td>
-<td align="left">TRUE</td>
-<td align="left">FALSE</td>
+<td align="left">T</td>
+<td align="left">F</td>
 <td align="left">transcript_exon_spliced</td>
 <td align="left">ENST00000664402.2</td>
 <td align="left">chr22</td>
-<td align="right">3961</td>
-<td align="right">3978</td>
+<td align="left">3961</td>
+<td align="left">3978</td>
 <td align="left">+</td>
-<td align="right">0</td>
-<td align="right">5</td>
+<td align="left">0</td>
+<td align="left">5</td>
 <td align="left">Exact reverse-complement match in SHANK3 spliced
 transcript</td>
 <td align="left">ok</td>
@@ -673,16 +675,16 @@ transcript</td>
 <tr class="even">
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">exact_transcript_rc</td>
-<td align="left">TRUE</td>
-<td align="left">FALSE</td>
+<td align="left">T</td>
+<td align="left">F</td>
 <td align="left">transcript_exon_spliced</td>
 <td align="left">ENST00000710353.1</td>
 <td align="left">chr22_KQ759762v2_fix</td>
-<td align="right">5982</td>
-<td align="right">5999</td>
+<td align="left">5982</td>
+<td align="left">5999</td>
 <td align="left">+</td>
-<td align="right">0</td>
-<td align="right">6</td>
+<td align="left">0</td>
+<td align="left">6</td>
 <td align="left">Exact reverse-complement match in SHANK3 spliced
 transcript</td>
 <td align="left">ok</td>
@@ -691,16 +693,16 @@ transcript</td>
 <tr class="odd">
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">approx_transcript_rc_mm2</td>
-<td align="left">FALSE</td>
-<td align="left">TRUE</td>
+<td align="left">F</td>
+<td align="left">T</td>
 <td align="left">transcript_exon_spliced</td>
 <td align="left">ENST00000659388.1</td>
 <td align="left">chr22</td>
-<td align="right">919</td>
-<td align="right">936</td>
+<td align="left">919</td>
+<td align="left">936</td>
 <td align="left">+</td>
-<td align="right">2</td>
-<td align="right">7</td>
+<td align="left">2</td>
+<td align="left">7</td>
 <td align="left">Approximate RC match (2 mismatch) in SHANK3
 transcript</td>
 <td align="left">ok</td>
@@ -709,16 +711,16 @@ transcript</td>
 <tr class="even">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">exact_transcript_rc</td>
-<td align="left">TRUE</td>
-<td align="left">FALSE</td>
+<td align="left">T</td>
+<td align="left">F</td>
 <td align="left">transcript_exon_spliced</td>
 <td align="left">ENST00000414786.7</td>
 <td align="left">chr22</td>
-<td align="right">5563</td>
-<td align="right">5580</td>
+<td align="left">5563</td>
+<td align="left">5580</td>
 <td align="left">+</td>
-<td align="right">0</td>
-<td align="right">1</td>
+<td align="left">0</td>
+<td align="left">1</td>
 <td align="left">Exact reverse-complement match in SHANK3 spliced
 transcript</td>
 <td align="left">ok</td>
@@ -727,16 +729,16 @@ transcript</td>
 <tr class="odd">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">exact_transcript_rc</td>
-<td align="left">TRUE</td>
-<td align="left">FALSE</td>
+<td align="left">T</td>
+<td align="left">F</td>
 <td align="left">transcript_exon_spliced</td>
 <td align="left">ENST00000673971.2</td>
 <td align="left">chr22</td>
-<td align="right">6259</td>
-<td align="right">6276</td>
+<td align="left">6259</td>
+<td align="left">6276</td>
 <td align="left">+</td>
-<td align="right">0</td>
-<td align="right">2</td>
+<td align="left">0</td>
+<td align="left">2</td>
 <td align="left">Exact reverse-complement match in SHANK3 spliced
 transcript</td>
 <td align="left">ok</td>
@@ -745,16 +747,16 @@ transcript</td>
 <tr class="even">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">exact_transcript_rc</td>
-<td align="left">TRUE</td>
-<td align="left">FALSE</td>
+<td align="left">T</td>
+<td align="left">F</td>
 <td align="left">transcript_exon_spliced</td>
 <td align="left">ENST00000262795.7</td>
 <td align="left">chr22</td>
-<td align="right">5429</td>
-<td align="right">5446</td>
+<td align="left">5429</td>
+<td align="left">5446</td>
 <td align="left">+</td>
-<td align="right">0</td>
-<td align="right">3</td>
+<td align="left">0</td>
+<td align="left">3</td>
 <td align="left">Exact reverse-complement match in SHANK3 spliced
 transcript</td>
 <td align="left">ok</td>
@@ -763,16 +765,16 @@ transcript</td>
 <tr class="odd">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">exact_transcript_rc</td>
-<td align="left">TRUE</td>
-<td align="left">FALSE</td>
+<td align="left">T</td>
+<td align="left">F</td>
 <td align="left">transcript_exon_spliced</td>
 <td align="left">ENST00000445220.7</td>
 <td align="left">chr22</td>
-<td align="right">4031</td>
-<td align="right">4048</td>
+<td align="left">4031</td>
+<td align="left">4048</td>
 <td align="left">+</td>
-<td align="right">0</td>
-<td align="right">4</td>
+<td align="left">0</td>
+<td align="left">4</td>
 <td align="left">Exact reverse-complement match in SHANK3 spliced
 transcript</td>
 <td align="left">ok</td>
@@ -781,16 +783,16 @@ transcript</td>
 <tr class="even">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">exact_transcript_rc</td>
-<td align="left">TRUE</td>
-<td align="left">FALSE</td>
+<td align="left">T</td>
+<td align="left">F</td>
 <td align="left">transcript_exon_spliced</td>
 <td align="left">ENST00000664402.2</td>
 <td align="left">chr22</td>
-<td align="right">3925</td>
-<td align="right">3942</td>
+<td align="left">3925</td>
+<td align="left">3942</td>
 <td align="left">+</td>
-<td align="right">0</td>
-<td align="right">5</td>
+<td align="left">0</td>
+<td align="left">5</td>
 <td align="left">Exact reverse-complement match in SHANK3 spliced
 transcript</td>
 <td align="left">ok</td>
@@ -799,16 +801,16 @@ transcript</td>
 <tr class="odd">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">exact_transcript_rc</td>
-<td align="left">TRUE</td>
-<td align="left">FALSE</td>
+<td align="left">T</td>
+<td align="left">F</td>
 <td align="left">transcript_exon_spliced</td>
 <td align="left">ENST00000659388.1</td>
 <td align="left">chr22</td>
-<td align="right">883</td>
-<td align="right">900</td>
+<td align="left">883</td>
+<td align="left">900</td>
 <td align="left">+</td>
-<td align="right">0</td>
-<td align="right">6</td>
+<td align="left">0</td>
+<td align="left">6</td>
 <td align="left">Exact reverse-complement match in SHANK3 spliced
 transcript</td>
 <td align="left">ok</td>
@@ -817,16 +819,16 @@ transcript</td>
 <tr class="even">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">exact_transcript_rc</td>
-<td align="left">TRUE</td>
-<td align="left">FALSE</td>
+<td align="left">T</td>
+<td align="left">F</td>
 <td align="left">transcript_exon_spliced</td>
 <td align="left">ENST00000710353.1</td>
 <td align="left">chr22_KQ759762v2_fix</td>
-<td align="right">5946</td>
-<td align="right">5963</td>
+<td align="left">5946</td>
+<td align="left">5963</td>
 <td align="left">+</td>
-<td align="right">0</td>
-<td align="right">7</td>
+<td align="left">0</td>
+<td align="left">7</td>
 <td align="left">Exact reverse-complement match in SHANK3 spliced
 transcript</td>
 <td align="left">ok</td>
@@ -834,7 +836,9 @@ transcript</td>
 </tr>
 </tbody>
 </table>
-<p>Windows (±200 / ±200 nt) are written to
+<p><em>Full table (all columns):</em>
+<code>results/02_shank3_mapping.tsv</code></p>
+<p>Windows (+/- 200 / 200 nt) are written to
 <code>results/02_target_windows.fasta</code> and <code>.bed</code>.</p>
 </div>
 <div id="rna-structure-and-accessibility" class="section level1" number="5">
@@ -863,10 +867,10 @@ MOE/PS/5m-dC biochemical measurements.</p>
 <th align="left">aso_id</th>
 <th align="left">window_id</th>
 <th align="left">context</th>
-<th align="right">mfe_kcal_mol</th>
+<th align="left">mfe_kcal_mol</th>
 <th align="left">site_structure_class</th>
-<th align="right">mean_unpaired_probability</th>
-<th align="right">approx_hybridization_energy</th>
+<th align="left">mean_unpaired_probability</th>
+<th align="left">approx_hybridization_energy</th>
 <th align="left">status</th>
 <th align="left">warning</th>
 <th align="left">chemistry_caveat</th>
@@ -877,10 +881,10 @@ MOE/PS/5m-dC biochemical measurements.</p>
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">aso_self_ASO_4_5_2_4</td>
 <td align="left">aso_self</td>
-<td align="right">-0.2</td>
+<td align="left">-0.2</td>
 <td align="left">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">ok</td>
 <td align="left">NA</td>
 <td align="left">Values are canonical-RNA approximations; not exact
@@ -890,10 +894,10 @@ biochemical measurements for MOE/PS/5m-dC ASOs</td>
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">aso_self_ASO_4_5_2_6</td>
 <td align="left">aso_self</td>
-<td align="right">-0.6</td>
+<td align="left">-0.6</td>
 <td align="left">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
 <td align="left">ok</td>
 <td align="left">NA</td>
 <td align="left">Values are canonical-RNA approximations; not exact
@@ -903,10 +907,10 @@ biochemical measurements for MOE/PS/5m-dC ASOs</td>
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">ASO_4_5_2_4|ENST00000414786.7|tx5399-5816</td>
 <td align="left">target_window</td>
-<td align="right">-200.0</td>
+<td align="left">-200</td>
 <td align="left">bulge_or_junction</td>
-<td align="right">0.5190568</td>
-<td align="right">-38.4</td>
+<td align="left">0.52</td>
+<td align="left">-38.4</td>
 <td align="left">ok</td>
 <td align="left">NA</td>
 <td align="left">Canonical RNA ViennaRNA model; MOE/PS/5m-dC not
@@ -916,10 +920,10 @@ represented</td>
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">ASO_4_5_2_4|ENST00000673971.2|tx6095-6512</td>
 <td align="left">target_window</td>
-<td align="right">-200.0</td>
+<td align="left">-200</td>
 <td align="left">bulge_or_junction</td>
-<td align="right">0.5190568</td>
-<td align="right">-38.4</td>
+<td align="left">0.52</td>
+<td align="left">-38.4</td>
 <td align="left">ok</td>
 <td align="left">NA</td>
 <td align="left">Canonical RNA ViennaRNA model; MOE/PS/5m-dC not
@@ -929,10 +933,10 @@ represented</td>
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">ASO_4_5_2_4|ENST00000262795.7|tx5265-5682</td>
 <td align="left">target_window</td>
-<td align="right">-200.0</td>
+<td align="left">-200</td>
 <td align="left">bulge_or_junction</td>
-<td align="right">0.5190568</td>
-<td align="right">-38.4</td>
+<td align="left">0.52</td>
+<td align="left">-38.4</td>
 <td align="left">ok</td>
 <td align="left">NA</td>
 <td align="left">Canonical RNA ViennaRNA model; MOE/PS/5m-dC not
@@ -942,10 +946,10 @@ represented</td>
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">ASO_4_5_2_4|ENST00000445220.7|tx3867-4284</td>
 <td align="left">target_window</td>
-<td align="right">-200.0</td>
+<td align="left">-200</td>
 <td align="left">bulge_or_junction</td>
-<td align="right">0.5190568</td>
-<td align="right">-38.4</td>
+<td align="left">0.52</td>
+<td align="left">-38.4</td>
 <td align="left">ok</td>
 <td align="left">NA</td>
 <td align="left">Canonical RNA ViennaRNA model; MOE/PS/5m-dC not
@@ -955,10 +959,10 @@ represented</td>
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">ASO_4_5_2_4|ENST00000664402.2|tx3761-4178</td>
 <td align="left">target_window</td>
-<td align="right">-200.0</td>
+<td align="left">-200</td>
 <td align="left">bulge_or_junction</td>
-<td align="right">0.5190568</td>
-<td align="right">-38.4</td>
+<td align="left">0.52</td>
+<td align="left">-38.4</td>
 <td align="left">ok</td>
 <td align="left">NA</td>
 <td align="left">Canonical RNA ViennaRNA model; MOE/PS/5m-dC not
@@ -968,10 +972,10 @@ represented</td>
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">ASO_4_5_2_4|ENST00000710353.1|tx5782-6199</td>
 <td align="left">target_window</td>
-<td align="right">-200.0</td>
+<td align="left">-200</td>
 <td align="left">bulge_or_junction</td>
-<td align="right">0.5190568</td>
-<td align="right">-38.4</td>
+<td align="left">0.52</td>
+<td align="left">-38.4</td>
 <td align="left">ok</td>
 <td align="left">NA</td>
 <td align="left">Canonical RNA ViennaRNA model; MOE/PS/5m-dC not
@@ -981,10 +985,10 @@ represented</td>
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">ASO_4_5_2_6|ENST00000414786.7|tx5363-5780</td>
 <td align="left">target_window</td>
-<td align="right">-199.1</td>
+<td align="left">-199.1</td>
 <td align="left">bulge_or_junction</td>
-<td align="right">0.5189841</td>
-<td align="right">-30.8</td>
+<td align="left">0.52</td>
+<td align="left">-30.8</td>
 <td align="left">ok</td>
 <td align="left">NA</td>
 <td align="left">Canonical RNA ViennaRNA model; MOE/PS/5m-dC not
@@ -994,10 +998,10 @@ represented</td>
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">ASO_4_5_2_6|ENST00000673971.2|tx6059-6476</td>
 <td align="left">target_window</td>
-<td align="right">-199.1</td>
+<td align="left">-199.1</td>
 <td align="left">bulge_or_junction</td>
-<td align="right">0.5189841</td>
-<td align="right">-30.8</td>
+<td align="left">0.52</td>
+<td align="left">-30.8</td>
 <td align="left">ok</td>
 <td align="left">NA</td>
 <td align="left">Canonical RNA ViennaRNA model; MOE/PS/5m-dC not
@@ -1007,10 +1011,10 @@ represented</td>
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">ASO_4_5_2_6|ENST00000262795.7|tx5229-5646</td>
 <td align="left">target_window</td>
-<td align="right">-199.1</td>
+<td align="left">-199.1</td>
 <td align="left">bulge_or_junction</td>
-<td align="right">0.5189841</td>
-<td align="right">-30.8</td>
+<td align="left">0.52</td>
+<td align="left">-30.8</td>
 <td align="left">ok</td>
 <td align="left">NA</td>
 <td align="left">Canonical RNA ViennaRNA model; MOE/PS/5m-dC not
@@ -1020,10 +1024,10 @@ represented</td>
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">ASO_4_5_2_6|ENST00000445220.7|tx3831-4248</td>
 <td align="left">target_window</td>
-<td align="right">-199.1</td>
+<td align="left">-199.1</td>
 <td align="left">bulge_or_junction</td>
-<td align="right">0.5189841</td>
-<td align="right">-30.8</td>
+<td align="left">0.52</td>
+<td align="left">-30.8</td>
 <td align="left">ok</td>
 <td align="left">NA</td>
 <td align="left">Canonical RNA ViennaRNA model; MOE/PS/5m-dC not
@@ -1033,10 +1037,10 @@ represented</td>
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">ASO_4_5_2_6|ENST00000664402.2|tx3725-4142</td>
 <td align="left">target_window</td>
-<td align="right">-199.1</td>
+<td align="left">-199.1</td>
 <td align="left">bulge_or_junction</td>
-<td align="right">0.5189841</td>
-<td align="right">-30.8</td>
+<td align="left">0.52</td>
+<td align="left">-30.8</td>
 <td align="left">ok</td>
 <td align="left">NA</td>
 <td align="left">Canonical RNA ViennaRNA model; MOE/PS/5m-dC not
@@ -1046,10 +1050,10 @@ represented</td>
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">ASO_4_5_2_6|ENST00000659388.1|tx683-934</td>
 <td align="left">target_window</td>
-<td align="right">-88.2</td>
+<td align="left">-88.2</td>
 <td align="left">bulge_or_junction</td>
-<td align="right">0.5584107</td>
-<td align="right">-30.8</td>
+<td align="left">0.56</td>
+<td align="left">-30.8</td>
 <td align="left">ok</td>
 <td align="left">NA</td>
 <td align="left">Canonical RNA ViennaRNA model; MOE/PS/5m-dC not
@@ -1059,10 +1063,10 @@ represented</td>
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">ASO_4_5_2_6|ENST00000710353.1|tx5746-6163</td>
 <td align="left">target_window</td>
-<td align="right">-199.1</td>
+<td align="left">-199.1</td>
 <td align="left">bulge_or_junction</td>
-<td align="right">0.5189841</td>
-<td align="right">-30.8</td>
+<td align="left">0.52</td>
+<td align="left">-30.8</td>
 <td align="left">ok</td>
 <td align="left">NA</td>
 <td align="left">Canonical RNA ViennaRNA model; MOE/PS/5m-dC not
@@ -1070,6 +1074,8 @@ represented</td>
 </tr>
 </tbody>
 </table>
+<p><em>Full table (all columns):</em>
+<code>results/03_rna_structure.tsv</code></p>
 </div>
 <div id="rbp-clip-motif-expression-and-function-evidence" class="section level1" number="6">
 <h1><span class="header-section-number">6</span> RBP CLIP, motif,
@@ -1083,14 +1089,14 @@ are invented.</strong></p>
 <colgroup>
 <col width="2%" />
 <col width="0%" />
+<col width="6%" />
+<col width="4%" />
 <col width="5%" />
-<col width="3%" />
-<col width="5%" />
-<col width="1%" />
-<col width="1%" />
 <col width="1%" />
 <col width="2%" />
 <col width="1%" />
+<col width="2%" />
+<col width="2%" />
 <col width="1%" />
 <col width="2%" />
 <col width="2%" />
@@ -1099,10 +1105,10 @@ are invented.</strong></p>
 <col width="3%" />
 <col width="2%" />
 <col width="3%" />
-<col width="15%" />
+<col width="17%" />
 <col width="2%" />
 <col width="5%" />
-<col width="29%" />
+<col width="23%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1115,8 +1121,8 @@ are invented.</strong></p>
 <th align="left">peak_start</th>
 <th align="left">peak_end</th>
 <th align="left">peak_strand</th>
-<th align="right">site_start</th>
-<th align="right">site_end</th>
+<th align="left">site_start</th>
+<th align="left">site_end</th>
 <th align="left">overlap_0nt</th>
 <th align="left">overlap_10nt</th>
 <th align="left">overlap_30nt</th>
@@ -1141,11 +1147,11 @@ are invented.</strong></p>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
-<td align="right">5599</td>
-<td align="right">5616</td>
-<td align="left">FALSE</td>
-<td align="left">FALSE</td>
-<td align="left">FALSE</td>
+<td align="left">5599</td>
+<td align="left">5616</td>
+<td align="left">F</td>
+<td align="left">F</td>
+<td align="left">F</td>
 <td align="left">NA</td>
 <td align="left">none</td>
 <td align="left">GRCh38</td>
@@ -1154,8 +1160,7 @@ are invented.</strong></p>
 <td align="left">2026-09-15</td>
 <td align="left">metadata_only_no_peak_overlap</td>
 <td align="left">eCLIP peak BED files not auto-downloaded for SHANK3
-locus in this run; POSTAR3 requires interactive/query UI; no peaks
-invented ; overlaps left empty (not fabricated)</td>
+locus in this run; POSTAR3 requires interactive/query UI; no peak…</td>
 </tr>
 <tr class="even">
 <td align="left">ASO_4_5_2_4</td>
@@ -1167,11 +1172,11 @@ invented ; overlaps left empty (not fabricated)</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
-<td align="right">6295</td>
-<td align="right">6312</td>
-<td align="left">FALSE</td>
-<td align="left">FALSE</td>
-<td align="left">FALSE</td>
+<td align="left">6295</td>
+<td align="left">6312</td>
+<td align="left">F</td>
+<td align="left">F</td>
+<td align="left">F</td>
 <td align="left">NA</td>
 <td align="left">none</td>
 <td align="left">GRCh38</td>
@@ -1180,8 +1185,7 @@ invented ; overlaps left empty (not fabricated)</td>
 <td align="left">2026-09-15</td>
 <td align="left">metadata_only_no_peak_overlap</td>
 <td align="left">eCLIP peak BED files not auto-downloaded for SHANK3
-locus in this run; POSTAR3 requires interactive/query UI; no peaks
-invented ; overlaps left empty (not fabricated)</td>
+locus in this run; POSTAR3 requires interactive/query UI; no peak…</td>
 </tr>
 <tr class="odd">
 <td align="left">ASO_4_5_2_4</td>
@@ -1193,11 +1197,11 @@ invented ; overlaps left empty (not fabricated)</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
-<td align="right">5465</td>
-<td align="right">5482</td>
-<td align="left">FALSE</td>
-<td align="left">FALSE</td>
-<td align="left">FALSE</td>
+<td align="left">5465</td>
+<td align="left">5482</td>
+<td align="left">F</td>
+<td align="left">F</td>
+<td align="left">F</td>
 <td align="left">NA</td>
 <td align="left">none</td>
 <td align="left">GRCh38</td>
@@ -1206,8 +1210,7 @@ invented ; overlaps left empty (not fabricated)</td>
 <td align="left">2026-09-15</td>
 <td align="left">metadata_only_no_peak_overlap</td>
 <td align="left">eCLIP peak BED files not auto-downloaded for SHANK3
-locus in this run; POSTAR3 requires interactive/query UI; no peaks
-invented ; overlaps left empty (not fabricated)</td>
+locus in this run; POSTAR3 requires interactive/query UI; no peak…</td>
 </tr>
 <tr class="even">
 <td align="left">ASO_4_5_2_6</td>
@@ -1219,11 +1222,11 @@ invented ; overlaps left empty (not fabricated)</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
-<td align="right">5563</td>
-<td align="right">5580</td>
-<td align="left">FALSE</td>
-<td align="left">FALSE</td>
-<td align="left">FALSE</td>
+<td align="left">5563</td>
+<td align="left">5580</td>
+<td align="left">F</td>
+<td align="left">F</td>
+<td align="left">F</td>
 <td align="left">NA</td>
 <td align="left">none</td>
 <td align="left">GRCh38</td>
@@ -1232,8 +1235,7 @@ invented ; overlaps left empty (not fabricated)</td>
 <td align="left">2026-09-15</td>
 <td align="left">metadata_only_no_peak_overlap</td>
 <td align="left">eCLIP peak BED files not auto-downloaded for SHANK3
-locus in this run; POSTAR3 requires interactive/query UI; no peaks
-invented ; overlaps left empty (not fabricated)</td>
+locus in this run; POSTAR3 requires interactive/query UI; no peak…</td>
 </tr>
 <tr class="odd">
 <td align="left">ASO_4_5_2_6</td>
@@ -1245,11 +1247,11 @@ invented ; overlaps left empty (not fabricated)</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
-<td align="right">6259</td>
-<td align="right">6276</td>
-<td align="left">FALSE</td>
-<td align="left">FALSE</td>
-<td align="left">FALSE</td>
+<td align="left">6259</td>
+<td align="left">6276</td>
+<td align="left">F</td>
+<td align="left">F</td>
+<td align="left">F</td>
 <td align="left">NA</td>
 <td align="left">none</td>
 <td align="left">GRCh38</td>
@@ -1258,8 +1260,7 @@ invented ; overlaps left empty (not fabricated)</td>
 <td align="left">2026-09-15</td>
 <td align="left">metadata_only_no_peak_overlap</td>
 <td align="left">eCLIP peak BED files not auto-downloaded for SHANK3
-locus in this run; POSTAR3 requires interactive/query UI; no peaks
-invented ; overlaps left empty (not fabricated)</td>
+locus in this run; POSTAR3 requires interactive/query UI; no peak…</td>
 </tr>
 <tr class="even">
 <td align="left">ASO_4_5_2_6</td>
@@ -1271,11 +1272,11 @@ invented ; overlaps left empty (not fabricated)</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
-<td align="right">5429</td>
-<td align="right">5446</td>
-<td align="left">FALSE</td>
-<td align="left">FALSE</td>
-<td align="left">FALSE</td>
+<td align="left">5429</td>
+<td align="left">5446</td>
+<td align="left">F</td>
+<td align="left">F</td>
+<td align="left">F</td>
 <td align="left">NA</td>
 <td align="left">none</td>
 <td align="left">GRCh38</td>
@@ -1284,11 +1285,12 @@ invented ; overlaps left empty (not fabricated)</td>
 <td align="left">2026-09-15</td>
 <td align="left">metadata_only_no_peak_overlap</td>
 <td align="left">eCLIP peak BED files not auto-downloaded for SHANK3
-locus in this run; POSTAR3 requires interactive/query UI; no peaks
-invented ; overlaps left empty (not fabricated)</td>
+locus in this run; POSTAR3 requires interactive/query UI; no peak…</td>
 </tr>
 </tbody>
 </table>
+<p><em>Full table (all columns):</em>
+<code>results/04_rbp_clip_overlap.tsv</code></p>
 </div>
 <div id="motif-overlaps-sample" class="section level2" number="6.2">
 <h2><span class="header-section-number">6.2</span> Motif overlaps
@@ -1320,8 +1322,8 @@ invented ; overlaps left empty (not fabricated)</td>
 <th align="left">motif_id</th>
 <th align="left">motif_sequence_or_regex</th>
 <th align="left">window_id</th>
-<th align="right">match_start</th>
-<th align="right">match_end</th>
+<th align="left">match_start</th>
+<th align="left">match_end</th>
 <th align="left">match_strand</th>
 <th align="left">score</th>
 <th align="left">evidence_strength</th>
@@ -1340,8 +1342,8 @@ invented ; overlaps left empty (not fabricated)</td>
 <td align="left">FMR1_ACYK</td>
 <td align="left">AC[CT][GT]</td>
 <td align="left">ASO_4_5_2_4|ENST00000414786.7|tx5399-5816</td>
-<td align="right">184</td>
-<td align="right">187</td>
+<td align="left">184</td>
+<td align="left">187</td>
 <td align="left">+</td>
 <td align="left">NA</td>
 <td align="left">weak</td>
@@ -1359,8 +1361,8 @@ locus</td>
 <td align="left">FMR1_ACYK</td>
 <td align="left">AC[CT][GT]</td>
 <td align="left">ASO_4_5_2_4|ENST00000414786.7|tx5399-5816</td>
-<td align="right">280</td>
-<td align="right">283</td>
+<td align="left">280</td>
+<td align="left">283</td>
 <td align="left">+</td>
 <td align="left">NA</td>
 <td align="left">weak</td>
@@ -1378,8 +1380,8 @@ locus</td>
 <td align="left">FMR1_ACYK</td>
 <td align="left">AC[CT][GT]</td>
 <td align="left">ASO_4_5_2_4|ENST00000414786.7|tx5399-5816</td>
-<td align="right">322</td>
-<td align="right">325</td>
+<td align="left">322</td>
+<td align="left">325</td>
 <td align="left">+</td>
 <td align="left">NA</td>
 <td align="left">weak</td>
@@ -1397,8 +1399,8 @@ locus</td>
 <td align="left">RBFOX_GCAUG</td>
 <td align="left">GCATG</td>
 <td align="left">ASO_4_5_2_4|ENST00000414786.7|tx5399-5816</td>
-<td align="right">123</td>
-<td align="right">127</td>
+<td align="left">123</td>
+<td align="left">127</td>
 <td align="left">+</td>
 <td align="left">NA</td>
 <td align="left">weak</td>
@@ -1416,8 +1418,8 @@ locus</td>
 <td align="left">RBFOX_GCAUG</td>
 <td align="left">GCATG</td>
 <td align="left">ASO_4_5_2_4|ENST00000414786.7|tx5399-5816</td>
-<td align="right">332</td>
-<td align="right">336</td>
+<td align="left">332</td>
+<td align="left">336</td>
 <td align="left">+</td>
 <td align="left">NA</td>
 <td align="left">weak</td>
@@ -1435,8 +1437,8 @@ locus</td>
 <td align="left">RBFOX_GCAUG</td>
 <td align="left">GCATG</td>
 <td align="left">ASO_4_5_2_4|ENST00000414786.7|tx5399-5816</td>
-<td align="right">123</td>
-<td align="right">127</td>
+<td align="left">123</td>
+<td align="left">127</td>
 <td align="left">+</td>
 <td align="left">NA</td>
 <td align="left">weak</td>
@@ -1454,8 +1456,8 @@ locus</td>
 <td align="left">RBFOX_GCAUG</td>
 <td align="left">GCATG</td>
 <td align="left">ASO_4_5_2_4|ENST00000414786.7|tx5399-5816</td>
-<td align="right">332</td>
-<td align="right">336</td>
+<td align="left">332</td>
+<td align="left">336</td>
 <td align="left">+</td>
 <td align="left">NA</td>
 <td align="left">weak</td>
@@ -1473,8 +1475,8 @@ locus</td>
 <td align="left">FMR1_ACYK</td>
 <td align="left">AC[CT][GT]</td>
 <td align="left">ASO_4_5_2_4|ENST00000673971.2|tx6095-6512</td>
-<td align="right">184</td>
-<td align="right">187</td>
+<td align="left">184</td>
+<td align="left">187</td>
 <td align="left">+</td>
 <td align="left">NA</td>
 <td align="left">weak</td>
@@ -1492,8 +1494,8 @@ locus</td>
 <td align="left">FMR1_ACYK</td>
 <td align="left">AC[CT][GT]</td>
 <td align="left">ASO_4_5_2_4|ENST00000673971.2|tx6095-6512</td>
-<td align="right">280</td>
-<td align="right">283</td>
+<td align="left">280</td>
+<td align="left">283</td>
 <td align="left">+</td>
 <td align="left">NA</td>
 <td align="left">weak</td>
@@ -1511,8 +1513,8 @@ locus</td>
 <td align="left">FMR1_ACYK</td>
 <td align="left">AC[CT][GT]</td>
 <td align="left">ASO_4_5_2_4|ENST00000673971.2|tx6095-6512</td>
-<td align="right">322</td>
-<td align="right">325</td>
+<td align="left">322</td>
+<td align="left">325</td>
 <td align="left">+</td>
 <td align="left">NA</td>
 <td align="left">weak</td>
@@ -1530,8 +1532,8 @@ locus</td>
 <td align="left">RBFOX_GCAUG</td>
 <td align="left">GCATG</td>
 <td align="left">ASO_4_5_2_4|ENST00000673971.2|tx6095-6512</td>
-<td align="right">123</td>
-<td align="right">127</td>
+<td align="left">123</td>
+<td align="left">127</td>
 <td align="left">+</td>
 <td align="left">NA</td>
 <td align="left">weak</td>
@@ -1549,8 +1551,8 @@ locus</td>
 <td align="left">RBFOX_GCAUG</td>
 <td align="left">GCATG</td>
 <td align="left">ASO_4_5_2_4|ENST00000673971.2|tx6095-6512</td>
-<td align="right">332</td>
-<td align="right">336</td>
+<td align="left">332</td>
+<td align="left">336</td>
 <td align="left">+</td>
 <td align="left">NA</td>
 <td align="left">weak</td>
@@ -1568,8 +1570,8 @@ locus</td>
 <td align="left">RBFOX_GCAUG</td>
 <td align="left">GCATG</td>
 <td align="left">ASO_4_5_2_4|ENST00000673971.2|tx6095-6512</td>
-<td align="right">123</td>
-<td align="right">127</td>
+<td align="left">123</td>
+<td align="left">127</td>
 <td align="left">+</td>
 <td align="left">NA</td>
 <td align="left">weak</td>
@@ -1587,8 +1589,8 @@ locus</td>
 <td align="left">RBFOX_GCAUG</td>
 <td align="left">GCATG</td>
 <td align="left">ASO_4_5_2_4|ENST00000673971.2|tx6095-6512</td>
-<td align="right">332</td>
-<td align="right">336</td>
+<td align="left">332</td>
+<td align="left">336</td>
 <td align="left">+</td>
 <td align="left">NA</td>
 <td align="left">weak</td>
@@ -1606,8 +1608,8 @@ locus</td>
 <td align="left">FMR1_ACYK</td>
 <td align="left">AC[CT][GT]</td>
 <td align="left">ASO_4_5_2_4|ENST00000262795.7|tx5265-5682</td>
-<td align="right">184</td>
-<td align="right">187</td>
+<td align="left">184</td>
+<td align="left">187</td>
 <td align="left">+</td>
 <td align="left">NA</td>
 <td align="left">weak</td>
@@ -1625,8 +1627,8 @@ locus</td>
 <td align="left">FMR1_ACYK</td>
 <td align="left">AC[CT][GT]</td>
 <td align="left">ASO_4_5_2_4|ENST00000262795.7|tx5265-5682</td>
-<td align="right">280</td>
-<td align="right">283</td>
+<td align="left">280</td>
+<td align="left">283</td>
 <td align="left">+</td>
 <td align="left">NA</td>
 <td align="left">weak</td>
@@ -1644,8 +1646,8 @@ locus</td>
 <td align="left">FMR1_ACYK</td>
 <td align="left">AC[CT][GT]</td>
 <td align="left">ASO_4_5_2_4|ENST00000262795.7|tx5265-5682</td>
-<td align="right">322</td>
-<td align="right">325</td>
+<td align="left">322</td>
+<td align="left">325</td>
 <td align="left">+</td>
 <td align="left">NA</td>
 <td align="left">weak</td>
@@ -1663,8 +1665,8 @@ locus</td>
 <td align="left">RBFOX_GCAUG</td>
 <td align="left">GCATG</td>
 <td align="left">ASO_4_5_2_4|ENST00000262795.7|tx5265-5682</td>
-<td align="right">123</td>
-<td align="right">127</td>
+<td align="left">123</td>
+<td align="left">127</td>
 <td align="left">+</td>
 <td align="left">NA</td>
 <td align="left">weak</td>
@@ -1682,8 +1684,8 @@ locus</td>
 <td align="left">RBFOX_GCAUG</td>
 <td align="left">GCATG</td>
 <td align="left">ASO_4_5_2_4|ENST00000262795.7|tx5265-5682</td>
-<td align="right">332</td>
-<td align="right">336</td>
+<td align="left">332</td>
+<td align="left">336</td>
 <td align="left">+</td>
 <td align="left">NA</td>
 <td align="left">weak</td>
@@ -1701,8 +1703,8 @@ locus</td>
 <td align="left">RBFOX_GCAUG</td>
 <td align="left">GCATG</td>
 <td align="left">ASO_4_5_2_4|ENST00000262795.7|tx5265-5682</td>
-<td align="right">123</td>
-<td align="right">127</td>
+<td align="left">123</td>
+<td align="left">127</td>
 <td align="left">+</td>
 <td align="left">NA</td>
 <td align="left">weak</td>
@@ -1720,8 +1722,8 @@ locus</td>
 <td align="left">RBFOX_GCAUG</td>
 <td align="left">GCATG</td>
 <td align="left">ASO_4_5_2_4|ENST00000262795.7|tx5265-5682</td>
-<td align="right">332</td>
-<td align="right">336</td>
+<td align="left">332</td>
+<td align="left">336</td>
 <td align="left">+</td>
 <td align="left">NA</td>
 <td align="left">weak</td>
@@ -1739,8 +1741,8 @@ locus</td>
 <td align="left">FMR1_ACYK</td>
 <td align="left">AC[CT][GT]</td>
 <td align="left">ASO_4_5_2_4|ENST00000445220.7|tx3867-4284</td>
-<td align="right">184</td>
-<td align="right">187</td>
+<td align="left">184</td>
+<td align="left">187</td>
 <td align="left">+</td>
 <td align="left">NA</td>
 <td align="left">weak</td>
@@ -1758,8 +1760,8 @@ locus</td>
 <td align="left">FMR1_ACYK</td>
 <td align="left">AC[CT][GT]</td>
 <td align="left">ASO_4_5_2_4|ENST00000445220.7|tx3867-4284</td>
-<td align="right">280</td>
-<td align="right">283</td>
+<td align="left">280</td>
+<td align="left">283</td>
 <td align="left">+</td>
 <td align="left">NA</td>
 <td align="left">weak</td>
@@ -1777,8 +1779,8 @@ locus</td>
 <td align="left">FMR1_ACYK</td>
 <td align="left">AC[CT][GT]</td>
 <td align="left">ASO_4_5_2_4|ENST00000445220.7|tx3867-4284</td>
-<td align="right">322</td>
-<td align="right">325</td>
+<td align="left">322</td>
+<td align="left">325</td>
 <td align="left">+</td>
 <td align="left">NA</td>
 <td align="left">weak</td>
@@ -1796,8 +1798,8 @@ locus</td>
 <td align="left">RBFOX_GCAUG</td>
 <td align="left">GCATG</td>
 <td align="left">ASO_4_5_2_4|ENST00000445220.7|tx3867-4284</td>
-<td align="right">123</td>
-<td align="right">127</td>
+<td align="left">123</td>
+<td align="left">127</td>
 <td align="left">+</td>
 <td align="left">NA</td>
 <td align="left">weak</td>
@@ -1815,8 +1817,8 @@ locus</td>
 <td align="left">RBFOX_GCAUG</td>
 <td align="left">GCATG</td>
 <td align="left">ASO_4_5_2_4|ENST00000445220.7|tx3867-4284</td>
-<td align="right">332</td>
-<td align="right">336</td>
+<td align="left">332</td>
+<td align="left">336</td>
 <td align="left">+</td>
 <td align="left">NA</td>
 <td align="left">weak</td>
@@ -1834,8 +1836,8 @@ locus</td>
 <td align="left">RBFOX_GCAUG</td>
 <td align="left">GCATG</td>
 <td align="left">ASO_4_5_2_4|ENST00000445220.7|tx3867-4284</td>
-<td align="right">123</td>
-<td align="right">127</td>
+<td align="left">123</td>
+<td align="left">127</td>
 <td align="left">+</td>
 <td align="left">NA</td>
 <td align="left">weak</td>
@@ -1853,8 +1855,8 @@ locus</td>
 <td align="left">RBFOX_GCAUG</td>
 <td align="left">GCATG</td>
 <td align="left">ASO_4_5_2_4|ENST00000445220.7|tx3867-4284</td>
-<td align="right">332</td>
-<td align="right">336</td>
+<td align="left">332</td>
+<td align="left">336</td>
 <td align="left">+</td>
 <td align="left">NA</td>
 <td align="left">weak</td>
@@ -1872,8 +1874,8 @@ locus</td>
 <td align="left">FMR1_ACYK</td>
 <td align="left">AC[CT][GT]</td>
 <td align="left">ASO_4_5_2_4|ENST00000664402.2|tx3761-4178</td>
-<td align="right">184</td>
-<td align="right">187</td>
+<td align="left">184</td>
+<td align="left">187</td>
 <td align="left">+</td>
 <td align="left">NA</td>
 <td align="left">weak</td>
@@ -1891,8 +1893,8 @@ locus</td>
 <td align="left">FMR1_ACYK</td>
 <td align="left">AC[CT][GT]</td>
 <td align="left">ASO_4_5_2_4|ENST00000664402.2|tx3761-4178</td>
-<td align="right">280</td>
-<td align="right">283</td>
+<td align="left">280</td>
+<td align="left">283</td>
 <td align="left">+</td>
 <td align="left">NA</td>
 <td align="left">weak</td>
@@ -1905,6 +1907,8 @@ locus</td>
 </tr>
 </tbody>
 </table>
+<p><em>Full table (all columns):</em>
+<code>results/04_rbp_motif_overlap.tsv</code></p>
 </div>
 <div id="expression-priors-neuron-npc" class="section level2" number="6.3">
 <h2><span class="header-section-number">6.3</span> Expression priors
@@ -1946,7 +1950,7 @@ locus</td>
 <td align="left">FMR1</td>
 <td align="left">curated_neuronal_prior_not_quant_RNAseq</td>
 <td align="left">neuron</td>
-<td align="left">TRUE</td>
+<td align="left">T</td>
 <td align="left">NA</td>
 <td align="left">binary_prior</td>
 <td align="left">curated_v1</td>
@@ -1961,7 +1965,7 @@ prior only</td>
 <td align="left">ELAVL2</td>
 <td align="left">curated_neuronal_prior_not_quant_RNAseq</td>
 <td align="left">neuron</td>
-<td align="left">TRUE</td>
+<td align="left">T</td>
 <td align="left">NA</td>
 <td align="left">binary_prior</td>
 <td align="left">curated_v1</td>
@@ -1976,7 +1980,7 @@ prior only</td>
 <td align="left">ELAVL4</td>
 <td align="left">curated_neuronal_prior_not_quant_RNAseq</td>
 <td align="left">neuron</td>
-<td align="left">TRUE</td>
+<td align="left">T</td>
 <td align="left">NA</td>
 <td align="left">binary_prior</td>
 <td align="left">curated_v1</td>
@@ -1991,7 +1995,7 @@ prior only</td>
 <td align="left">RBFOX1</td>
 <td align="left">curated_neuronal_prior_not_quant_RNAseq</td>
 <td align="left">neuron</td>
-<td align="left">TRUE</td>
+<td align="left">T</td>
 <td align="left">NA</td>
 <td align="left">binary_prior</td>
 <td align="left">curated_v1</td>
@@ -2006,7 +2010,7 @@ prior only</td>
 <td align="left">RBFOX3</td>
 <td align="left">curated_neuronal_prior_not_quant_RNAseq</td>
 <td align="left">neuron</td>
-<td align="left">TRUE</td>
+<td align="left">T</td>
 <td align="left">NA</td>
 <td align="left">binary_prior</td>
 <td align="left">curated_v1</td>
@@ -2021,7 +2025,7 @@ prior only</td>
 <td align="left">PTBP2</td>
 <td align="left">curated_neuronal_prior_not_quant_RNAseq</td>
 <td align="left">neuron</td>
-<td align="left">TRUE</td>
+<td align="left">T</td>
 <td align="left">NA</td>
 <td align="left">binary_prior</td>
 <td align="left">curated_v1</td>
@@ -2036,7 +2040,7 @@ prior only</td>
 <td align="left">CELF4</td>
 <td align="left">curated_neuronal_prior_not_quant_RNAseq</td>
 <td align="left">neuron</td>
-<td align="left">TRUE</td>
+<td align="left">T</td>
 <td align="left">NA</td>
 <td align="left">binary_prior</td>
 <td align="left">curated_v1</td>
@@ -2051,7 +2055,7 @@ prior only</td>
 <td align="left">ATXN2</td>
 <td align="left">curated_neuronal_prior_not_quant_RNAseq</td>
 <td align="left">neuron</td>
-<td align="left">TRUE</td>
+<td align="left">T</td>
 <td align="left">NA</td>
 <td align="left">binary_prior</td>
 <td align="left">curated_v1</td>
@@ -2066,7 +2070,7 @@ prior only</td>
 <td align="left">TDP43</td>
 <td align="left">curated_neuronal_prior_not_quant_RNAseq</td>
 <td align="left">neuron</td>
-<td align="left">TRUE</td>
+<td align="left">T</td>
 <td align="left">NA</td>
 <td align="left">binary_prior</td>
 <td align="left">curated_v1</td>
@@ -2081,7 +2085,7 @@ prior only</td>
 <td align="left">HNRNPA2B1</td>
 <td align="left">curated_neuronal_prior_not_quant_RNAseq</td>
 <td align="left">neuron</td>
-<td align="left">TRUE</td>
+<td align="left">T</td>
 <td align="left">NA</td>
 <td align="left">binary_prior</td>
 <td align="left">curated_v1</td>
@@ -2096,7 +2100,7 @@ prior only</td>
 <td align="left">LIN28A</td>
 <td align="left">curated_neuronal_prior_not_quant_RNAseq</td>
 <td align="left">neuron</td>
-<td align="left">TRUE</td>
+<td align="left">T</td>
 <td align="left">NA</td>
 <td align="left">binary_prior</td>
 <td align="left">curated_v1</td>
@@ -2111,7 +2115,7 @@ prior only</td>
 <td align="left">PUM2</td>
 <td align="left">curated_neuronal_prior_not_quant_RNAseq</td>
 <td align="left">neuron</td>
-<td align="left">TRUE</td>
+<td align="left">T</td>
 <td align="left">NA</td>
 <td align="left">binary_prior</td>
 <td align="left">curated_v1</td>
@@ -2126,7 +2130,7 @@ prior only</td>
 <td align="left">MOV10</td>
 <td align="left">curated_neuronal_prior_not_quant_RNAseq</td>
 <td align="left">neuron</td>
-<td align="left">TRUE</td>
+<td align="left">T</td>
 <td align="left">NA</td>
 <td align="left">binary_prior</td>
 <td align="left">curated_v1</td>
@@ -2141,7 +2145,7 @@ prior only</td>
 <td align="left">UPF1</td>
 <td align="left">curated_neuronal_prior_not_quant_RNAseq</td>
 <td align="left">neuron</td>
-<td align="left">TRUE</td>
+<td align="left">T</td>
 <td align="left">NA</td>
 <td align="left">binary_prior</td>
 <td align="left">curated_v1</td>
@@ -2156,7 +2160,7 @@ prior only</td>
 <td align="left">AGO2</td>
 <td align="left">curated_neuronal_prior_not_quant_RNAseq</td>
 <td align="left">neuron</td>
-<td align="left">TRUE</td>
+<td align="left">T</td>
 <td align="left">NA</td>
 <td align="left">binary_prior</td>
 <td align="left">curated_v1</td>
@@ -2171,7 +2175,7 @@ prior only</td>
 <td align="left">IGF2BP1</td>
 <td align="left">curated_neuronal_prior_not_quant_RNAseq</td>
 <td align="left">neuron</td>
-<td align="left">TRUE</td>
+<td align="left">T</td>
 <td align="left">NA</td>
 <td align="left">binary_prior</td>
 <td align="left">curated_v1</td>
@@ -2186,7 +2190,7 @@ prior only</td>
 <td align="left">CSTF2</td>
 <td align="left">curated_neuronal_prior_not_quant_RNAseq</td>
 <td align="left">neuron</td>
-<td align="left">TRUE</td>
+<td align="left">T</td>
 <td align="left">NA</td>
 <td align="left">binary_prior</td>
 <td align="left">curated_v1</td>
@@ -2201,7 +2205,7 @@ prior only</td>
 <td align="left">SRSF1</td>
 <td align="left">curated_neuronal_prior_not_quant_RNAseq</td>
 <td align="left">neuron</td>
-<td align="left">TRUE</td>
+<td align="left">T</td>
 <td align="left">NA</td>
 <td align="left">binary_prior</td>
 <td align="left">curated_v1</td>
@@ -2216,7 +2220,7 @@ prior only</td>
 <td align="left">FMR1</td>
 <td align="left">curated_neuronal_prior_not_quant_RNAseq</td>
 <td align="left">neural_precursor_cell</td>
-<td align="left">TRUE</td>
+<td align="left">T</td>
 <td align="left">NA</td>
 <td align="left">binary_prior</td>
 <td align="left">curated_v1</td>
@@ -2231,7 +2235,7 @@ prior only</td>
 <td align="left">ELAVL2</td>
 <td align="left">curated_neuronal_prior_not_quant_RNAseq</td>
 <td align="left">neural_precursor_cell</td>
-<td align="left">TRUE</td>
+<td align="left">T</td>
 <td align="left">NA</td>
 <td align="left">binary_prior</td>
 <td align="left">curated_v1</td>
@@ -2243,6 +2247,8 @@ prior only</td>
 </tr>
 </tbody>
 </table>
+<p><em>Full table (all columns):</em>
+<code>results/04_rbp_expression.tsv</code></p>
 </div>
 <div id="function-annotation" class="section level2" number="6.4">
 <h2><span class="header-section-number">6.4</span> Function
@@ -2601,6 +2607,8 @@ engagement</td>
 </tr>
 </tbody>
 </table>
+<p><em>Full table (all columns):</em>
+<code>results/04_rbp_function.tsv</code></p>
 </div>
 </div>
 <div id="ranked-rbp-hypotheses" class="section level1" number="7">
@@ -2612,21 +2620,21 @@ include repressive, activating/stabilizing, and structure-related
 classes.</p>
 <table>
 <colgroup>
-<col width="3%" />
+<col width="4%" />
 <col width="1%" />
 <col width="2%" />
-<col width="1%" />
-<col width="6%" />
-<col width="7%" />
-<col width="57%" />
-<col width="18%" />
+<col width="2%" />
+<col width="8%" />
+<col width="9%" />
+<col width="47%" />
+<col width="23%" />
 </colgroup>
 <thead>
 <tr class="header">
 <th align="left">aso_id</th>
-<th align="right">rank</th>
+<th align="left">rank</th>
 <th align="left">rbp</th>
-<th align="right">score</th>
+<th align="left">score</th>
 <th align="left">rbp_class</th>
 <th align="left">regulatory_direction_hint</th>
 <th align="left">score_rationale</th>
@@ -2636,9 +2644,9 @@ classes.</p>
 <tbody>
 <tr class="odd">
 <td align="left">ASO_4_5_2_4</td>
-<td align="right">1</td>
+<td align="left">1</td>
 <td align="left">PTBP2</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">repressive</td>
 <td align="left">repressive_splicing</td>
 <td align="left">+1 expression prior | +2 repressive function (occlusion
@@ -2648,9 +2656,9 @@ validation</td>
 </tr>
 <tr class="even">
 <td align="left">ASO_4_5_2_6</td>
-<td align="right">1</td>
+<td align="left">1</td>
 <td align="left">PTBP2</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">repressive</td>
 <td align="left">repressive_splicing</td>
 <td align="left">+1 expression prior | +2 repressive function (occlusion
@@ -2660,9 +2668,9 @@ validation</td>
 </tr>
 <tr class="odd">
 <td align="left">ASO_4_5_2_4</td>
-<td align="right">2</td>
+<td align="left">2</td>
 <td align="left">RBFOX1</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">splicing</td>
 <td align="left">context_dependent</td>
 <td align="left">+3 motif+expression | +1 splicing/processing</td>
@@ -2671,9 +2679,9 @@ validation</td>
 </tr>
 <tr class="even">
 <td align="left">ASO_4_5_2_6</td>
-<td align="right">2</td>
+<td align="left">2</td>
 <td align="left">RBFOX1</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">splicing</td>
 <td align="left">context_dependent</td>
 <td align="left">+3 motif+expression | +1 splicing/processing</td>
@@ -2682,9 +2690,9 @@ validation</td>
 </tr>
 <tr class="odd">
 <td align="left">ASO_4_5_2_4</td>
-<td align="right">3</td>
+<td align="left">3</td>
 <td align="left">RBFOX3</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">splicing</td>
 <td align="left">context_dependent</td>
 <td align="left">+3 motif+expression | +1 splicing/processing</td>
@@ -2693,9 +2701,9 @@ validation</td>
 </tr>
 <tr class="even">
 <td align="left">ASO_4_5_2_6</td>
-<td align="right">3</td>
+<td align="left">3</td>
 <td align="left">RBFOX3</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">splicing</td>
 <td align="left">context_dependent</td>
 <td align="left">+3 motif+expression | +1 splicing/processing</td>
@@ -2704,37 +2712,35 @@ validation</td>
 </tr>
 <tr class="odd">
 <td align="left">ASO_4_5_2_4</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">SRSF1</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">activating_stabilizing</td>
 <td align="left">activating_splicing</td>
 <td align="left">+1 expression prior | +2 activating/stabilizing
 function (phenotype-compatible if occlusion relieves repression OR
-displacement of repressor — context needed) | +1
-splicing/processing</td>
+di…</td>
 <td align="left">Scores are transparent heuristics; not experimental
 validation</td>
 </tr>
 <tr class="even">
 <td align="left">ASO_4_5_2_6</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">SRSF1</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">activating_stabilizing</td>
 <td align="left">activating_splicing</td>
 <td align="left">+1 expression prior | +2 activating/stabilizing
 function (phenotype-compatible if occlusion relieves repression OR
-displacement of repressor — context needed) | +1
-splicing/processing</td>
+di…</td>
 <td align="left">Scores are transparent heuristics; not experimental
 validation</td>
 </tr>
 <tr class="odd">
 <td align="left">ASO_4_5_2_4</td>
-<td align="right">5</td>
+<td align="left">5</td>
 <td align="left">AGO2</td>
-<td align="right">3</td>
+<td align="left">3</td>
 <td align="left">repressive</td>
 <td align="left">repressive</td>
 <td align="left">+1 expression prior | +2 repressive function (occlusion
@@ -2744,9 +2750,9 @@ validation</td>
 </tr>
 <tr class="even">
 <td align="left">ASO_4_5_2_6</td>
-<td align="right">5</td>
+<td align="left">5</td>
 <td align="left">AGO2</td>
-<td align="right">3</td>
+<td align="left">3</td>
 <td align="left">repressive</td>
 <td align="left">repressive</td>
 <td align="left">+1 expression prior | +2 repressive function (occlusion
@@ -2756,6 +2762,8 @@ validation</td>
 </tr>
 </tbody>
 </table>
+<p><em>Full table (all columns):</em>
+<code>results/06_ranked_rbps.tsv</code></p>
 </div>
 <div id="tf-and-chromatin-conditional" class="section level1" number="8">
 <h1><span class="header-section-number">8</span> TF and chromatin
@@ -2777,9 +2785,9 @@ analysis.</p>
 <col width="1%" />
 <col width="1%" />
 <col width="3%" />
-<col width="40%" />
-<col width="3%" />
-<col width="3%" />
+<col width="38%" />
+<col width="4%" />
+<col width="4%" />
 <col width="4%" />
 <col width="9%" />
 <col width="15%" />
@@ -2819,8 +2827,8 @@ analysis.</p>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">TF/chromatin analysis skipped: target context not
-classified as nuclear regulatory/enhancer/promoter/antisense/intronic
-regulatory RNA</td>
+classified as nuclear
+regulatory/enhancer/promoter/antisense/intron…</td>
 <td align="left">GRCh38</td>
 <td align="left">NA</td>
 <td align="left">2026-09-15</td>
@@ -2840,8 +2848,8 @@ regulatory RNA</td>
 <td align="left">NA</td>
 <td align="left">NA</td>
 <td align="left">TF/chromatin analysis skipped: target context not
-classified as nuclear regulatory/enhancer/promoter/antisense/intronic
-regulatory RNA</td>
+classified as nuclear
+regulatory/enhancer/promoter/antisense/intron…</td>
 <td align="left">GRCh38</td>
 <td align="left">NA</td>
 <td align="left">2026-09-15</td>
@@ -2850,32 +2858,34 @@ regulatory RNA</td>
 </tr>
 </tbody>
 </table>
+<p><em>Full table (all columns):</em>
+<code>results/05_tf_chromatin.tsv</code></p>
 </div>
 <div id="chemistry-aware-mechanism-ranking" class="section level1" number="9">
 <h1><span class="header-section-number">9</span> Chemistry-aware
 mechanism ranking</h1>
 <p>Eight chemistry/mechanism rules are applied (architecture unknown;
 RNase-H unknown; phenotype direction; PS protein engagement; MOE
-occupancy bias; 5m-dC caveats; structure hypothetical; sequence≠proof).
-Labels scored as hypotheses only.</p>
-<table style="width:100%;">
+occupancy bias; 5m-dC caveats; structure hypothetical; sequence !=
+proof). Labels scored as hypotheses only.</p>
+<table>
 <colgroup>
 <col width="3%" />
 <col width="1%" />
+<col width="7%" />
 <col width="5%" />
 <col width="4%" />
-<col width="3%" />
-<col width="4%" />
-<col width="7%" />
-<col width="55%" />
-<col width="13%" />
+<col width="6%" />
+<col width="10%" />
+<col width="42%" />
+<col width="17%" />
 </colgroup>
 <thead>
 <tr class="header">
 <th align="left">aso_id</th>
-<th align="right">rank</th>
+<th align="left">rank</th>
 <th align="left">mechanism_label</th>
-<th align="right">hypothesis_score</th>
+<th align="left">hypothesis_score</th>
 <th align="left">rnase_h_status</th>
 <th align="left">exact_shank3_match</th>
 <th align="left">top_rbps</th>
@@ -2886,40 +2896,38 @@ Labels scored as hypotheses only.</p>
 <tbody>
 <tr class="odd">
 <td align="left">ASO_4_5_2_4</td>
-<td align="right">1</td>
+<td align="left">1</td>
 <td align="left">RBP occlusion</td>
-<td align="right">8</td>
+<td align="left">8</td>
 <td align="left">unknown</td>
-<td align="left">TRUE</td>
+<td align="left">T</td>
 <td align="left">PTBP2,RBFOX1,RBFOX3,SRSF1,AGO2</td>
 <td align="left">+3 Rule3/4: occlusion of repressor can increase
 expression; PS favors protein engagement || +2 Rule5: 2’-MOE favors
-occupancy/steric mechanisms over cleavage || +3 Top RBPs include
-repressive class</td>
+o…</td>
 <td align="left">Hypothesis only. Do not treat as confirmed
 mechanism.</td>
 </tr>
 <tr class="even">
 <td align="left">ASO_4_5_2_4</td>
-<td align="right">2</td>
+<td align="left">2</td>
 <td align="left">RNA stabilization</td>
-<td align="right">3</td>
+<td align="left">3</td>
 <td align="left">unknown</td>
-<td align="left">TRUE</td>
+<td align="left">T</td>
 <td align="left">PTBP2,RBFOX1,RBFOX3,SRSF1,AGO2</td>
 <td align="left">+2 Rule3: phenotype-compatible (stabilization) || +1
-Occupancy mechanisms can stabilize RNA in some contexts
-(hypothesis)</td>
+Occupancy mechanisms can stabilize RNA in some contexts (hypothe…</td>
 <td align="left">Hypothesis only. Do not treat as confirmed
 mechanism.</td>
 </tr>
 <tr class="odd">
 <td align="left">ASO_4_5_2_4</td>
-<td align="right">3</td>
+<td align="left">3</td>
 <td align="left">splicing or processing</td>
-<td align="right">3</td>
+<td align="left">3</td>
 <td align="left">unknown</td>
-<td align="left">TRUE</td>
+<td align="left">T</td>
 <td align="left">PTBP2,RBFOX1,RBFOX3,SRSF1,AGO2</td>
 <td align="left">+3 Splicing-related RBP prioritized</td>
 <td align="left">Hypothesis only. Do not treat as confirmed
@@ -2927,25 +2935,24 @@ mechanism.</td>
 </tr>
 <tr class="even">
 <td align="left">ASO_4_5_2_4</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">unresolved</td>
-<td align="right">3</td>
+<td align="left">3</td>
 <td align="left">unknown</td>
-<td align="left">TRUE</td>
+<td align="left">T</td>
 <td align="left">PTBP2,RBFOX1,RBFOX3,SRSF1,AGO2</td>
 <td align="left">+1 Rule6: 5m-dC may alter recognition vs unmodified
-models || +2 Rule8: sequence/DB evidence alone cannot confirm
-mechanism</td>
+models || +2 Rule8: sequence/DB evidence alone cannot confirm mec…</td>
 <td align="left">Hypothesis only. Do not treat as confirmed
 mechanism.</td>
 </tr>
 <tr class="odd">
 <td align="left">ASO_4_5_2_4</td>
-<td align="right">5</td>
+<td align="left">5</td>
 <td align="left">RBP displacement</td>
-<td align="right">2</td>
+<td align="left">2</td>
 <td align="left">unknown</td>
-<td align="left">TRUE</td>
+<td align="left">T</td>
 <td align="left">PTBP2,RBFOX1,RBFOX3,SRSF1,AGO2</td>
 <td align="left">+2 Rule4: PS ASO may displace RBP complexes</td>
 <td align="left">Hypothesis only. Do not treat as confirmed
@@ -2953,40 +2960,38 @@ mechanism.</td>
 </tr>
 <tr class="even">
 <td align="left">ASO_4_5_2_6</td>
-<td align="right">1</td>
+<td align="left">1</td>
 <td align="left">RBP occlusion</td>
-<td align="right">8</td>
+<td align="left">8</td>
 <td align="left">unknown</td>
-<td align="left">TRUE</td>
+<td align="left">T</td>
 <td align="left">PTBP2,RBFOX1,RBFOX3,SRSF1,AGO2</td>
 <td align="left">+3 Rule3/4: occlusion of repressor can increase
 expression; PS favors protein engagement || +2 Rule5: 2’-MOE favors
-occupancy/steric mechanisms over cleavage || +3 Top RBPs include
-repressive class</td>
+o…</td>
 <td align="left">Hypothesis only. Do not treat as confirmed
 mechanism.</td>
 </tr>
 <tr class="odd">
 <td align="left">ASO_4_5_2_6</td>
-<td align="right">2</td>
+<td align="left">2</td>
 <td align="left">RNA stabilization</td>
-<td align="right">3</td>
+<td align="left">3</td>
 <td align="left">unknown</td>
-<td align="left">TRUE</td>
+<td align="left">T</td>
 <td align="left">PTBP2,RBFOX1,RBFOX3,SRSF1,AGO2</td>
 <td align="left">+2 Rule3: phenotype-compatible (stabilization) || +1
-Occupancy mechanisms can stabilize RNA in some contexts
-(hypothesis)</td>
+Occupancy mechanisms can stabilize RNA in some contexts (hypothe…</td>
 <td align="left">Hypothesis only. Do not treat as confirmed
 mechanism.</td>
 </tr>
 <tr class="even">
 <td align="left">ASO_4_5_2_6</td>
-<td align="right">3</td>
+<td align="left">3</td>
 <td align="left">splicing or processing</td>
-<td align="right">3</td>
+<td align="left">3</td>
 <td align="left">unknown</td>
-<td align="left">TRUE</td>
+<td align="left">T</td>
 <td align="left">PTBP2,RBFOX1,RBFOX3,SRSF1,AGO2</td>
 <td align="left">+3 Splicing-related RBP prioritized</td>
 <td align="left">Hypothesis only. Do not treat as confirmed
@@ -2994,25 +2999,24 @@ mechanism.</td>
 </tr>
 <tr class="odd">
 <td align="left">ASO_4_5_2_6</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">unresolved</td>
-<td align="right">3</td>
+<td align="left">3</td>
 <td align="left">unknown</td>
-<td align="left">TRUE</td>
+<td align="left">T</td>
 <td align="left">PTBP2,RBFOX1,RBFOX3,SRSF1,AGO2</td>
 <td align="left">+1 Rule6: 5m-dC may alter recognition vs unmodified
-models || +2 Rule8: sequence/DB evidence alone cannot confirm
-mechanism</td>
+models || +2 Rule8: sequence/DB evidence alone cannot confirm mec…</td>
 <td align="left">Hypothesis only. Do not treat as confirmed
 mechanism.</td>
 </tr>
 <tr class="even">
 <td align="left">ASO_4_5_2_6</td>
-<td align="right">5</td>
+<td align="left">5</td>
 <td align="left">RBP displacement</td>
-<td align="right">2</td>
+<td align="left">2</td>
 <td align="left">unknown</td>
-<td align="left">TRUE</td>
+<td align="left">T</td>
 <td align="left">PTBP2,RBFOX1,RBFOX3,SRSF1,AGO2</td>
 <td align="left">+2 Rule4: PS ASO may displace RBP complexes</td>
 <td align="left">Hypothesis only. Do not treat as confirmed
@@ -3020,6 +3024,8 @@ mechanism.</td>
 </tr>
 </tbody>
 </table>
+<p><em>Full table (all columns):</em>
+<code>results/07_mechanism_hypotheses.tsv</code></p>
 </div>
 <div id="per-aso-interpretation" class="section level1" number="10">
 <h1><span class="header-section-number">10</span> Per-ASO
@@ -3076,7 +3082,7 @@ recommended (each states which hypothesis it tests):</p>
 <tr class="header">
 <th align="left">aso_id</th>
 <th align="left">rbp</th>
-<th align="right">rbp_rank_score</th>
+<th align="left">rbp_rank_score</th>
 <th align="left">hypothesis_context</th>
 <th align="left">experiment</th>
 <th align="left">hypothesis_tested</th>
@@ -3086,7 +3092,7 @@ recommended (each states which hypothesis it tests):</p>
 <tr class="odd">
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">PTBP2</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages PTBP2 pathway (repressive;
 repressive_splicing)</td>
 <td align="left">ASO + RBP CLIP / eCLIP (or RIP-qPCR) at the mapped
@@ -3097,7 +3103,7 @@ alters occupancy (occlusion/displacement)</td>
 <tr class="even">
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">PTBP2</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages PTBP2 pathway (repressive;
 repressive_splicing)</td>
 <td align="left">RBP knockdown / CRISPRi and measure SHANK3 RNA/protein
@@ -3108,7 +3114,7 @@ repression/activation matching ASO phenotype</td>
 <tr class="odd">
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">PTBP2</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages PTBP2 pathway (repressive;
 repressive_splicing)</td>
 <td align="left">RBP overexpression rescue of ASO phenotype</td>
@@ -3118,7 +3124,7 @@ ASO</td>
 <tr class="even">
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">PTBP2</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages PTBP2 pathway (repressive;
 repressive_splicing)</td>
 <td align="left">RNA immunoprecipitation after ASO to test occlusion vs
@@ -3128,7 +3134,7 @@ recruitment</td>
 <tr class="odd">
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">PTBP2</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages PTBP2 pathway (repressive;
 repressive_splicing)</td>
 <td align="left">Competitive EMSA / binding assays with PS/MOE/5m-dC ASO
@@ -3139,7 +3145,7 @@ matched chemistry</td>
 <tr class="even">
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">PTBP2</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages PTBP2 pathway (repressive;
 repressive_splicing)</td>
 <td align="left">DMS-MaPseq or SHAPE-MaP ± ASO for structure
@@ -3150,7 +3156,7 @@ site</td>
 <tr class="odd">
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">PTBP2</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages PTBP2 pathway (repressive;
 repressive_splicing)</td>
 <td align="left">RNase-H cleavage assay in vitro with cognate chemistry
@@ -3161,7 +3167,7 @@ repressive_splicing)</td>
 <tr class="even">
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">PTBP2</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages PTBP2 pathway (repressive;
 repressive_splicing)</td>
 <td align="left">Nascent transcription (GRO-seq / TT-seq) if
@@ -3172,7 +3178,7 @@ hypothesis</td>
 <tr class="odd">
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">PTBP2</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages PTBP2 pathway (repressive;
 repressive_splicing)</td>
 <td align="left">Isoform-resolved RNA-seq / splicing reporter if
@@ -3182,7 +3188,7 @@ splicing RBP hypothesized</td>
 <tr class="even">
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">PTBP2</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages PTBP2 pathway (repressive;
 repressive_splicing)</td>
 <td align="left">Polysome profiling / ribosome footprinting if
@@ -3192,7 +3198,7 @@ translation regulation hypothesized</td>
 <tr class="odd">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">PTBP2</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages PTBP2 pathway (repressive;
 repressive_splicing)</td>
 <td align="left">ASO + RBP CLIP / eCLIP (or RIP-qPCR) at the mapped
@@ -3203,7 +3209,7 @@ alters occupancy (occlusion/displacement)</td>
 <tr class="even">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">PTBP2</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages PTBP2 pathway (repressive;
 repressive_splicing)</td>
 <td align="left">RBP knockdown / CRISPRi and measure SHANK3 RNA/protein
@@ -3214,7 +3220,7 @@ repression/activation matching ASO phenotype</td>
 <tr class="odd">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">PTBP2</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages PTBP2 pathway (repressive;
 repressive_splicing)</td>
 <td align="left">RBP overexpression rescue of ASO phenotype</td>
@@ -3224,7 +3230,7 @@ ASO</td>
 <tr class="even">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">PTBP2</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages PTBP2 pathway (repressive;
 repressive_splicing)</td>
 <td align="left">RNA immunoprecipitation after ASO to test occlusion vs
@@ -3234,7 +3240,7 @@ recruitment</td>
 <tr class="odd">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">PTBP2</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages PTBP2 pathway (repressive;
 repressive_splicing)</td>
 <td align="left">Competitive EMSA / binding assays with PS/MOE/5m-dC ASO
@@ -3245,7 +3251,7 @@ matched chemistry</td>
 <tr class="even">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">PTBP2</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages PTBP2 pathway (repressive;
 repressive_splicing)</td>
 <td align="left">DMS-MaPseq or SHAPE-MaP ± ASO for structure
@@ -3256,7 +3262,7 @@ site</td>
 <tr class="odd">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">PTBP2</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages PTBP2 pathway (repressive;
 repressive_splicing)</td>
 <td align="left">RNase-H cleavage assay in vitro with cognate chemistry
@@ -3267,7 +3273,7 @@ repressive_splicing)</td>
 <tr class="even">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">PTBP2</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages PTBP2 pathway (repressive;
 repressive_splicing)</td>
 <td align="left">Nascent transcription (GRO-seq / TT-seq) if
@@ -3278,7 +3284,7 @@ hypothesis</td>
 <tr class="odd">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">PTBP2</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages PTBP2 pathway (repressive;
 repressive_splicing)</td>
 <td align="left">Isoform-resolved RNA-seq / splicing reporter if
@@ -3288,7 +3294,7 @@ splicing RBP hypothesized</td>
 <tr class="even">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">PTBP2</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages PTBP2 pathway (repressive;
 repressive_splicing)</td>
 <td align="left">Polysome profiling / ribosome footprinting if
@@ -3298,7 +3304,7 @@ translation regulation hypothesized</td>
 <tr class="odd">
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">RBFOX1</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages RBFOX1 pathway (splicing;
 context_dependent)</td>
 <td align="left">ASO + RBP CLIP / eCLIP (or RIP-qPCR) at the mapped
@@ -3309,7 +3315,7 @@ alters occupancy (occlusion/displacement)</td>
 <tr class="even">
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">RBFOX1</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages RBFOX1 pathway (splicing;
 context_dependent)</td>
 <td align="left">RBP knockdown / CRISPRi and measure SHANK3 RNA/protein
@@ -3320,7 +3326,7 @@ repression/activation matching ASO phenotype</td>
 <tr class="odd">
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">RBFOX1</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages RBFOX1 pathway (splicing;
 context_dependent)</td>
 <td align="left">RBP overexpression rescue of ASO phenotype</td>
@@ -3330,7 +3336,7 @@ ASO</td>
 <tr class="even">
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">RBFOX1</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages RBFOX1 pathway (splicing;
 context_dependent)</td>
 <td align="left">RNA immunoprecipitation after ASO to test occlusion vs
@@ -3340,7 +3346,7 @@ recruitment</td>
 <tr class="odd">
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">RBFOX1</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages RBFOX1 pathway (splicing;
 context_dependent)</td>
 <td align="left">Competitive EMSA / binding assays with PS/MOE/5m-dC ASO
@@ -3351,7 +3357,7 @@ matched chemistry</td>
 <tr class="even">
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">RBFOX1</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages RBFOX1 pathway (splicing;
 context_dependent)</td>
 <td align="left">DMS-MaPseq or SHAPE-MaP ± ASO for structure
@@ -3362,7 +3368,7 @@ site</td>
 <tr class="odd">
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">RBFOX1</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages RBFOX1 pathway (splicing;
 context_dependent)</td>
 <td align="left">RNase-H cleavage assay in vitro with cognate chemistry
@@ -3373,7 +3379,7 @@ context_dependent)</td>
 <tr class="even">
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">RBFOX1</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages RBFOX1 pathway (splicing;
 context_dependent)</td>
 <td align="left">Nascent transcription (GRO-seq / TT-seq) if
@@ -3384,7 +3390,7 @@ hypothesis</td>
 <tr class="odd">
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">RBFOX1</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages RBFOX1 pathway (splicing;
 context_dependent)</td>
 <td align="left">Isoform-resolved RNA-seq / splicing reporter if
@@ -3394,7 +3400,7 @@ splicing RBP hypothesized</td>
 <tr class="even">
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">RBFOX1</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages RBFOX1 pathway (splicing;
 context_dependent)</td>
 <td align="left">Polysome profiling / ribosome footprinting if
@@ -3404,7 +3410,7 @@ translation regulation hypothesized</td>
 <tr class="odd">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">RBFOX1</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages RBFOX1 pathway (splicing;
 context_dependent)</td>
 <td align="left">ASO + RBP CLIP / eCLIP (or RIP-qPCR) at the mapped
@@ -3415,7 +3421,7 @@ alters occupancy (occlusion/displacement)</td>
 <tr class="even">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">RBFOX1</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages RBFOX1 pathway (splicing;
 context_dependent)</td>
 <td align="left">RBP knockdown / CRISPRi and measure SHANK3 RNA/protein
@@ -3426,7 +3432,7 @@ repression/activation matching ASO phenotype</td>
 <tr class="odd">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">RBFOX1</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages RBFOX1 pathway (splicing;
 context_dependent)</td>
 <td align="left">RBP overexpression rescue of ASO phenotype</td>
@@ -3436,7 +3442,7 @@ ASO</td>
 <tr class="even">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">RBFOX1</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages RBFOX1 pathway (splicing;
 context_dependent)</td>
 <td align="left">RNA immunoprecipitation after ASO to test occlusion vs
@@ -3446,7 +3452,7 @@ recruitment</td>
 <tr class="odd">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">RBFOX1</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages RBFOX1 pathway (splicing;
 context_dependent)</td>
 <td align="left">Competitive EMSA / binding assays with PS/MOE/5m-dC ASO
@@ -3457,7 +3463,7 @@ matched chemistry</td>
 <tr class="even">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">RBFOX1</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages RBFOX1 pathway (splicing;
 context_dependent)</td>
 <td align="left">DMS-MaPseq or SHAPE-MaP ± ASO for structure
@@ -3468,7 +3474,7 @@ site</td>
 <tr class="odd">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">RBFOX1</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages RBFOX1 pathway (splicing;
 context_dependent)</td>
 <td align="left">RNase-H cleavage assay in vitro with cognate chemistry
@@ -3479,7 +3485,7 @@ context_dependent)</td>
 <tr class="even">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">RBFOX1</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages RBFOX1 pathway (splicing;
 context_dependent)</td>
 <td align="left">Nascent transcription (GRO-seq / TT-seq) if
@@ -3490,7 +3496,7 @@ hypothesis</td>
 <tr class="odd">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">RBFOX1</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages RBFOX1 pathway (splicing;
 context_dependent)</td>
 <td align="left">Isoform-resolved RNA-seq / splicing reporter if
@@ -3500,7 +3506,7 @@ splicing RBP hypothesized</td>
 <tr class="even">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">RBFOX1</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages RBFOX1 pathway (splicing;
 context_dependent)</td>
 <td align="left">Polysome profiling / ribosome footprinting if
@@ -3510,7 +3516,7 @@ translation regulation hypothesized</td>
 <tr class="odd">
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">RBFOX3</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages RBFOX3 pathway (splicing;
 context_dependent)</td>
 <td align="left">ASO + RBP CLIP / eCLIP (or RIP-qPCR) at the mapped
@@ -3521,7 +3527,7 @@ alters occupancy (occlusion/displacement)</td>
 <tr class="even">
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">RBFOX3</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages RBFOX3 pathway (splicing;
 context_dependent)</td>
 <td align="left">RBP knockdown / CRISPRi and measure SHANK3 RNA/protein
@@ -3532,7 +3538,7 @@ repression/activation matching ASO phenotype</td>
 <tr class="odd">
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">RBFOX3</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages RBFOX3 pathway (splicing;
 context_dependent)</td>
 <td align="left">RBP overexpression rescue of ASO phenotype</td>
@@ -3542,7 +3548,7 @@ ASO</td>
 <tr class="even">
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">RBFOX3</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages RBFOX3 pathway (splicing;
 context_dependent)</td>
 <td align="left">RNA immunoprecipitation after ASO to test occlusion vs
@@ -3552,7 +3558,7 @@ recruitment</td>
 <tr class="odd">
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">RBFOX3</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages RBFOX3 pathway (splicing;
 context_dependent)</td>
 <td align="left">Competitive EMSA / binding assays with PS/MOE/5m-dC ASO
@@ -3563,7 +3569,7 @@ matched chemistry</td>
 <tr class="even">
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">RBFOX3</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages RBFOX3 pathway (splicing;
 context_dependent)</td>
 <td align="left">DMS-MaPseq or SHAPE-MaP ± ASO for structure
@@ -3574,7 +3580,7 @@ site</td>
 <tr class="odd">
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">RBFOX3</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages RBFOX3 pathway (splicing;
 context_dependent)</td>
 <td align="left">RNase-H cleavage assay in vitro with cognate chemistry
@@ -3585,7 +3591,7 @@ context_dependent)</td>
 <tr class="even">
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">RBFOX3</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages RBFOX3 pathway (splicing;
 context_dependent)</td>
 <td align="left">Nascent transcription (GRO-seq / TT-seq) if
@@ -3596,7 +3602,7 @@ hypothesis</td>
 <tr class="odd">
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">RBFOX3</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages RBFOX3 pathway (splicing;
 context_dependent)</td>
 <td align="left">Isoform-resolved RNA-seq / splicing reporter if
@@ -3606,7 +3612,7 @@ splicing RBP hypothesized</td>
 <tr class="even">
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">RBFOX3</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages RBFOX3 pathway (splicing;
 context_dependent)</td>
 <td align="left">Polysome profiling / ribosome footprinting if
@@ -3616,7 +3622,7 @@ translation regulation hypothesized</td>
 <tr class="odd">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">RBFOX3</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages RBFOX3 pathway (splicing;
 context_dependent)</td>
 <td align="left">ASO + RBP CLIP / eCLIP (or RIP-qPCR) at the mapped
@@ -3627,7 +3633,7 @@ alters occupancy (occlusion/displacement)</td>
 <tr class="even">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">RBFOX3</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages RBFOX3 pathway (splicing;
 context_dependent)</td>
 <td align="left">RBP knockdown / CRISPRi and measure SHANK3 RNA/protein
@@ -3638,7 +3644,7 @@ repression/activation matching ASO phenotype</td>
 <tr class="odd">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">RBFOX3</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages RBFOX3 pathway (splicing;
 context_dependent)</td>
 <td align="left">RBP overexpression rescue of ASO phenotype</td>
@@ -3648,7 +3654,7 @@ ASO</td>
 <tr class="even">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">RBFOX3</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages RBFOX3 pathway (splicing;
 context_dependent)</td>
 <td align="left">RNA immunoprecipitation after ASO to test occlusion vs
@@ -3658,7 +3664,7 @@ recruitment</td>
 <tr class="odd">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">RBFOX3</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages RBFOX3 pathway (splicing;
 context_dependent)</td>
 <td align="left">Competitive EMSA / binding assays with PS/MOE/5m-dC ASO
@@ -3669,7 +3675,7 @@ matched chemistry</td>
 <tr class="even">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">RBFOX3</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages RBFOX3 pathway (splicing;
 context_dependent)</td>
 <td align="left">DMS-MaPseq or SHAPE-MaP ± ASO for structure
@@ -3680,7 +3686,7 @@ site</td>
 <tr class="odd">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">RBFOX3</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages RBFOX3 pathway (splicing;
 context_dependent)</td>
 <td align="left">RNase-H cleavage assay in vitro with cognate chemistry
@@ -3691,7 +3697,7 @@ context_dependent)</td>
 <tr class="even">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">RBFOX3</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages RBFOX3 pathway (splicing;
 context_dependent)</td>
 <td align="left">Nascent transcription (GRO-seq / TT-seq) if
@@ -3702,7 +3708,7 @@ hypothesis</td>
 <tr class="odd">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">RBFOX3</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages RBFOX3 pathway (splicing;
 context_dependent)</td>
 <td align="left">Isoform-resolved RNA-seq / splicing reporter if
@@ -3712,7 +3718,7 @@ splicing RBP hypothesized</td>
 <tr class="even">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">RBFOX3</td>
-<td align="right">4</td>
+<td align="left">4</td>
 <td align="left">ASO engages RBFOX3 pathway (splicing;
 context_dependent)</td>
 <td align="left">Polysome profiling / ribosome footprinting if
@@ -3721,6 +3727,8 @@ translation regulation hypothesized</td>
 </tr>
 </tbody>
 </table>
+<p><em>Full table (all columns):</em>
+<code>results/07_validation_recommendations.tsv</code></p>
 </div>
 <div id="resource-provenance" class="section level1" number="13">
 <h1><span class="header-section-number">13</span> Resource
@@ -3860,6 +3868,8 @@ unreachable</td>
 </tr>
 </tbody>
 </table>
+<p><em>Full table (all columns):</em>
+<code>data/raw/PROVENANCE.tsv</code></p>
 </div>
 <div id="limitations-and-missing-information" class="section level1" number="14">
 <h1><span class="header-section-number">14</span> Limitations and
@@ -3876,6 +3886,9 @@ priors</strong>.</li>
 <li>Structure values omit MOE/PS/5m-dC parameterization.</li>
 <li>No experimental ASO engagement assay integrated.</li>
 <li>Genome builds other than GRCh38 were <strong>not</strong> used.</li>
+<li>PDF tables show <strong>readable column subsets</strong> (layout
+fix); full-width result tables remain in <code>results/*.tsv</code>.
+Analysis values are unchanged.</li>
 </ul>
 </div>
 <div id="conclusions-non-confirmatory" class="section level1" number="15">
