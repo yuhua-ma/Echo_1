@@ -1,0 +1,541 @@
+---
+title: "FINAL SHANK3 ASO Mechanism-of-Action Report"
+author: "R / targets chemistry-aware bioinformatics workflow"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    theme: flatly
+    number_sections: true
+  pdf_document:
+    toc: true
+    number_sections: true
+    latex_engine: xelatex
+    keep_tex: false
+    fig_crop: false
+    includes:
+      in_header: final_report_header.tex
+    pandoc_args:
+      - "--variable=geometry:margin=0.65in"
+mainfont: DejaVu Sans
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, results = "asis",
+                      fig.width = 8, fig.height = 4)
+suppressPackageStartupMessages({
+  library(dplyr)
+  library(readr)
+  library(yaml)
+  library(knitr)
+})
+has_kableExtra <- requireNamespace("kableExtra", quietly = TRUE)
+if (has_kableExtra) suppressPackageStartupMessages(library(kableExtra))
+
+root <- if (file.exists("_config.yml")) {
+  getwd()
+} else if (file.exists("../_config.yml")) {
+  normalizePath("..")
+} else {
+  getwd()
+}
+cfg <- yaml::read_yaml(file.path(root, "_config.yml"))
+read_safe <- function(path) {
+  if (!file.exists(path)) return(NULL)
+  tryCatch(readr::read_tsv(path, show_col_types = FALSE), error = function(e) NULL)
+}
+qc <- read_safe(file.path(root, "results/01_sequence_qc.tsv"))
+map <- read_safe(file.path(root, "results/02_shank3_mapping.tsv"))
+struct <- read_safe(file.path(root, "results/03_rna_structure.tsv"))
+clip <- read_safe(file.path(root, "results/04_rbp_clip_overlap.tsv"))
+motif <- read_safe(file.path(root, "results/04_rbp_motif_overlap.tsv"))
+expr <- read_safe(file.path(root, "results/04_rbp_expression.tsv"))
+func <- read_safe(file.path(root, "results/04_rbp_function.tsv"))
+tf <- read_safe(file.path(root, "results/05_tf_chromatin.tsv"))
+ranked <- read_safe(file.path(root, "results/06_ranked_rbps.tsv"))
+hyp <- read_safe(file.path(root, "results/07_mechanism_hypotheses.tsv"))
+val <- read_safe(file.path(root, "results/07_validation_recommendations.tsv"))
+prov <- read_safe(file.path(root, "data/raw/PROVENANCE.tsv"))
+`%||%` <- function(a, b) if (is.null(a) || length(a) == 0 || (is.character(a) && !nzchar(a[[1]]))) b else a
+
+is_pdf <- knitr::is_latex_output()
+
+shorten <- function(x, n = if (is_pdf) 32 else 120) {
+  x <- as.character(x)
+  ifelse(is.na(x), NA_character_,
+         ifelse(nchar(x) > n, paste0(substr(x, 1, max(1, n - 3)), "..."), x))
+}
+
+fmt_num <- function(x) {
+  ifelse(
+    is.na(x), NA_character_,
+    ifelse(abs(x - round(x)) < 1e-8,
+           format(as.integer(round(x)), scientific = FALSE, trim = TRUE, big.mark = ""),
+           format(round(x, 2), nsmall = 1, scientific = FALSE, trim = TRUE))
+  )
+}
+
+fmt_tbl <- function(df, max_rows = NULL) {
+  if (is.null(df) || !nrow(df)) return(df)
+  if (!is.null(max_rows) && nrow(df) > max_rows) df <- utils::head(df, max_rows)
+  df <- as.data.frame(df, stringsAsFactors = FALSE)
+  for (nm in names(df)) {
+    if (is.character(df[[nm]]) || is.factor(df[[nm]])) {
+      df[[nm]] <- shorten(as.character(df[[nm]]))
+    } else if (is.logical(df[[nm]])) {
+      df[[nm]] <- ifelse(is.na(df[[nm]]), "NA", ifelse(df[[nm]], "T", "F"))
+    } else if (is.numeric(df[[nm]])) {
+      df[[nm]] <- fmt_num(df[[nm]])
+    }
+  }
+  df
+}
+
+# PDF-safe tables: never longtable+resizebox; scale_down tabular; optional landscape.
+show_kable <- function(df, caption = NULL, max_rows = NULL, font_size = 9,
+                       landscape = FALSE) {
+  if (is.null(df) || !nrow(df)) {
+    cat("*No rows to display.*\n\n")
+    return(invisible(NULL))
+  }
+  df2 <- fmt_tbl(df, max_rows = max_rows)
+  if (!is_pdf) {
+    cat(knitr::kable(df2, format = "markdown", caption = caption), sep = "\n")
+    cat("\n\n")
+    return(invisible(NULL))
+  }
+
+  max_cols <- if (landscape) 8 else 5
+  if (ncol(df2) > max_cols) df2 <- df2[, seq_len(max_cols), drop = FALSE]
+
+  emit_one <- function(piece, cap = NULL) {
+    kb <- knitr::kable(
+      piece,
+      format = "latex",
+      booktabs = TRUE,
+      longtable = FALSE,
+      caption = cap,
+      align = paste(rep("l", ncol(piece)), collapse = ""),
+      escape = TRUE,
+      row.names = FALSE
+    )
+    if (has_kableExtra) {
+      kb <- kableExtra::kable_styling(
+        kb,
+        latex_options = c("hold_position", "scale_down"),
+        font_size = font_size,
+        full_width = FALSE
+      )
+      if (isTRUE(landscape)) kb <- kableExtra::landscape(kb)
+    }
+    cat(as.character(kb), sep = "\n")
+    cat("\n\n")
+  }
+
+  chunk_n <- if (landscape) 16 else 12
+  if (nrow(df2) <= chunk_n) {
+    emit_one(df2, caption)
+  } else {
+    starts <- seq(1, nrow(df2), by = chunk_n)
+    for (i in seq_along(starts)) {
+      s <- starts[[i]]
+      e <- min(nrow(df2), s + chunk_n - 1)
+      cap <- if (i == 1) caption else paste0(caption %||% "Table", " (continued)")
+      emit_one(df2[s:e, , drop = FALSE], cap)
+    }
+  }
+  invisible(NULL)
+}
+
+tsv_note <- function(rel_path) {
+  cat("\n*Full table (all columns):* `", rel_path, "`\n\n", sep = "")
+  invisible(NULL)
+}
+```
+
+# Executive summary
+
+This report summarizes a reproducible **R-only** workflow for two SHANK3-associated ASOs
+(`r paste(vapply(cfg$asos, function(x) x$id, character(1)), collapse = ", ")`)
+in *Homo sapiens* **GRCh38**. Both ASOs are linked to **increased SHANK3 expression**. Chemistry (revised): **core=MOE**, all bases in MOE brackets, **PS backbone**, architecture **likely_uniform_MOE**, gapmer **not supported** by current supplier notation, RNase-H direct SHANK3 mRNA **low_support**, 5m-dC **reported but needs confirmation**, FAM present in supplier construct but **excluded** from unlabeled mechanism interpretation. Sequence/database evidence is used only to generate **ranked hypotheses**, not confirmed mechanisms.
+
+```{r}
+exact_n <- if (is.null(map)) 0 else sum(map$exact_shank3_match, na.rm = TRUE)
+approx_n <- if (is.null(map)) 0 else sum(map$approximate_shank3_match, na.rm = TRUE)
+top_mech <- if (is.null(hyp)) NULL else hyp %>% dplyr::filter(is_top)
+show_kable(data.frame(
+  metric = c("Exact SHANK3 mapping rows", "Approximate mapping rows", "Top mechanism labels"),
+  value = c(
+    as.character(exact_n),
+    as.character(approx_n),
+    if (is.null(top_mech)) "n/a" else paste(paste0(top_mech$aso_id, "=", top_mech$mechanism_label), collapse = "; ")
+  ),
+  stringsAsFactors = FALSE
+), font_size = 10)
+```
+
+# ASO sequences and chemistry
+
+```{r}
+if (!is.null(qc)) {
+  qc_show <- if (is_pdf) {
+    qc %>%
+      dplyr::transmute(
+        aso = aso_id,
+        sequence = cleaned_sequence,
+        len = length_nt,
+        GC = gc_percent,
+        core = chemistry_core,
+        arch = chemistry_architecture,
+        gapmer = chemistry_gapmer,
+        RNaseH = chemistry_rnase_h_direct_SHANK3_mRNA,
+        m5dC = chemistry_five_methyl_dC
+      )
+  } else {
+    qc %>% dplyr::select(aso_id, cleaned_sequence, length_nt, gc_percent,
+                         chemistry_backbone, chemistry_moe, chemistry_five_methyl_dC,
+                         chemistry_architecture, chemistry_rnase_h_compatible,
+                         qc_warnings, status)
+  }
+  show_kable(qc_show, landscape = is_pdf, font_size = 9)
+  tsv_note("results/01_sequence_qc.tsv")
+}
+```
+
+**Chemistry rules applied throughout:** treat architecture as **likely_uniform_MOE**; gapmer **not supported** by current supplier notation; RNase-H cleavage of SHANK3 mRNA is **low_support** (favor steric/occupancy/RBP/structure); 5m-dC is **reported_but_needs_confirmation** (caveat only); FAM label is noted but **not** included in unlabeled mechanism interpretation; PS linkage pattern awaits supplier notation (map not invented). Canonical bases retained for alignment/motifs.
+
+# Target gene and phenotype context
+
+- Gene: **SHANK3** (neuronal synaptic scaffolding; dosage-sensitive ASD/Phelan-McDermid relevant gene).
+- Cell types of interest: **neuron**, **neural precursor cell**.
+- Phenotype for both ASOs: **increased SHANK3 expression**.
+- Implication: mechanisms that **destroy** SHANK3 mRNA via RNase-H are directionally inconsistent with the stated phenotype for simple on-target knockdown (unless isoform switching/feedback is demonstrated).
+
+# Transcript and genomic mapping (GRCh38)
+
+```{r}
+if (exact_n == 0) cat("**Ambiguity statement:** ", cfg$ambiguity_statement, "\n\n", sep = "")
+if (!is.null(map)) {
+  map_show <- if (is_pdf) {
+    map %>%
+      dplyr::transmute(
+        aso = aso_id,
+        match = shorten(match_class, 20),
+        exact = exact_shank3_match,
+        tx = shorten(transcript_id, 16),
+        chrom = shorten(chrom, 12),
+        pos = paste0(start, "-", end),
+        str = strand,
+        mm = mismatches,
+        rank = rank
+      )
+  } else {
+    map %>% dplyr::select(dplyr::any_of(c(
+      "aso_id", "match_class", "exact_shank3_match", "approximate_shank3_match", "feature_type",
+      "transcript_id", "chrom", "start", "end", "strand", "mismatches", "rank",
+      "support_note", "status", "warning"
+    )))
+  }
+  show_kable(map_show, landscape = is_pdf, font_size = 8)
+  tsv_note("results/02_shank3_mapping.tsv")
+}
+```
+
+Windows (+/- `r cfg$window_upstream` / `r cfg$window_downstream` nt) are written to `results/02_target_windows.fasta` and `.bed`.
+
+# RNA structure and accessibility
+
+ViennaRNA (`RNAfold`/`RNAplfold`) is invoked only via `system2()`. Missing tools produce warnings and empty numeric fields - **results are never fabricated**. All energies are canonical-RNA approximations unsuitable as exact MOE/PS/5m-dC biochemical measurements.
+
+```{r}
+if (!is.null(struct)) {
+  struct_show <- if (is_pdf) {
+    struct %>%
+      dplyr::transmute(
+        aso = aso_id,
+        ctx = context,
+        MFE = mfe_kcal_mol,
+        site = shorten(site_structure_class, 16),
+        unpaired = mean_unpaired_probability,
+        hyb = approx_hybridization_energy,
+        status = status
+      )
+  } else {
+    struct %>% dplyr::select(dplyr::any_of(c(
+      "aso_id", "window_id", "context", "mfe_kcal_mol", "site_structure_class",
+      "mean_unpaired_probability", "approx_hybridization_energy",
+      "status", "warning", "chemistry_caveat"
+    )))
+  }
+  show_kable(struct_show, landscape = is_pdf, font_size = 8)
+  tsv_note("results/03_rna_structure.tsv")
+}
+```
+
+# RBP CLIP, motif, expression, and function evidence
+
+Sources referenced: ENCODE eCLIP, UCSC ENCODE tracks, POSTAR3, oRNAment, ATtRACT, RBPDB, RBP2GO (see provenance). **No CLIP peaks are invented.**
+
+## CLIP overlaps
+
+```{r}
+if (!is.null(clip)) {
+  clip_show <- if (is_pdf) {
+    clip %>%
+      dplyr::transmute(
+        aso = aso_id,
+        rbp = ifelse(is.na(rbp), "-", as.character(rbp)),
+        source = shorten(clip_source, 24),
+        chrom = shorten(chrom, 10),
+        site = paste0(site_start, "-", site_end),
+        ov0 = overlap_0nt,
+        strength = evidence_strength,
+        status = status
+      )
+  } else {
+    clip
+  }
+  show_kable(clip_show, landscape = is_pdf, font_size = 8)
+  tsv_note("results/04_rbp_clip_overlap.tsv")
+}
+```
+
+## Motif overlaps (sample)
+
+```{r}
+if (!is.null(motif)) {
+  motif_show <- if (is_pdf) {
+    utils::head(motif, 18) %>%
+      dplyr::transmute(
+        aso = aso_id,
+        rbp = rbp,
+        motif = shorten(motif_id, 14),
+        start = match_start,
+        end = match_end,
+        strength = evidence_strength
+      )
+  } else {
+    utils::head(motif, 30)
+  }
+  show_kable(motif_show, font_size = 9)
+  tsv_note("results/04_rbp_motif_overlap.tsv")
+}
+```
+
+## Expression priors (neuron / NPC)
+
+```{r}
+if (!is.null(expr)) {
+  expr_show <- if (is_pdf) {
+    utils::head(expr, 14) %>%
+      dplyr::transmute(
+        aso = aso_id,
+        rbp = rbp,
+        cell = shorten(cell_type, 18),
+        expressed = expressed,
+        status = status
+      )
+  } else {
+    utils::head(expr, 20)
+  }
+  show_kable(expr_show, font_size = 9)
+  tsv_note("results/04_rbp_expression.tsv")
+}
+```
+
+## Function annotation
+
+```{r}
+if (!is.null(func)) {
+  func_show <- if (is_pdf) {
+    utils::head(func, 14) %>%
+      dplyr::transmute(
+        aso = aso_id,
+        rbp = rbp,
+        process = shorten(rna_process, 14),
+        direction = shorten(regulatory_direction_hint, 18),
+        status = status
+      )
+  } else {
+    utils::head(func, 20)
+  }
+  show_kable(func_show, font_size = 9)
+  tsv_note("results/04_rbp_function.tsv")
+}
+```
+
+# Ranked RBP hypotheses
+
+Transparent scoring: **+3 / +2 / +1 / -2** rules in `R/06_mechanism_ranking.R`. Top 3-5 RBPs per ASO attempt to include repressive, activating/stabilizing, and structure-related classes.
+
+```{r}
+if (!is.null(ranked)) {
+  ranked_show <- ranked %>% dplyr::filter(in_top_report)
+  if (is_pdf) {
+    ranked_show <- ranked_show %>%
+      dplyr::transmute(
+        aso = aso_id,
+        rank = rank,
+        rbp = rbp,
+        score = score,
+        class = shorten(rbp_class, 16),
+        direction = shorten(regulatory_direction_hint, 18)
+      )
+  } else {
+    ranked_show <- ranked_show %>%
+      dplyr::select(aso_id, rank, rbp, score, rbp_class, regulatory_direction_hint, score_rationale, warning)
+  }
+  show_kable(ranked_show, font_size = 9)
+  tsv_note("results/06_ranked_rbps.tsv")
+}
+```
+
+# TF and chromatin (conditional)
+
+TF motifs are evaluated on **genomic DNA only** when locus class suggests nuclear regulatory / intronic / promoter / enhancer / antisense context. This evidence stream is separate from RBP analysis.
+
+```{r}
+if (!is.null(tf)) {
+  tf_show <- if (is_pdf) {
+    tf %>%
+      dplyr::transmute(
+        aso = aso_id,
+        tf = ifelse(is.na(tf), "-", as.character(tf)),
+        status = status,
+        warning = shorten(warning, 40)
+      )
+  } else {
+    tf
+  }
+  show_kable(tf_show, font_size = 9)
+  tsv_note("results/05_tf_chromatin.tsv")
+}
+```
+
+# Chemistry-aware mechanism ranking
+
+Chemistry/mechanism rules apply the revised supplier-informed chemistry (likely_uniform_MOE; gapmer not supported; RNase-H direct SHANK3 mRNA low_support; PS protein engagement with linkage map pending; MOE steric/occupancy bias; 5m-dC reported-unconfirmed caveat; FAM excluded from unlabeled mechanism; structure hypothetical; sequence != proof). Labels scored as hypotheses only.
+
+```{r}
+if (!is.null(hyp)) {
+  hyp_show <- hyp %>% dplyr::filter(rank <= 5)
+  if (is_pdf) {
+    hyp_show <- hyp_show %>%
+      dplyr::transmute(
+        aso = aso_id,
+        rank = rank,
+        mechanism = shorten(mechanism_label, 26),
+        score = hypothesis_score,
+        RNaseH = rnase_h_status,
+        top_rbps = shorten(top_rbps, 28)
+      )
+  } else {
+    hyp_show <- hyp_show %>%
+      dplyr::select(aso_id, rank, mechanism_label, hypothesis_score, rnase_h_status,
+                    exact_shank3_match, top_rbps, rationale, caveat)
+  }
+  show_kable(hyp_show, landscape = is_pdf, font_size = 8)
+  tsv_note("results/07_mechanism_hypotheses.tsv")
+}
+```
+
+# Per-ASO interpretation
+
+```{r}
+if (!is.null(hyp) && !is.null(ranked)) {
+  for (aso in cfg$asos) {
+    id <- aso$id
+    cat("## ", id, " (`", aso$sequence, "`)\n\n", sep = "")
+    tm <- hyp %>% dplyr::filter(aso_id == id, is_top)
+    tr <- ranked %>% dplyr::filter(aso_id == id, in_top_report) %>% dplyr::arrange(dplyr::desc(score))
+    cat("- Top mechanism hypothesis: **", tm$mechanism_label[1] %||% "unresolved", "**\n", sep = "")
+    cat("- Top RBPs: ", paste(tr$rbp, collapse = ", "), "\n", sep = "")
+    cat("- RNase-H: **low_support** (gapmer not supported; likely_uniform_MOE favors steric/occupancy; phenotype argues against simple on-target RNase-H knockdown)\n")
+    cat("- Exact SHANK3 match present: ", any(map$aso_id == id & map$exact_shank3_match, na.rm = TRUE), "\n\n", sep = "")
+  }
+}
+```
+
+# Off-target considerations
+
+A limited **chr22 genomic exact reverse-complement** screen is recorded in `results/02_offtargets_chr22.tsv`. This is **not** a full transcriptome off-target proof. Off-target mechanisms remain possible, especially without exact SHANK3 transcript confirmation.
+
+# Validation recommendations
+
+For every high-priority RBP, the following ten experiment types are recommended (each states which hypothesis it tests):
+
+```{r}
+if (!is.null(val)) {
+  val_show <- if (is_pdf) {
+    val %>%
+      dplyr::group_by(aso_id, rbp) %>%
+      dplyr::slice_head(n = 2) %>%
+      dplyr::ungroup() %>%
+      dplyr::transmute(
+        aso = aso_id,
+        rbp = rbp,
+        experiment = shorten(experiment, 36),
+        tests = shorten(hypothesis_tested, 42)
+      )
+  } else {
+    utils::head(val, 60)
+  }
+  show_kable(val_show, landscape = is_pdf, font_size = 8)
+  tsv_note("results/07_validation_recommendations.tsv")
+}
+```
+
+# Resource provenance
+
+```{r}
+if (!is.null(prov)) {
+  prov_show <- if (is_pdf) {
+    prov %>%
+      dplyr::transmute(
+        resource = shorten(resource, 18),
+        version = shorten(version, 22),
+        build = genome_build,
+        date = download_date
+      )
+  } else {
+    prov
+  }
+  show_kable(prov_show, font_size = 9)
+  tsv_note("data/raw/PROVENANCE.tsv")
+} else {
+  cat("No provenance table yet.\n")
+}
+```
+
+# Limitations and missing information
+
+- Architecture interpreted as **likely_uniform_MOE**; gapmer **not_supported_by_current_supplier_notation**.
+- **RNase-H direct SHANK3 mRNA: low_support** — not assumed; steric/occupancy/RBP/structure favored.
+- **5m-dC: reported_but_needs_confirmation** — caveat only; not treated as experimentally confirmed.
+- **PS linkage pattern** set to `parse_from_supplier_notation`, but the supplier notation string is **not yet provided** (TODO; PS map not invented).
+- **FAM label** present in supplier construct but **excluded** from unlabeled mechanism interpretation.
+- Neuron/NPC **eCLIP peak overlaps** at the precise site generally unavailable in this automated run (metadata may be cached; peaks not fabricated).
+- Motif/expression layers include **explicitly labeled priors**.
+- Structure values omit MOE/PS/5m-dC parameterization.
+- No experimental ASO engagement assay integrated.
+- Genome builds other than GRCh38 were **not** used.
+- PDF tables show **readable column subsets**; full-width result tables remain in `results/*.tsv`.
+
+# Conclusions (non-confirmatory)
+
+```{r}
+cat("Both ASOs should be interpreted under chemistry-aware occupancy / RBP / structure / splicing hypotheses. Gapmer/RNase-H cleavage of SHANK3 mRNA has low support under likely_uniform_MOE. ")
+cat("The highest-scoring mechanism labels are **hypotheses only**. ")
+if (exact_n == 0) cat(cfg$ambiguity_statement, " ")
+cat("Definitive mechanism assignment requires the validation suite above, architecture disclosure, and locus-resolved CLIP/structure/functional genetics in neuron/NPC systems.\n")
+```
+
+# Reproducibility
+
+```r
+cd shank3-aso-mechanism
+Rscript -e 'targets::tar_make()'
+```
+
+Pipeline orchestrated with the `targets` package; modules in `R/01_*.R`-`R/07_*.R`; config in `_config.yml`.

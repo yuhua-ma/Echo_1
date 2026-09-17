@@ -1,0 +1,42 @@
+aso_id	context	command	status
+ASO_4_5_2_4	aso_self	RNAfold --noPS -i /workspace/shank3-aso-mechanism/data/processed/vienna/aso_self_ASO_4_5_2_4.fa	ran
+ASO_4_5_2_6	aso_self	RNAfold --noPS -i /workspace/shank3-aso-mechanism/data/processed/vienna/aso_self_ASO_4_5_2_6.fa	ran
+ASO_4_5_2_4	window	RNAfold --noPS -i /workspace/shank3-aso-mechanism/data/processed/vienna/ASO_4_5_2_4_ENST00000414786_7_tx5399_5816.fa	ran
+ASO_4_5_2_4	hybridization_approx	RNAcofold --noPS < /workspace/shank3-aso-mechanism/data/processed/vienna/ASO_4_5_2_4_ENST00000414786_7_tx5399_5816_hyb_co.fa	ran
+ASO_4_5_2_4	RNAplfold	RNAplfold -W 70 -L 40 -u 1 < /workspace/shank3-aso-mechanism/data/processed/vienna/ASO_4_5_2_4_ENST00000414786_7_tx5399_5816_pl.fa	ran
+ASO_4_5_2_4	window	RNAfold --noPS -i /workspace/shank3-aso-mechanism/data/processed/vienna/ASO_4_5_2_4_ENST00000673971_2_tx6095_6512.fa	ran
+ASO_4_5_2_4	hybridization_approx	RNAcofold --noPS < /workspace/shank3-aso-mechanism/data/processed/vienna/ASO_4_5_2_4_ENST00000673971_2_tx6095_6512_hyb_co.fa	ran
+ASO_4_5_2_4	RNAplfold	RNAplfold -W 70 -L 40 -u 1 < /workspace/shank3-aso-mechanism/data/processed/vienna/ASO_4_5_2_4_ENST00000673971_2_tx6095_6512_pl.fa	ran
+ASO_4_5_2_4	window	RNAfold --noPS -i /workspace/shank3-aso-mechanism/data/processed/vienna/ASO_4_5_2_4_ENST00000262795_7_tx5265_5682.fa	ran
+ASO_4_5_2_4	hybridization_approx	RNAcofold --noPS < /workspace/shank3-aso-mechanism/data/processed/vienna/ASO_4_5_2_4_ENST00000262795_7_tx5265_5682_hyb_co.fa	ran
+ASO_4_5_2_4	RNAplfold	RNAplfold -W 70 -L 40 -u 1 < /workspace/shank3-aso-mechanism/data/processed/vienna/ASO_4_5_2_4_ENST00000262795_7_tx5265_5682_pl.fa	ran
+ASO_4_5_2_4	window	RNAfold --noPS -i /workspace/shank3-aso-mechanism/data/processed/vienna/ASO_4_5_2_4_ENST00000445220_7_tx3867_4284.fa	ran
+ASO_4_5_2_4	hybridization_approx	RNAcofold --noPS < /workspace/shank3-aso-mechanism/data/processed/vienna/ASO_4_5_2_4_ENST00000445220_7_tx3867_4284_hyb_co.fa	ran
+ASO_4_5_2_4	RNAplfold	RNAplfold -W 70 -L 40 -u 1 < /workspace/shank3-aso-mechanism/data/processed/vienna/ASO_4_5_2_4_ENST00000445220_7_tx3867_4284_pl.fa	ran
+ASO_4_5_2_4	window	RNAfold --noPS -i /workspace/shank3-aso-mechanism/data/processed/vienna/ASO_4_5_2_4_ENST00000664402_2_tx3761_4178.fa	ran
+ASO_4_5_2_4	hybridization_approx	RNAcofold --noPS < /workspace/shank3-aso-mechanism/data/processed/vienna/ASO_4_5_2_4_ENST00000664402_2_tx3761_4178_hyb_co.fa	ran
+ASO_4_5_2_4	RNAplfold	RNAplfold -W 70 -L 40 -u 1 < /workspace/shank3-aso-mechanism/data/processed/vienna/ASO_4_5_2_4_ENST00000664402_2_tx3761_4178_pl.fa	ran
+ASO_4_5_2_4	window	RNAfold --noPS -i /workspace/shank3-aso-mechanism/data/processed/vienna/ASO_4_5_2_4_ENST00000710353_1_tx5782_6199.fa	ran
+ASO_4_5_2_4	hybridization_approx	RNAcofold --noPS < /workspace/shank3-aso-mechanism/data/processed/vienna/ASO_4_5_2_4_ENST00000710353_1_tx5782_6199_hyb_co.fa	ran
+ASO_4_5_2_4	RNAplfold	RNAplfold -W 70 -L 40 -u 1 < /workspace/shank3-aso-mechanism/data/processed/vienna/ASO_4_5_2_4_ENST00000710353_1_tx5782_6199_pl.fa	ran
+ASO_4_5_2_6	window	RNAfold --noPS -i /workspace/shank3-aso-mechanism/data/processed/vienna/ASO_4_5_2_6_ENST00000414786_7_tx5363_5780.fa	ran
+ASO_4_5_2_6	hybridization_approx	RNAcofold --noPS < /workspace/shank3-aso-mechanism/data/processed/vienna/ASO_4_5_2_6_ENST00000414786_7_tx5363_5780_hyb_co.fa	ran
+ASO_4_5_2_6	RNAplfold	RNAplfold -W 70 -L 40 -u 1 < /workspace/shank3-aso-mechanism/data/processed/vienna/ASO_4_5_2_6_ENST00000414786_7_tx5363_5780_pl.fa	ran
+ASO_4_5_2_6	window	RNAfold --noPS -i /workspace/shank3-aso-mechanism/data/processed/vienna/ASO_4_5_2_6_ENST00000673971_2_tx6059_6476.fa	ran
+ASO_4_5_2_6	hybridization_approx	RNAcofold --noPS < /workspace/shank3-aso-mechanism/data/processed/vienna/ASO_4_5_2_6_ENST00000673971_2_tx6059_6476_hyb_co.fa	ran
+ASO_4_5_2_6	RNAplfold	RNAplfold -W 70 -L 40 -u 1 < /workspace/shank3-aso-mechanism/data/processed/vienna/ASO_4_5_2_6_ENST00000673971_2_tx6059_6476_pl.fa	ran
+ASO_4_5_2_6	window	RNAfold --noPS -i /workspace/shank3-aso-mechanism/data/processed/vienna/ASO_4_5_2_6_ENST00000262795_7_tx5229_5646.fa	ran
+ASO_4_5_2_6	hybridization_approx	RNAcofold --noPS < /workspace/shank3-aso-mechanism/data/processed/vienna/ASO_4_5_2_6_ENST00000262795_7_tx5229_5646_hyb_co.fa	ran
+ASO_4_5_2_6	RNAplfold	RNAplfold -W 70 -L 40 -u 1 < /workspace/shank3-aso-mechanism/data/processed/vienna/ASO_4_5_2_6_ENST00000262795_7_tx5229_5646_pl.fa	ran
+ASO_4_5_2_6	window	RNAfold --noPS -i /workspace/shank3-aso-mechanism/data/processed/vienna/ASO_4_5_2_6_ENST00000445220_7_tx3831_4248.fa	ran
+ASO_4_5_2_6	hybridization_approx	RNAcofold --noPS < /workspace/shank3-aso-mechanism/data/processed/vienna/ASO_4_5_2_6_ENST00000445220_7_tx3831_4248_hyb_co.fa	ran
+ASO_4_5_2_6	RNAplfold	RNAplfold -W 70 -L 40 -u 1 < /workspace/shank3-aso-mechanism/data/processed/vienna/ASO_4_5_2_6_ENST00000445220_7_tx3831_4248_pl.fa	ran
+ASO_4_5_2_6	window	RNAfold --noPS -i /workspace/shank3-aso-mechanism/data/processed/vienna/ASO_4_5_2_6_ENST00000664402_2_tx3725_4142.fa	ran
+ASO_4_5_2_6	hybridization_approx	RNAcofold --noPS < /workspace/shank3-aso-mechanism/data/processed/vienna/ASO_4_5_2_6_ENST00000664402_2_tx3725_4142_hyb_co.fa	ran
+ASO_4_5_2_6	RNAplfold	RNAplfold -W 70 -L 40 -u 1 < /workspace/shank3-aso-mechanism/data/processed/vienna/ASO_4_5_2_6_ENST00000664402_2_tx3725_4142_pl.fa	ran
+ASO_4_5_2_6	window	RNAfold --noPS -i /workspace/shank3-aso-mechanism/data/processed/vienna/ASO_4_5_2_6_ENST00000659388_1_tx683_934.fa	ran
+ASO_4_5_2_6	hybridization_approx	RNAcofold --noPS < /workspace/shank3-aso-mechanism/data/processed/vienna/ASO_4_5_2_6_ENST00000659388_1_tx683_934_hyb_co.fa	ran
+ASO_4_5_2_6	RNAplfold	RNAplfold -W 70 -L 40 -u 1 < /workspace/shank3-aso-mechanism/data/processed/vienna/ASO_4_5_2_6_ENST00000659388_1_tx683_934_pl.fa	ran
+ASO_4_5_2_6	window	RNAfold --noPS -i /workspace/shank3-aso-mechanism/data/processed/vienna/ASO_4_5_2_6_ENST00000710353_1_tx5746_6163.fa	ran
+ASO_4_5_2_6	hybridization_approx	RNAcofold --noPS < /workspace/shank3-aso-mechanism/data/processed/vienna/ASO_4_5_2_6_ENST00000710353_1_tx5746_6163_hyb_co.fa	ran
+ASO_4_5_2_6	RNAplfold	RNAplfold -W 70 -L 40 -u 1 < /workspace/shank3-aso-mechanism/data/processed/vienna/ASO_4_5_2_6_ENST00000710353_1_tx5746_6163_pl.fa	ran

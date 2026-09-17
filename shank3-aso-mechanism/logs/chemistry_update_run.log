@@ -1,0 +1,47 @@
++ config dispatched
+✔ config completed [1.9s, 1.36 kB]
++ step01_sequence_qc dispatched
+2026-09-17 14:18:45 | Step 01 sequence QC complete: 2 ASOs 
+✔ step01_sequence_qc completed [555ms, 948 B]
++ report_index dispatched
+✔ report_index completed [0ms, 174 B]
++ step02_mapping dispatched
+  2135 genes were dropped because they have exons located on both strands
+  of the same reference sequence or on more than one reference sequence,
+  so cannot be represented by a single genomic range.
+  Use 'single.strand.genes.only=FALSE' to get all the genes in a
+  GRangesList object, or use suppressMessages() to suppress this message.
+2026-09-17 14:19:01 | Step 02 mapping complete. exact rows=13 
+✔ step02_mapping completed [16.6s, 1.09 kB]
++ step03_structure dispatched
+2026-09-17 14:19:06 | Step 03 structure complete. vienna_fold=TRUE 
+✔ step03_structure completed [4.8s, 2.25 kB]
++ step04_rbp dispatched
+2026-09-17 14:19:07 | Step 04 RBP analysis complete. motif_hits=101 
+✔ step04_rbp completed [575ms, 3.04 kB]
++ step05_tf dispatched
+2026-09-17 14:19:07 | Step 05 TF/chromatin skipped (non-regulatory context) 
+✔ step05_tf completed [28ms, 565 B]
++ step06_rbp_rank dispatched
+✖ step06_rbp_rank errored
+Error: unable to find an inherited method for function ‘select’ for signature ‘"tbl_df"’
+
++ step07_mechanisms dispatched
+✖ step07_mechanisms errored
+Error: could not load dependency step06_rbp_rank of target step07_mechanisms. invalid 'description' argument
+
++ step07_validation dispatched
+✖ step07_validation errored
+Error: could not load dependency step06_rbp_rank of target step07_validation. invalid 'description' argument
+
++ step07_summary dispatched
+✖ step07_summary errored
+Error: could not load dependency step07_mechanisms of target step07_summary. invalid 'description' argument
+
++ render_reports dispatched
+✖ render_reports errored
+Error: could not load dependency step07_validation of target render_reports. invalid 'description' argument
+
+✖ errored pipeline [25s, 7 completed, 0 skipped]
+Warning message:
+5 targets produced errors. Run targets::tar_meta(fields = error, complete_only = TRUE) for the messages. 

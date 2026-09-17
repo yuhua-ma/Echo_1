@@ -1,0 +1,15 @@
+resource	version	url	genome_build	download_date	download_datetime_utc	notes
+GENCODE_GTF	GENCODE Release 45	https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_45/gencode.v45.annotation.gtf.gz	GRCh38	2026-09-17	2026-09-17 14:18:45 UTC	cached
+TxDb.Hsapiens.UCSC.hg38.knownGene	3.18.0	Bioconductor AnnotationPackage	GRCh38	2026-09-17	2026-09-17 14:18:45 UTC	Primary transcript source for SHANK3 mapping
+BSgenome.Hsapiens.UCSC.hg38	1.4.5	Bioconductor BSgenome	GRCh38	2026-09-17	2026-09-17 14:18:45 UTC	Genome sequence GRCh38/hg38 only
+ENCODE_eCLIP_search	ENCODE Portal API	https://www.encodeproject.org/search/?type=Experiment&assay_title=eCLIP&assembly=GRCh38&format=json&limit=50	GRCh38	2026-09-17	2026-09-17 14:19:06 UTC	Metadata search only; peak BED download attempted separately
+POSTAR3	POSTAR3	http://postar.ncrnalab.org/	GRCh38	2026-09-17	2026-09-17 14:19:06 UTC	No automated bulk SHANK3 peak dump used; overlaps not fabricated
+oRNAment	oRNAment	https://rnabiology.ircm.qc.ca/oRNAment/	GRCh38	2026-09-17	2026-09-17 14:19:07 UTC	Motif resource referenced; bulk matrices may be unreachable
+ATtRACT	ATtRACT	https://attract.cnic.es/	GRCh38	2026-09-17	2026-09-17 14:19:07 UTC	Motif resource referenced
+RBPDB	RBPDB	http://rbpdb.ccbr.utoronto.ca/	GRCh38	2026-09-17	2026-09-17 14:19:07 UTC	Motif resource referenced
+RBP2GO	RBP2GO	https://rbp2go.dkfz.de/	GRCh38	2026-09-17	2026-09-17 14:19:07 UTC	Function annotation resource referenced
+ENCODE_TF	ENCODE Portal	https://www.encodeproject.org/	GRCh38	2026-09-17	2026-09-17 14:19:07 UTC	TF/chromatin step conditional
+ChIP-Atlas	ChIP-Atlas	https://chip-atlas.org/	GRCh38	2026-09-17	2026-09-17 14:19:07 UTC	Referenced; peaks not fabricated
+SCREEN_cCREs	SCREEN / ENCODE cCREs	https://screen.wenglab.org/	GRCh38	2026-09-17	2026-09-17 14:19:07 UTC	Referenced for enhancer/promoter context
+PS_linkage_pattern	parse_from_supplier_notation	supplier_notation_string_not_provided	GRCh38	2026-09-17	2026-09-17 14:19:38 UTC	TODO: supplier PS linkage notation string required. No PS map invented. Status=awaiting_supplier_notation.
+ASO_chemistry_config	MOE/likely_uniform_MOE/not_supported_by_current_supplier_notation	file://_config.yml#chemistry	GRCh38	2026-09-17	2026-09-17 14:19:38 UTC	Core chemistry: MOE. All bases reported in MOE brackets. Architecture: likely_uniform_MOE. Gapmer: not_supported_by_current_supplier_notation — do not assume DNA gap / RNase-H gapmer design. RNase-H direct SHANK3 mRNA: low_support. 5m-dC: reported_but_needs_confirmation (reported but unconfirmed). PS linkage pattern: parse_from_supplier_notation [awaiting_supplier_notation] — TODO: supplier notation string not provided; PS map not invented. FAM label present in supplier construct; excluded from unlabeled mechanism interpretation.

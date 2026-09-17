@@ -1,0 +1,72 @@
+species: Homo sapiens
+genome_build: GRCh38
+target_gene: SHANK3
+cell_types:
+  - neuron
+  - neural_precursor_cell
+window_upstream: 200
+window_downstream: 200
+asos:
+  - id: ASO_4_5_2_4
+    sequence: TCCTGACTGTGCGCTGGG
+  - id: ASO_4_5_2_6
+    sequence: AGGGCACTAAGCAATGTA
+chemistry:
+  # Revised supplier-informed chemistry (2026-09)
+  core_chemistry: MOE
+  all_bases_in_moe_brackets: true
+  backbone: phosphorothioate
+  # TODO: supplier PS linkage notation string not yet provided — do not invent a PS map
+  ps_linkage_pattern: parse_from_supplier_notation
+  ps_linkage_notation_string: null
+  ps_linkage_status: awaiting_supplier_notation
+  five_methyl_dC: reported_but_needs_confirmation
+  architecture: likely_uniform_MOE
+  gapmer: not_supported_by_current_supplier_notation
+  rnase_h_direct_SHANK3_mRNA: low_support
+  fam_label:
+    present_in_supplier_construct: true
+    include_in_unlabeled_mechanism: false
+  # Backward-compatible derived aliases (readers may still use these keys)
+  moe: true
+  rnase_h_compatible: low_support
+resources:
+  gencode:
+    url: https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_45/gencode.v45.annotation.gtf.gz
+    version: GENCODE Release 45
+    genome: GRCh38
+  ensembl_mart:
+    host: https://www.ensembl.org
+    dataset: hsapiens_gene_ensembl
+  encode_eclip:
+    url: https://www.encodeproject.org/search/?type=Experiment&assay_title=eCLIP&assembly=GRCh38
+    version: ENCODE Portal (live query)
+  postar3:
+    url: http://postar.ncrnalab.org/
+    version: POSTAR3
+  ornament:
+    url: https://rnabiology.ircm.qc.ca/oRNAment/
+    version: oRNAment
+  attract:
+    url: https://attract.cnic.es/
+    version: ATtRACT
+  rbpdb:
+    url: http://rbpdb.ccbr.utoronto.ca/
+    version: RBPDB
+  rbp2go:
+    url: https://rbp2go.dkfz.de/
+    version: RBP2GO
+  jaspar:
+    url: https://jaspar.elixir.no/
+    version: JASPAR
+  chip_atlas:
+    url: https://chip-atlas.org/
+    version: ChIP-Atlas
+  screen:
+    url: https://screen.wenglab.org/
+    version: SCREEN / ENCODE cCREs
+ambiguity_statement: >-
+  No exact SHANK3 transcript match was identified for one or more ASOs.
+  Mechanism interpretation therefore remains provisional: candidate loci,
+  approximate matches, and off-target screens must not be treated as a
+  confirmed SHANK3 target site.

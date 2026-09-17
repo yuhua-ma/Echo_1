@@ -1,0 +1,46 @@
+---
+title: "SHANK3 ASO RNA Structure Report"
+output:
+  html_document:
+    toc: true
+    theme: flatly
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+root <- if (file.exists("_config.yml")) getwd() else if (file.exists("../_config.yml")) normalizePath("..") else getwd()
+struct <- readr::read_tsv(file.path(root, "results/03_rna_structure.tsv"), show_col_types = FALSE)
+acc <- readr::read_tsv(file.path(root, "results/03_accessibility.tsv"), show_col_types = FALSE)
+cmds <- tryCatch(readr::read_tsv(file.path(root, "logs/03_vienna_commands.tsv"), show_col_types = FALSE), error = function(e) NULL)
+```
+
+# ViennaRNA status
+
+Structure predictions use `RNAfold` / `RNAplfold` via `system2()` only. Values are **canonical RNA approximations** and are **not** exact biochemical measurements for PS / 2'-MOE / 5m-dC ASOs.
+
+```{r}
+if (!is.null(cmds)) knitr::kable(cmds) else cat("No command log.")
+```
+
+# Structure table
+
+```{r}
+knitr::kable(struct)
+```
+
+# Accessibility
+
+```{r}
+knitr::kable(acc)
+```
+
+# Figures
+
+```{r, results='asis'}
+figs <- list.files(file.path(root, "figures/03_structure"), pattern = "[.]png$", full.names = TRUE)
+if (!length(figs)) {
+  cat("No structure figures (ViennaRNA missing or no windows).\n")
+} else {
+  for (f in figs) cat("![](", f, ")\n\n", sep = "")
+}
+```

@@ -1,0 +1,41 @@
++ step03_structure dispatched
+2026-09-15 14:06:39 | Step 03 structure complete. vienna_fold=TRUE 
+✔ step03_structure completed [5.8s, 2.25 kB]
++ step06_rbp_rank dispatched
+2026-09-15 14:06:40 | Step 06 RBP ranking complete 
+✔ step06_rbp_rank completed [230ms, 1.33 kB]
++ step07_mechanisms dispatched
+2026-09-15 14:06:40 | Step 07 mechanism ranking complete 
+✔ step07_mechanisms completed [64ms, 1.31 kB]
++ step07_summary dispatched
+
+========== SHANK3 ASO MoA PIPELINE SUMMARY ==========
+Genome build: GRCh38 only | Gene: SHANK3
+Chemistry: PS + 2'-MOE + 5m-dC | architecture: unknown | RNase-H: unknown
+Exact SHANK3 matches (rows): 13
+Approximate SHANK3 matches (rows): 1
+Transcriptome/genomic off-target hits recorded (chr22 screen): 2
+
+--- ASO_4_5_2_4 ---
+Top RBPs: PTBP2, RBFOX1, RBFOX3, SRSF1, AGO2
+Top mechanism hypothesis: RBP occlusion
+RNase-H supported/unsupported/unknown: unknown (unsupported by chemistry assumption; architecture unknown; phenotype directionally inconsistent with simple on-target RNase-H knockdown)
+
+--- ASO_4_5_2_6 ---
+Top RBPs: PTBP2, RBFOX1, RBFOX3, SRSF1, AGO2
+Top mechanism hypothesis: RBP occlusion
+RNase-H supported/unsupported/unknown: unknown (unsupported by chemistry assumption; architecture unknown; phenotype directionally inconsistent with simple on-target RNase-H knockdown)
+
+Missing info for definitive interpretation:
+  - ASO architecture (gapmer vs mixmer vs fully MOE, etc.)
+  - Experimental confirmation of on-target engagement (e.g., LNA/ASO-seq, rsmapping)
+  - Neuron/NPC eCLIP peak overlaps at the precise site
+  - Quantitative expression of candidate RBPs in the treated cell system
+  - Structure probing ± ASO with matched chemistry
+  - Functional genetics (RBP KD/OE epistasis with ASO)
+====================================================
+
+✔ step07_summary completed [60ms, 111 B]
++ render_reports dispatched
+✔ render_reports completed [5.5s, 297 B]
+✔ ended pipeline [14.1s, 5 completed, 7 skipped]
