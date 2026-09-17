@@ -4,25 +4,24 @@
 #   +3  motif hit overlapping target window AND neuronal/NPC expression prior
 #   +2  motif hit in window OR strong functional match to increased-expression phenotype
 #   +1  neuronal/NPC expression prior only OR structure-related function
-#   -2  contradictory direction vs increased SHANK3 expression phenotype (e.g., pure stabilizer
-#       occlusion would predict decrease — applied cautiously as soft penalty when only
-#       activating_stabilizing + occlusion assumed without CLIP)
+#   -2  contradictory direction vs increased SHANK3 expression phenotype
 #
 # Mechanism labels:
 #   RBP occlusion, RBP displacement, RNA-structure remodeling, RNA stabilization,
 #   RNase-H-mediated degradation, transcriptional/enhancer regulation,
 #   splicing or processing, translation regulation, off-target mechanism, unresolved
 #
-# Eight chemistry/mechanism rules:
-#   1. Architecture unknown → cannot assert gapmer design
-#   2. RNase-H compatibility unknown → RNase-H degradation not supported by chemistry assumption
-#   3. Phenotype = increased SHANK3 → canonical RNase-H knockdown is directionally inconsistent
-#      for on-target SHANK3 mRNA cleavage (unless isoform switch / feedback)
+# Chemistry/mechanism rules (revised supplier-informed chemistry):
+#   1. Architecture likely_uniform_MOE; gapmer not_supported_by_current_supplier_notation
+#   2. rnase_h_direct_SHANK3_mRNA = low_support → RNase-H cleavage strongly down-weighted
+#   3. Phenotype = increased SHANK3 → on-target RNase-H knockdown directionally inconsistent
 #   4. PS backbone → protein binding / RBP occlusion–displacement plausible
-#   5. 2'-MOE → nuclease resistance; favors occupancy over cleavage (architecture-dependent)
-#   6. All C = 5m-dC → may alter duplex/protein recognition vs unmodified DNA
+#      (PS map not invented when ps_linkage_pattern awaits supplier notation)
+#   5. Uniform MOE / all bases in MOE brackets → steric/occupancy >> RNase-H
+#   6. 5m-dC reported_but_needs_confirmation → caveat only; do not treat as confirmed
 #   7. Structure remodeling remains hypothetical without experimental DMS/SHAPE + ASO
 #   8. Sequence/database evidence alone ≠ confirmed mechanism
+#   9. FAM present in supplier construct but excluded from unlabeled mechanism interpretation
 
 rank_rbps <- function(cfg, rbp_result, struct_result = NULL) {
   suppressPackageStartupMessages(library(dplyr))
@@ -136,7 +135,7 @@ rank_rbps <- function(cfg, rbp_result, struct_result = NULL) {
     ungroup()
 
   ranked <- ranked %>%
-    left_join(top %>% select(aso_id, rbp, in_top_report), by = c("aso_id", "rbp")) %>%
+    left_join(top %>% dplyr::select(aso_id, rbp, in_top_report), by = c("aso_id", "rbp")) %>%
     mutate(in_top_report = ifelse(is.na(in_top_report), FALSE, in_top_report))
 
   out <- file.path(root, "results/06_ranked_rbps.tsv")
@@ -180,20 +179,37 @@ rank_mechanisms <- function(cfg, qc_result, map_result, struct_result, rbp_resul
       rationale[[lab]] <<- c(rationale[[lab]], paste0(if (pts >= 0) "+" else "", pts, " ", why))
     }
 
-    # Rule 1–2: architecture / RNase-H unknown
-    add("RNase-H-mediated degradation", -5,
-        "Rule2: rnase_h_compatible=unknown; architecture=unknown (Rule1: not assumed gapmer)")
+    # Rule 1–2: gapmer not supported; RNase-H direct SHANK3 mRNA low support
+    add("RNase-H-mediated degradation", -6,
+        paste0("Rule1/2: gapmer=", chem$gapmer,
+               "; rnase_h_direct_SHANK3_mRNA=", chem$rnase_h_direct_SHANK3_mRNA,
+               "; architecture=", chem$architecture))
     # Rule 3: phenotype increased expression
     add("RNase-H-mediated degradation", -3,
         "Rule3: phenotype is increased SHANK3 — on-target RNase-H cleavage typically decreases RNA")
-    add("RNA stabilization", 2, "Rule3: phenotype-compatible (stabilization)")
+    add("RNA stabilization", 2, "Rule3: phenotype-compatible (stabilization / occupancy)")
     add("RBP occlusion", 3, "Rule3/4: occlusion of repressor can increase expression; PS favors protein engagement")
     add("RBP displacement", 2, "Rule4: PS ASO may displace RBP complexes")
-    # Rule 5: MOE
-    add("RBP occlusion", 2, "Rule5: 2'-MOE favors occupancy/steric mechanisms over cleavage")
-    add("RNase-H-mediated degradation", -2, "Rule5: MOE-rich designs often reduce RNase-H activity (architecture still unknown)")
-    # Rule 6: 5m-dC
-    add("unresolved", 1, "Rule6: 5m-dC may alter recognition vs unmodified models")
+    if (identical(chem$ps_linkage_status, "awaiting_supplier_notation")) {
+      add("unresolved", 1,
+          "Rule4 caveat: PS linkage pattern awaits supplier notation — PS map not invented")
+    }
+    # Rule 5: likely uniform MOE / all bases in MOE brackets → steric/occupancy
+    if (isTRUE(chem$moe) || grepl("uniform_MOE|MOE", chem$architecture, ignore.case = TRUE)) {
+      add("RBP occlusion", 3,
+          "Rule5: likely_uniform_MOE / MOE brackets favor steric occupancy over RNase-H cleavage")
+      add("RBP displacement", 2, "Rule5: uniform MOE occupancy can displace RBPs")
+      add("RNA-structure remodeling", 1, "Rule5: steric MOE binding may remodel local structure (hypothesis)")
+      add("RNase-H-mediated degradation", -3,
+          "Rule5: uniform MOE designs have low support for RNase-H of SHANK3 mRNA")
+    }
+    # Rule 6: 5m-dC reported but unconfirmed
+    if (isTRUE(chem$five_methyl_dC_reported_unconfirmed)) {
+      add("unresolved", 1,
+          "Rule6: 5m-dC reported_but_needs_confirmation — caveat only; not treated as confirmed chemistry")
+    } else if (isTRUE(chem$five_methyl_dC_confirmed)) {
+      add("unresolved", 1, "Rule6: confirmed 5m-dC may alter recognition vs unmodified models")
+    }
     # Rule 7: structure
     if (has_struct) {
       add("RNA-structure remodeling", 2, "Rule7: site structure context available (still hypothetical)")
@@ -202,6 +218,11 @@ rank_mechanisms <- function(cfg, qc_result, map_result, struct_result, rbp_resul
     }
     # Rule 8
     add("unresolved", 2, "Rule8: sequence/DB evidence alone cannot confirm mechanism")
+    # Rule 9: FAM label
+    if (isTRUE(chem$fam_label_present) && !isTRUE(chem$fam_label_in_unlabeled_mechanism)) {
+      add("unresolved", 0,
+          "Rule9: FAM present in supplier construct but excluded from unlabeled mechanism interpretation")
+    }
 
     if (has_repressor) {
       add("RBP occlusion", 3, "Top RBPs include repressive class")
@@ -223,9 +244,10 @@ rank_mechanisms <- function(cfg, qc_result, map_result, struct_result, rbp_resul
       add("off-target mechanism", 0, "Exact SHANK3 match present; off-target still possible")
     }
 
-    # Stabilization as direct ASO effect (non-RNase-H) 
+    # Stabilization as direct ASO effect (non-RNase-H)
     add("RNA stabilization", 1, "Occupancy mechanisms can stabilize RNA in some contexts (hypothesis)")
 
+    rnase_h_status <- as.character(chem$rnase_h_direct_SHANK3_mRNA %||% "low_support")
     ord <- sort(scores, decreasing = TRUE)
     for (lab in names(ord)) {
       rows[[length(rows) + 1]] <- data.frame(
@@ -234,18 +256,29 @@ rank_mechanisms <- function(cfg, qc_result, map_result, struct_result, rbp_resul
         hypothesis_score = as.numeric(ord[[lab]]),
         rank = which(names(ord) == lab),
         is_top = which(names(ord) == lab) == 1,
-        rnase_h_status = "unknown",
+        rnase_h_status = rnase_h_status,
         rnase_h_supported = FALSE,
+        chemistry_core = chem$core_chemistry,
         chemistry_architecture = chem$architecture,
+        chemistry_gapmer = chem$gapmer,
         chemistry_moe = chem$moe,
+        chemistry_all_bases_moe = chem$all_bases_in_moe_brackets,
         chemistry_ps = identical(chem$backbone, "phosphorothioate"),
-        chemistry_5mdC = chem$five_methyl_dC,
+        chemistry_ps_linkage_status = chem$ps_linkage_status,
+        chemistry_5mdC = as.character(chem$five_methyl_dC),
+        chemistry_fam_present = chem$fam_label_present,
+        chemistry_fam_in_unlabeled_mechanism = chem$fam_label_in_unlabeled_mechanism,
         exact_shank3_match = exact,
         approximate_shank3_match = approx,
         top_rbps = paste(head(top_rbps$rbp, 5), collapse = ","),
         rationale = paste(rationale[[lab]], collapse = " || "),
         caveat = paste(
           "Hypothesis only. Do not treat as confirmed mechanism.",
+          "FAM excluded from unlabeled mechanism interpretation.",
+          if (isTRUE(chem$five_methyl_dC_reported_unconfirmed))
+            "5m-dC reported but unconfirmed." else "",
+          if (identical(chem$ps_linkage_status, "awaiting_supplier_notation"))
+            "PS linkage map awaiting supplier notation (not invented)." else "",
           if (!exact) ambiguity_statement(cfg) else ""
         ),
         status = "scored",
@@ -255,9 +288,30 @@ rank_mechanisms <- function(cfg, qc_result, map_result, struct_result, rbp_resul
     }
   }
 
+  # Provenance note for missing PS notation
+  if (identical(chem$ps_linkage_status, "awaiting_supplier_notation")) {
+    append_provenance(
+      "PS_linkage_pattern",
+      "parse_from_supplier_notation",
+      "supplier_notation_string_not_provided",
+      "GRCh38",
+      notes = paste(
+        "TODO: supplier PS linkage notation string required.",
+        "No PS map invented. Status=awaiting_supplier_notation."
+      )
+    )
+  }
+  append_provenance(
+    "ASO_chemistry_config",
+    paste(chem$core_chemistry, chem$architecture, chem$gapmer, sep = "/"),
+    "file://_config.yml#chemistry",
+    "GRCh38",
+    notes = chem$note
+  )
+
   hyp <- bind_rows(rows) %>% arrange(aso_id, rank)
   out <- file.path(root, "results/07_mechanism_hypotheses.tsv")
   write_tsv(hyp, out)
-  log_message("Step 07 mechanism ranking complete")
-  list(hypotheses = hyp, tsv = out)
+  log_message("Step 07 mechanism ranking complete (revised chemistry)")
+  list(hypotheses = hyp, tsv = out, chemistry = chem)
 }

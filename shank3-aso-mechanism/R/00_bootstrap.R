@@ -145,16 +145,76 @@ log_message <- function(..., root = project_root()) {
 }
 
 chemistry_annotation <- function(cfg) {
+  ch <- cfg$chemistry %||% list()
+  core <- ch$core_chemistry %||% (if (isTRUE(ch$moe)) "MOE" else "unknown")
+  arch <- ch$architecture %||% "unknown"
+  gapmer <- ch$gapmer %||% "unknown"
+  five_mdC_raw <- ch$five_methyl_dC
+  # Migrate legacy boolean true/false to status strings
+  if (is.logical(five_mdC_raw)) {
+    five_mdC <- if (isTRUE(five_mdC_raw)) "reported_legacy_boolean_true" else "not_reported"
+  } else {
+    five_mdC <- five_mdC_raw %||% "unknown"
+  }
+  five_mdC_confirmed <- identical(five_mdC, TRUE) ||
+    identical(tolower(as.character(five_mdC)), "true") ||
+    identical(five_mdC, "confirmed")
+  five_mdC_reported_unconfirmed <- grepl("reported|needs_confirmation|legacy", as.character(five_mdC), ignore.case = TRUE)
+
+  rnase_h <- ch$rnase_h_direct_SHANK3_mRNA %||% ch$rnase_h_compatible %||% "unknown"
+  moe_flag <- isTRUE(ch$moe) ||
+    identical(toupper(as.character(core)), "MOE") ||
+    isTRUE(ch$all_bases_in_moe_brackets) ||
+    grepl("MOE", as.character(arch), ignore.case = TRUE)
+
+  fam <- ch$fam_label %||% list()
+  fam_present <- isTRUE(fam$present_in_supplier_construct)
+  fam_in_mech <- isTRUE(fam$include_in_unlabeled_mechanism)
+
+  ps_pattern <- ch$ps_linkage_pattern %||% "unknown"
+  ps_notation <- ch$ps_linkage_notation_string
+  ps_status <- ch$ps_linkage_status %||% (
+    if (identical(ps_pattern, "parse_from_supplier_notation") &&
+        (is.null(ps_notation) || !nzchar(as.character(ps_notation)))) {
+      "awaiting_supplier_notation"
+    } else {
+      "ok"
+    }
+  )
+
   list(
-    backbone = cfg$chemistry$backbone %||% "phosphorothioate",
-    moe = isTRUE(cfg$chemistry$moe),
-    five_methyl_dC = isTRUE(cfg$chemistry$five_methyl_dC),
-    architecture = cfg$chemistry$architecture %||% "unknown",
-    rnase_h_compatible = cfg$chemistry$rnase_h_compatible %||% "unknown",
+    # New fields
+    core_chemistry = core,
+    all_bases_in_moe_brackets = isTRUE(ch$all_bases_in_moe_brackets),
+    backbone = ch$backbone %||% "phosphorothioate",
+    ps_linkage_pattern = ps_pattern,
+    ps_linkage_notation_string = ps_notation,
+    ps_linkage_status = ps_status,
+    five_methyl_dC = five_mdC,
+    five_methyl_dC_confirmed = five_mdC_confirmed,
+    five_methyl_dC_reported_unconfirmed = five_mdC_reported_unconfirmed,
+    architecture = arch,
+    gapmer = gapmer,
+    rnase_h_direct_SHANK3_mRNA = rnase_h,
+    fam_label_present = fam_present,
+    fam_label_in_unlabeled_mechanism = fam_in_mech,
+    # Backward-compatible aliases
+    moe = moe_flag,
+    rnase_h_compatible = rnase_h,
     note = paste(
-      "All cytosines annotated as 5-methyl-dC.",
-      "Architecture unknown — do not assume gapmer design.",
-      "RNase-H compatibility unknown — do not assume RNase-H activity."
+      paste0("Core chemistry: ", core, "."),
+      if (isTRUE(ch$all_bases_in_moe_brackets)) "All bases reported in MOE brackets." else "",
+      paste0("Architecture: ", arch, "."),
+      paste0("Gapmer: ", gapmer, " — do not assume DNA gap / RNase-H gapmer design."),
+      paste0("RNase-H direct SHANK3 mRNA: ", rnase_h, "."),
+      paste0("5m-dC: ", five_mdC,
+             if (five_mdC_reported_unconfirmed) " (reported but unconfirmed)." else "."),
+      paste0("PS linkage pattern: ", ps_pattern, " [", ps_status, "]",
+             if (identical(ps_status, "awaiting_supplier_notation"))
+               " — TODO: supplier notation string not provided; PS map not invented." else "."),
+      if (fam_present)
+        "FAM label present in supplier construct; excluded from unlabeled mechanism interpretation."
+      else ""
     )
   )
 }

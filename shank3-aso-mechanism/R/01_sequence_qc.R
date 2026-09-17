@@ -63,8 +63,13 @@ run_sequence_qc <- function(cfg) {
       m <- gregexpr("CG", cleaned, fixed = TRUE)[[1]]
       cpg_count <- if (m[[1]] == -1) 0L else length(m)
     }
-    # All C annotated as 5m-dC (chemistry), but canonical sequence retained
-    chem_seq <- if (valid) gsub("C", "5mC", cleaned) else NA_character_
+    # 5m-dC: reported but needs confirmation — annotate tentatively; retain caveat
+    chem_seq <- if (valid && (isTRUE(chem$five_methyl_dC_confirmed) ||
+                              isTRUE(chem$five_methyl_dC_reported_unconfirmed))) {
+      gsub("C", "5mC", cleaned)
+    } else if (valid) {
+      cleaned
+    } else NA_character_
     warnings <- c()
     if (!valid) warnings <- c(warnings, "invalid_bases")
     if (nzchar(homo %||% "")) warnings <- c(warnings, "homopolymer")
@@ -72,6 +77,15 @@ run_sequence_qc <- function(cfg) {
     if (isTRUE(hairpin_flag)) warnings <- c(warnings, "hairpin_potential")
     if (self_comp_score >= 5) warnings <- c(warnings, "self_complementarity")
     if (cpg_count >= 2) warnings <- c(warnings, "cpg_rich")
+    if (isTRUE(chem$five_methyl_dC_reported_unconfirmed)) {
+      warnings <- c(warnings, "5m-dC_reported_unconfirmed")
+    }
+    if (identical(chem$ps_linkage_status, "awaiting_supplier_notation")) {
+      warnings <- c(warnings, "PS_linkage_awaiting_supplier_notation")
+    }
+    if (isTRUE(chem$fam_label_present) && !isTRUE(chem$fam_label_in_unlabeled_mechanism)) {
+      warnings <- c(warnings, "FAM_present_excluded_from_unlabeled_mechanism")
+    }
 
     data.frame(
       aso_id = aso$id,
@@ -82,12 +96,22 @@ run_sequence_qc <- function(cfg) {
       gc_percent = gc,
       reverse_complement = rc,
       rna_compatible_sequence = rna_compat,
+      chemistry_core = chem$core_chemistry,
       chemistry_backbone = chem$backbone,
       chemistry_moe = chem$moe,
-      chemistry_five_methyl_dC = chem$five_methyl_dC,
+      chemistry_all_bases_moe = chem$all_bases_in_moe_brackets,
+      chemistry_five_methyl_dC = as.character(chem$five_methyl_dC),
+      chemistry_five_methyl_dC_confirmed = chem$five_methyl_dC_confirmed,
       chemistry_architecture = chem$architecture,
+      chemistry_gapmer = chem$gapmer,
       chemistry_rnase_h_compatible = chem$rnase_h_compatible,
-      all_C_annotated_as_5mdC = chem$five_methyl_dC,
+      chemistry_rnase_h_direct_SHANK3_mRNA = chem$rnase_h_direct_SHANK3_mRNA,
+      chemistry_ps_linkage_pattern = chem$ps_linkage_pattern,
+      chemistry_ps_linkage_status = chem$ps_linkage_status,
+      chemistry_fam_present = chem$fam_label_present,
+      chemistry_fam_in_unlabeled_mechanism = chem$fam_label_in_unlabeled_mechanism,
+      all_C_annotated_as_5mdC = isTRUE(chem$five_methyl_dC_confirmed) ||
+        isTRUE(chem$five_methyl_dC_reported_unconfirmed),
       chemistry_annotated_sequence = chem_seq,
       canonical_bases_for_alignment = cleaned,
       homopolymers = homo %||% "",
@@ -112,7 +136,14 @@ run_sequence_qc <- function(cfg) {
     dna_set <- DNAStringSet(valid_qc$cleaned_sequence)
     names(dna_set) <- paste0(
       valid_qc$aso_id,
-      "|chemistry=PS;MOE;5m-dC|architecture=unknown|rnaseH=unknown"
+      "|chemistry=", chem$core_chemistry,
+      ";PS;MOE_brackets=", chem$all_bases_in_moe_brackets,
+      "|architecture=", chem$architecture,
+      "|gapmer=", chem$gapmer,
+      "|rnaseH_SHANK3=", chem$rnase_h_direct_SHANK3_mRNA,
+      "|5m-dC=", chem$five_methyl_dC,
+      "|FAM_in_mech=", chem$fam_label_in_unlabeled_mechanism,
+      "|PS_linkage=", chem$ps_linkage_status
     )
     writeXStringSet(dna_set, out_fa)
   } else {

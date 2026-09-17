@@ -365,33 +365,42 @@ summary</a></li>
 
 <div id="chemistry-reminder" class="section level1">
 <h1>Chemistry reminder</h1>
-<p>PS backbone, 2’-MOE, all cytosines 5m-dC; architecture
-<strong>unknown</strong>; RNase-H compatibility
-<strong>unknown</strong>. Phenotype: increased SHANK3 expression for
-both ASOs.</p>
+<p>Core chemistry <strong>MOE</strong> (all bases in MOE brackets), PS
+backbone, architecture <strong>likely_uniform_MOE</strong>, gapmer
+<strong>not supported</strong>, RNase-H(SHANK3)
+<strong>low_support</strong>, 5m-dC
+<strong>reported_but_needs_confirmation</strong>, FAM present but
+excluded from unlabeled mechanism. Phenotype: increased SHANK3
+expression for both ASOs.</p>
 </div>
 <div id="top-mechanism-hypotheses" class="section level1">
 <h1>Top mechanism hypotheses</h1>
 <table>
 <colgroup>
-<col width="2%" />
-<col width="4%" />
-<col width="3%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="0%" />
 <col width="0%" />
 <col width="1%" />
-<col width="2%" />
-<col width="3%" />
-<col width="4%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="3%" />
-<col width="4%" />
-<col width="5%" />
-<col width="38%" />
-<col width="9%" />
 <col width="1%" />
-<col width="8%" />
+<col width="1%" />
+<col width="2%" />
+<col width="4%" />
+<col width="1%" />
+<col width="2%" />
+<col width="1%" />
+<col width="2%" />
+<col width="3%" />
+<col width="2%" />
+<col width="3%" />
+<col width="1%" />
+<col width="2%" />
+<col width="2%" />
+<col width="36%" />
+<col width="18%" />
+<col width="0%" />
+<col width="4%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -402,10 +411,16 @@ both ASOs.</p>
 <th align="left">is_top</th>
 <th align="left">rnase_h_status</th>
 <th align="left">rnase_h_supported</th>
+<th align="left">chemistry_core</th>
 <th align="left">chemistry_architecture</th>
+<th align="left">chemistry_gapmer</th>
 <th align="left">chemistry_moe</th>
+<th align="left">chemistry_all_bases_moe</th>
 <th align="left">chemistry_ps</th>
+<th align="left">chemistry_ps_linkage_status</th>
 <th align="left">chemistry_5mdC</th>
+<th align="left">chemistry_fam_present</th>
+<th align="left">chemistry_fam_in_unlabeled_mechanism</th>
 <th align="left">exact_shank3_match</th>
 <th align="left">approximate_shank3_match</th>
 <th align="left">top_rbps</th>
@@ -419,136 +434,192 @@ both ASOs.</p>
 <tr class="odd">
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">RBP occlusion</td>
-<td align="right">8</td>
+<td align="right">9</td>
 <td align="right">1</td>
 <td align="left">TRUE</td>
-<td align="left">unknown</td>
+<td align="left">low_support</td>
 <td align="left">FALSE</td>
-<td align="left">unknown</td>
+<td align="left">MOE</td>
+<td align="left">likely_uniform_MOE</td>
+<td align="left">not_supported_by_current_supplier_notation</td>
 <td align="left">TRUE</td>
 <td align="left">TRUE</td>
 <td align="left">TRUE</td>
+<td align="left">awaiting_supplier_notation</td>
+<td align="left">reported_but_needs_confirmation</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
 <td align="left">TRUE</td>
 <td align="left">TRUE</td>
 <td align="left">PTBP2,RBFOX1,RBFOX3,SRSF1,AGO2</td>
 <td align="left">+3 Rule3/4: occlusion of repressor can increase
-expression; PS favors protein engagement || +2 Rule5: 2’-MOE favors
-occupancy/steric mechanisms over cleavage || +3 Top RBPs include
-repressive class</td>
-<td align="left">Hypothesis only. Do not treat as confirmed
-mechanism.</td>
+expression; PS favors protein engagement || +3 Rule5: likely_uniform_MOE
+/ MOE brackets favor steric occupancy over RNase-H cleavage || +3 Top
+RBPs include repressive class</td>
+<td align="left">Hypothesis only. Do not treat as confirmed mechanism.
+FAM excluded from unlabeled mechanism interpretation. 5m-dC reported but
+unconfirmed. PS linkage map awaiting supplier notation (not
+invented).</td>
 <td align="left">scored</td>
 <td align="left">Chemistry-aware ranking; not experimental proof</td>
 </tr>
 <tr class="even">
 <td align="left">ASO_4_5_2_4</td>
-<td align="left">RNA stabilization</td>
-<td align="right">3</td>
+<td align="left">RBP displacement</td>
+<td align="right">4</td>
 <td align="right">2</td>
 <td align="left">FALSE</td>
-<td align="left">unknown</td>
+<td align="left">low_support</td>
 <td align="left">FALSE</td>
-<td align="left">unknown</td>
+<td align="left">MOE</td>
+<td align="left">likely_uniform_MOE</td>
+<td align="left">not_supported_by_current_supplier_notation</td>
 <td align="left">TRUE</td>
 <td align="left">TRUE</td>
 <td align="left">TRUE</td>
+<td align="left">awaiting_supplier_notation</td>
+<td align="left">reported_but_needs_confirmation</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
 <td align="left">TRUE</td>
 <td align="left">TRUE</td>
 <td align="left">PTBP2,RBFOX1,RBFOX3,SRSF1,AGO2</td>
-<td align="left">+2 Rule3: phenotype-compatible (stabilization) || +1
-Occupancy mechanisms can stabilize RNA in some contexts
-(hypothesis)</td>
-<td align="left">Hypothesis only. Do not treat as confirmed
-mechanism.</td>
+<td align="left">+2 Rule4: PS ASO may displace RBP complexes || +2
+Rule5: uniform MOE occupancy can displace RBPs</td>
+<td align="left">Hypothesis only. Do not treat as confirmed mechanism.
+FAM excluded from unlabeled mechanism interpretation. 5m-dC reported but
+unconfirmed. PS linkage map awaiting supplier notation (not
+invented).</td>
 <td align="left">scored</td>
 <td align="left">Chemistry-aware ranking; not experimental proof</td>
 </tr>
 <tr class="odd">
 <td align="left">ASO_4_5_2_4</td>
-<td align="left">splicing or processing</td>
-<td align="right">3</td>
+<td align="left">unresolved</td>
+<td align="right">4</td>
 <td align="right">3</td>
 <td align="left">FALSE</td>
-<td align="left">unknown</td>
+<td align="left">low_support</td>
 <td align="left">FALSE</td>
-<td align="left">unknown</td>
+<td align="left">MOE</td>
+<td align="left">likely_uniform_MOE</td>
+<td align="left">not_supported_by_current_supplier_notation</td>
 <td align="left">TRUE</td>
 <td align="left">TRUE</td>
 <td align="left">TRUE</td>
+<td align="left">awaiting_supplier_notation</td>
+<td align="left">reported_but_needs_confirmation</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
 <td align="left">TRUE</td>
 <td align="left">TRUE</td>
 <td align="left">PTBP2,RBFOX1,RBFOX3,SRSF1,AGO2</td>
-<td align="left">+3 Splicing-related RBP prioritized</td>
-<td align="left">Hypothesis only. Do not treat as confirmed
-mechanism.</td>
+<td align="left">+1 Rule4 caveat: PS linkage pattern awaits supplier
+notation — PS map not invented || +1 Rule6: 5m-dC
+reported_but_needs_confirmation — caveat only; not treated as confirmed
+chemistry || +2 Rule8: sequence/DB evidence alone cannot confirm
+mechanism || +0 Rule9: FAM present in supplier construct but excluded
+from unlabeled mechanism interpretation</td>
+<td align="left">Hypothesis only. Do not treat as confirmed mechanism.
+FAM excluded from unlabeled mechanism interpretation. 5m-dC reported but
+unconfirmed. PS linkage map awaiting supplier notation (not
+invented).</td>
 <td align="left">scored</td>
 <td align="left">Chemistry-aware ranking; not experimental proof</td>
 </tr>
 <tr class="even">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">RBP occlusion</td>
-<td align="right">8</td>
+<td align="right">9</td>
 <td align="right">1</td>
 <td align="left">TRUE</td>
-<td align="left">unknown</td>
+<td align="left">low_support</td>
 <td align="left">FALSE</td>
-<td align="left">unknown</td>
+<td align="left">MOE</td>
+<td align="left">likely_uniform_MOE</td>
+<td align="left">not_supported_by_current_supplier_notation</td>
 <td align="left">TRUE</td>
 <td align="left">TRUE</td>
 <td align="left">TRUE</td>
+<td align="left">awaiting_supplier_notation</td>
+<td align="left">reported_but_needs_confirmation</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
 <td align="left">TRUE</td>
 <td align="left">FALSE</td>
 <td align="left">PTBP2,RBFOX1,RBFOX3,SRSF1,AGO2</td>
 <td align="left">+3 Rule3/4: occlusion of repressor can increase
-expression; PS favors protein engagement || +2 Rule5: 2’-MOE favors
-occupancy/steric mechanisms over cleavage || +3 Top RBPs include
-repressive class</td>
-<td align="left">Hypothesis only. Do not treat as confirmed
-mechanism.</td>
+expression; PS favors protein engagement || +3 Rule5: likely_uniform_MOE
+/ MOE brackets favor steric occupancy over RNase-H cleavage || +3 Top
+RBPs include repressive class</td>
+<td align="left">Hypothesis only. Do not treat as confirmed mechanism.
+FAM excluded from unlabeled mechanism interpretation. 5m-dC reported but
+unconfirmed. PS linkage map awaiting supplier notation (not
+invented).</td>
 <td align="left">scored</td>
 <td align="left">Chemistry-aware ranking; not experimental proof</td>
 </tr>
 <tr class="odd">
 <td align="left">ASO_4_5_2_6</td>
-<td align="left">RNA stabilization</td>
-<td align="right">3</td>
+<td align="left">RBP displacement</td>
+<td align="right">4</td>
 <td align="right">2</td>
 <td align="left">FALSE</td>
-<td align="left">unknown</td>
+<td align="left">low_support</td>
 <td align="left">FALSE</td>
-<td align="left">unknown</td>
+<td align="left">MOE</td>
+<td align="left">likely_uniform_MOE</td>
+<td align="left">not_supported_by_current_supplier_notation</td>
 <td align="left">TRUE</td>
 <td align="left">TRUE</td>
 <td align="left">TRUE</td>
+<td align="left">awaiting_supplier_notation</td>
+<td align="left">reported_but_needs_confirmation</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
 <td align="left">TRUE</td>
 <td align="left">FALSE</td>
 <td align="left">PTBP2,RBFOX1,RBFOX3,SRSF1,AGO2</td>
-<td align="left">+2 Rule3: phenotype-compatible (stabilization) || +1
-Occupancy mechanisms can stabilize RNA in some contexts
-(hypothesis)</td>
-<td align="left">Hypothesis only. Do not treat as confirmed
-mechanism.</td>
+<td align="left">+2 Rule4: PS ASO may displace RBP complexes || +2
+Rule5: uniform MOE occupancy can displace RBPs</td>
+<td align="left">Hypothesis only. Do not treat as confirmed mechanism.
+FAM excluded from unlabeled mechanism interpretation. 5m-dC reported but
+unconfirmed. PS linkage map awaiting supplier notation (not
+invented).</td>
 <td align="left">scored</td>
 <td align="left">Chemistry-aware ranking; not experimental proof</td>
 </tr>
 <tr class="even">
 <td align="left">ASO_4_5_2_6</td>
-<td align="left">splicing or processing</td>
-<td align="right">3</td>
+<td align="left">unresolved</td>
+<td align="right">4</td>
 <td align="right">3</td>
 <td align="left">FALSE</td>
-<td align="left">unknown</td>
+<td align="left">low_support</td>
 <td align="left">FALSE</td>
-<td align="left">unknown</td>
+<td align="left">MOE</td>
+<td align="left">likely_uniform_MOE</td>
+<td align="left">not_supported_by_current_supplier_notation</td>
 <td align="left">TRUE</td>
 <td align="left">TRUE</td>
 <td align="left">TRUE</td>
+<td align="left">awaiting_supplier_notation</td>
+<td align="left">reported_but_needs_confirmation</td>
+<td align="left">TRUE</td>
+<td align="left">FALSE</td>
 <td align="left">TRUE</td>
 <td align="left">FALSE</td>
 <td align="left">PTBP2,RBFOX1,RBFOX3,SRSF1,AGO2</td>
-<td align="left">+3 Splicing-related RBP prioritized</td>
-<td align="left">Hypothesis only. Do not treat as confirmed
-mechanism.</td>
+<td align="left">+1 Rule4 caveat: PS linkage pattern awaits supplier
+notation — PS map not invented || +1 Rule6: 5m-dC
+reported_but_needs_confirmation — caveat only; not treated as confirmed
+chemistry || +2 Rule8: sequence/DB evidence alone cannot confirm
+mechanism || +0 Rule9: FAM present in supplier construct but excluded
+from unlabeled mechanism interpretation</td>
+<td align="left">Hypothesis only. Do not treat as confirmed mechanism.
+FAM excluded from unlabeled mechanism interpretation. 5m-dC reported but
+unconfirmed. PS linkage map awaiting supplier notation (not
+invented).</td>
 <td align="left">scored</td>
 <td align="left">Chemistry-aware ranking; not experimental proof</td>
 </tr>
@@ -558,10 +629,14 @@ mechanism.</td>
 <div id="pipeline-summary" class="section level1">
 <h1>Pipeline summary</h1>
 <p>Exact SHANK3 match rows: 13 Approximate SHANK3 match rows: 1
-Off-target rows (chr22): 2 ASO_4_5_2_4 top RBPs: PTBP2, RBFOX1, RBFOX3,
-SRSF1, AGO2 ASO_4_5_2_4 top mechanism: RBP occlusion ASO_4_5_2_6 top
-RBPs: PTBP2, RBFOX1, RBFOX3, SRSF1, AGO2 ASO_4_5_2_6 top mechanism: RBP
-occlusion RNase-H: unknown/unsupported by assumption</p>
+Off-target rows (chr22): 2 Chemistry architecture: likely_uniform_MOE
+Gapmer: not_supported_by_current_supplier_notation RNase-H direct SHANK3
+mRNA: low_support 5m-dC: reported_but_needs_confirmation PS linkage
+status: awaiting_supplier_notation FAM in unlabeled mechanism: FALSE
+ASO_4_5_2_4 top RBPs: PTBP2, RBFOX1, RBFOX3, SRSF1, AGO2 ASO_4_5_2_4 top
+mechanism: RBP occlusion ASO_4_5_2_6 top RBPs: PTBP2, RBFOX1, RBFOX3,
+SRSF1, AGO2 ASO_4_5_2_6 top mechanism: RBP occlusion RNase-H:
+low_support</p>
 <p>See <code>FINAL_SHANK3_ASO_MECHANISM_REPORT.Rmd</code> for the full
 15-section report.</p>
 </div>

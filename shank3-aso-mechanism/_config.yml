@@ -12,11 +12,24 @@ asos:
   - id: ASO_4_5_2_6
     sequence: AGGGCACTAAGCAATGTA
 chemistry:
+  # Revised supplier-informed chemistry (2026-09)
+  core_chemistry: MOE
+  all_bases_in_moe_brackets: true
   backbone: phosphorothioate
+  # TODO: supplier PS linkage notation string not yet provided — do not invent a PS map
+  ps_linkage_pattern: parse_from_supplier_notation
+  ps_linkage_notation_string: null
+  ps_linkage_status: awaiting_supplier_notation
+  five_methyl_dC: reported_but_needs_confirmation
+  architecture: likely_uniform_MOE
+  gapmer: not_supported_by_current_supplier_notation
+  rnase_h_direct_SHANK3_mRNA: low_support
+  fam_label:
+    present_in_supplier_construct: true
+    include_in_unlabeled_mechanism: false
+  # Backward-compatible derived aliases (readers may still use these keys)
   moe: true
-  five_methyl_dC: true
-  architecture: unknown
-  rnase_h_compatible: unknown
+  rnase_h_compatible: low_support
 resources:
   gencode:
     url: https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_45/gencode.v45.annotation.gtf.gz

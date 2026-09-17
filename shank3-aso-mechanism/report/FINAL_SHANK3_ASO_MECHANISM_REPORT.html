@@ -11,7 +11,7 @@
 
 <meta name="author" content="R / targets chemistry-aware bioinformatics workflow" />
 
-<meta name="date" content="2026-09-16" />
+<meta name="date" content="2026-09-17" />
 
 <title>FINAL SHANK3 ASO Mechanism-of-Action Report</title>
 
@@ -372,7 +372,7 @@ display: none;
 Report</h1>
 <h4 class="author">R / targets chemistry-aware bioinformatics
 workflow</h4>
-<h4 class="date">2026-09-16</h4>
+<h4 class="date">2026-09-17</h4>
 
 </div>
 
@@ -424,12 +424,16 @@ information</a></li>
 <p>This report summarizes a reproducible <strong>R-only</strong>
 workflow for two SHANK3-associated ASOs (ASO_4_5_2_4, ASO_4_5_2_6) in
 <em>Homo sapiens</em> <strong>GRCh38</strong>. Both ASOs are linked to
-<strong>increased SHANK3 expression</strong>. Chemistry is
-<strong>phosphorothioate + 2’-MOE with all cytosines as
-5-methyl-dC</strong>; <strong>architecture is unknown</strong> and
-<strong>RNase-H compatibility is unknown</strong>. Sequence/database
-evidence is used only to generate <strong>ranked hypotheses</strong>,
-not confirmed mechanisms.</p>
+<strong>increased SHANK3 expression</strong>. Chemistry (revised):
+<strong>core=MOE</strong>, all bases in MOE brackets, <strong>PS
+backbone</strong>, architecture <strong>likely_uniform_MOE</strong>,
+gapmer <strong>not supported</strong> by current supplier notation,
+RNase-H direct SHANK3 mRNA <strong>low_support</strong>, 5m-dC
+<strong>reported but needs confirmation</strong>, FAM present in
+supplier construct but <strong>excluded</strong> from unlabeled
+mechanism interpretation. Sequence/database evidence is used only to
+generate <strong>ranked hypotheses</strong>, not confirmed
+mechanisms.</p>
 <table>
 <colgroup>
 <col width="32%" />
@@ -463,17 +467,17 @@ occlusion</td>
 chemistry</h1>
 <table>
 <colgroup>
-<col width="6%" />
-<col width="10%" />
-<col width="5%" />
-<col width="6%" />
-<col width="10%" />
-<col width="7%" />
-<col width="13%" />
-<col width="12%" />
-<col width="16%" />
+<col width="4%" />
 <col width="6%" />
 <col width="3%" />
+<col width="3%" />
+<col width="6%" />
+<col width="4%" />
+<col width="11%" />
+<col width="8%" />
+<col width="10%" />
+<col width="38%" />
+<col width="2%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -498,10 +502,10 @@ chemistry</h1>
 <td align="left">38.89</td>
 <td align="left">phosphorothioate</td>
 <td align="left">T</td>
-<td align="left">T</td>
-<td align="left">unknown</td>
-<td align="left">unknown</td>
-<td align="left">NA</td>
+<td align="left">reported_but_needs_confirmation</td>
+<td align="left">likely_uniform_MOE</td>
+<td align="left">low_support</td>
+<td align="left">5m-dC_reported_unconfirmed;PS_linkage_awaiting_supplier_notation;FAM_present_excluded_from_unlabeled_mechanism</td>
 <td align="left">ok</td>
 </tr>
 <tr class="even">
@@ -511,19 +515,25 @@ chemistry</h1>
 <td align="left">27.78</td>
 <td align="left">phosphorothioate</td>
 <td align="left">T</td>
-<td align="left">T</td>
-<td align="left">unknown</td>
-<td align="left">unknown</td>
-<td align="left">NA</td>
+<td align="left">reported_but_needs_confirmation</td>
+<td align="left">likely_uniform_MOE</td>
+<td align="left">low_support</td>
+<td align="left">5m-dC_reported_unconfirmed;PS_linkage_awaiting_supplier_notation;FAM_present_excluded_from_unlabeled_mechanism</td>
 <td align="left">ok</td>
 </tr>
 </tbody>
 </table>
 <p><em>Full table (all columns):</em>
 <code>results/01_sequence_qc.tsv</code></p>
-<p><strong>Chemistry rules applied throughout:</strong> do not assume
-gapmer architecture; do not assume RNase-H activity; annotate every C as
-5m-dC while retaining canonical bases for alignment/motifs.</p>
+<p><strong>Chemistry rules applied throughout:</strong> treat
+architecture as <strong>likely_uniform_MOE</strong>; gapmer <strong>not
+supported</strong> by current supplier notation; RNase-H cleavage of
+SHANK3 mRNA is <strong>low_support</strong> (favor
+steric/occupancy/RBP/structure); 5m-dC is
+<strong>reported_but_needs_confirmation</strong> (caveat only); FAM
+label is noted but <strong>not</strong> included in unlabeled mechanism
+interpretation; PS linkage pattern awaits supplier notation (map not
+invented). Canonical bases retained for alignment/motifs.</p>
 </div>
 <div id="target-gene-and-phenotype-context" class="section level1" number="3">
 <h1><span class="header-section-number">3</span> Target gene and
@@ -1157,7 +1167,7 @@ are invented.</strong></p>
 <td align="left">GRCh38</td>
 <td align="left">ENCODE_API_live</td>
 <td align="left"><a href="https://www.encodeproject.org/search/?type=Experiment&amp;assay_title=eCLIP&amp;assembly=GRCh38" class="uri">https://www.encodeproject.org/search/?type=Experiment&amp;assay_title=eCLIP&amp;assembly=GRCh38</a></td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">metadata_only_no_peak_overlap</td>
 <td align="left">eCLIP peak BED files not auto-downloaded for SHANK3
 locus in this run; POSTAR3 requires interactive/query UI; no peak…</td>
@@ -1182,7 +1192,7 @@ locus in this run; POSTAR3 requires interactive/query UI; no peak…</td>
 <td align="left">GRCh38</td>
 <td align="left">ENCODE_API_live</td>
 <td align="left"><a href="https://www.encodeproject.org/search/?type=Experiment&amp;assay_title=eCLIP&amp;assembly=GRCh38" class="uri">https://www.encodeproject.org/search/?type=Experiment&amp;assay_title=eCLIP&amp;assembly=GRCh38</a></td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">metadata_only_no_peak_overlap</td>
 <td align="left">eCLIP peak BED files not auto-downloaded for SHANK3
 locus in this run; POSTAR3 requires interactive/query UI; no peak…</td>
@@ -1207,7 +1217,7 @@ locus in this run; POSTAR3 requires interactive/query UI; no peak…</td>
 <td align="left">GRCh38</td>
 <td align="left">ENCODE_API_live</td>
 <td align="left"><a href="https://www.encodeproject.org/search/?type=Experiment&amp;assay_title=eCLIP&amp;assembly=GRCh38" class="uri">https://www.encodeproject.org/search/?type=Experiment&amp;assay_title=eCLIP&amp;assembly=GRCh38</a></td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">metadata_only_no_peak_overlap</td>
 <td align="left">eCLIP peak BED files not auto-downloaded for SHANK3
 locus in this run; POSTAR3 requires interactive/query UI; no peak…</td>
@@ -1232,7 +1242,7 @@ locus in this run; POSTAR3 requires interactive/query UI; no peak…</td>
 <td align="left">GRCh38</td>
 <td align="left">ENCODE_API_live</td>
 <td align="left"><a href="https://www.encodeproject.org/search/?type=Experiment&amp;assay_title=eCLIP&amp;assembly=GRCh38" class="uri">https://www.encodeproject.org/search/?type=Experiment&amp;assay_title=eCLIP&amp;assembly=GRCh38</a></td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">metadata_only_no_peak_overlap</td>
 <td align="left">eCLIP peak BED files not auto-downloaded for SHANK3
 locus in this run; POSTAR3 requires interactive/query UI; no peak…</td>
@@ -1257,7 +1267,7 @@ locus in this run; POSTAR3 requires interactive/query UI; no peak…</td>
 <td align="left">GRCh38</td>
 <td align="left">ENCODE_API_live</td>
 <td align="left"><a href="https://www.encodeproject.org/search/?type=Experiment&amp;assay_title=eCLIP&amp;assembly=GRCh38" class="uri">https://www.encodeproject.org/search/?type=Experiment&amp;assay_title=eCLIP&amp;assembly=GRCh38</a></td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">metadata_only_no_peak_overlap</td>
 <td align="left">eCLIP peak BED files not auto-downloaded for SHANK3
 locus in this run; POSTAR3 requires interactive/query UI; no peak…</td>
@@ -1282,7 +1292,7 @@ locus in this run; POSTAR3 requires interactive/query UI; no peak…</td>
 <td align="left">GRCh38</td>
 <td align="left">ENCODE_API_live</td>
 <td align="left"><a href="https://www.encodeproject.org/search/?type=Experiment&amp;assay_title=eCLIP&amp;assembly=GRCh38" class="uri">https://www.encodeproject.org/search/?type=Experiment&amp;assay_title=eCLIP&amp;assembly=GRCh38</a></td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">metadata_only_no_peak_overlap</td>
 <td align="left">eCLIP peak BED files not auto-downloaded for SHANK3
 locus in this run; POSTAR3 requires interactive/query UI; no peak…</td>
@@ -1349,7 +1359,7 @@ locus in this run; POSTAR3 requires interactive/query UI; no peak…</td>
 <td align="left">weak</td>
 <td align="left">curated_consensus_v1</td>
 <td align="left">ATtRACT/RBPDB-style consensus (curated)</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">motif_scan_ok</td>
 <td align="left">Consensus motif approx; not CLIP-validated at this
 locus</td>
@@ -1368,7 +1378,7 @@ locus</td>
 <td align="left">weak</td>
 <td align="left">curated_consensus_v1</td>
 <td align="left">ATtRACT/RBPDB-style consensus (curated)</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">motif_scan_ok</td>
 <td align="left">Consensus motif approx; not CLIP-validated at this
 locus</td>
@@ -1387,7 +1397,7 @@ locus</td>
 <td align="left">weak</td>
 <td align="left">curated_consensus_v1</td>
 <td align="left">ATtRACT/RBPDB-style consensus (curated)</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">motif_scan_ok</td>
 <td align="left">Consensus motif approx; not CLIP-validated at this
 locus</td>
@@ -1406,7 +1416,7 @@ locus</td>
 <td align="left">weak</td>
 <td align="left">curated_consensus_v1</td>
 <td align="left">ATtRACT/RBPDB-style consensus (curated)</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">motif_scan_ok</td>
 <td align="left">Consensus motif approx; not CLIP-validated at this
 locus</td>
@@ -1425,7 +1435,7 @@ locus</td>
 <td align="left">weak</td>
 <td align="left">curated_consensus_v1</td>
 <td align="left">ATtRACT/RBPDB-style consensus (curated)</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">motif_scan_ok</td>
 <td align="left">Consensus motif approx; not CLIP-validated at this
 locus</td>
@@ -1444,7 +1454,7 @@ locus</td>
 <td align="left">weak</td>
 <td align="left">curated_consensus_v1</td>
 <td align="left">ATtRACT/RBPDB-style consensus (curated)</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">motif_scan_ok</td>
 <td align="left">Consensus motif approx; not CLIP-validated at this
 locus</td>
@@ -1463,7 +1473,7 @@ locus</td>
 <td align="left">weak</td>
 <td align="left">curated_consensus_v1</td>
 <td align="left">ATtRACT/RBPDB-style consensus (curated)</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">motif_scan_ok</td>
 <td align="left">Consensus motif approx; not CLIP-validated at this
 locus</td>
@@ -1482,7 +1492,7 @@ locus</td>
 <td align="left">weak</td>
 <td align="left">curated_consensus_v1</td>
 <td align="left">ATtRACT/RBPDB-style consensus (curated)</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">motif_scan_ok</td>
 <td align="left">Consensus motif approx; not CLIP-validated at this
 locus</td>
@@ -1501,7 +1511,7 @@ locus</td>
 <td align="left">weak</td>
 <td align="left">curated_consensus_v1</td>
 <td align="left">ATtRACT/RBPDB-style consensus (curated)</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">motif_scan_ok</td>
 <td align="left">Consensus motif approx; not CLIP-validated at this
 locus</td>
@@ -1520,7 +1530,7 @@ locus</td>
 <td align="left">weak</td>
 <td align="left">curated_consensus_v1</td>
 <td align="left">ATtRACT/RBPDB-style consensus (curated)</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">motif_scan_ok</td>
 <td align="left">Consensus motif approx; not CLIP-validated at this
 locus</td>
@@ -1539,7 +1549,7 @@ locus</td>
 <td align="left">weak</td>
 <td align="left">curated_consensus_v1</td>
 <td align="left">ATtRACT/RBPDB-style consensus (curated)</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">motif_scan_ok</td>
 <td align="left">Consensus motif approx; not CLIP-validated at this
 locus</td>
@@ -1558,7 +1568,7 @@ locus</td>
 <td align="left">weak</td>
 <td align="left">curated_consensus_v1</td>
 <td align="left">ATtRACT/RBPDB-style consensus (curated)</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">motif_scan_ok</td>
 <td align="left">Consensus motif approx; not CLIP-validated at this
 locus</td>
@@ -1577,7 +1587,7 @@ locus</td>
 <td align="left">weak</td>
 <td align="left">curated_consensus_v1</td>
 <td align="left">ATtRACT/RBPDB-style consensus (curated)</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">motif_scan_ok</td>
 <td align="left">Consensus motif approx; not CLIP-validated at this
 locus</td>
@@ -1596,7 +1606,7 @@ locus</td>
 <td align="left">weak</td>
 <td align="left">curated_consensus_v1</td>
 <td align="left">ATtRACT/RBPDB-style consensus (curated)</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">motif_scan_ok</td>
 <td align="left">Consensus motif approx; not CLIP-validated at this
 locus</td>
@@ -1615,7 +1625,7 @@ locus</td>
 <td align="left">weak</td>
 <td align="left">curated_consensus_v1</td>
 <td align="left">ATtRACT/RBPDB-style consensus (curated)</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">motif_scan_ok</td>
 <td align="left">Consensus motif approx; not CLIP-validated at this
 locus</td>
@@ -1634,7 +1644,7 @@ locus</td>
 <td align="left">weak</td>
 <td align="left">curated_consensus_v1</td>
 <td align="left">ATtRACT/RBPDB-style consensus (curated)</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">motif_scan_ok</td>
 <td align="left">Consensus motif approx; not CLIP-validated at this
 locus</td>
@@ -1653,7 +1663,7 @@ locus</td>
 <td align="left">weak</td>
 <td align="left">curated_consensus_v1</td>
 <td align="left">ATtRACT/RBPDB-style consensus (curated)</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">motif_scan_ok</td>
 <td align="left">Consensus motif approx; not CLIP-validated at this
 locus</td>
@@ -1672,7 +1682,7 @@ locus</td>
 <td align="left">weak</td>
 <td align="left">curated_consensus_v1</td>
 <td align="left">ATtRACT/RBPDB-style consensus (curated)</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">motif_scan_ok</td>
 <td align="left">Consensus motif approx; not CLIP-validated at this
 locus</td>
@@ -1691,7 +1701,7 @@ locus</td>
 <td align="left">weak</td>
 <td align="left">curated_consensus_v1</td>
 <td align="left">ATtRACT/RBPDB-style consensus (curated)</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">motif_scan_ok</td>
 <td align="left">Consensus motif approx; not CLIP-validated at this
 locus</td>
@@ -1710,7 +1720,7 @@ locus</td>
 <td align="left">weak</td>
 <td align="left">curated_consensus_v1</td>
 <td align="left">ATtRACT/RBPDB-style consensus (curated)</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">motif_scan_ok</td>
 <td align="left">Consensus motif approx; not CLIP-validated at this
 locus</td>
@@ -1729,7 +1739,7 @@ locus</td>
 <td align="left">weak</td>
 <td align="left">curated_consensus_v1</td>
 <td align="left">ATtRACT/RBPDB-style consensus (curated)</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">motif_scan_ok</td>
 <td align="left">Consensus motif approx; not CLIP-validated at this
 locus</td>
@@ -1748,7 +1758,7 @@ locus</td>
 <td align="left">weak</td>
 <td align="left">curated_consensus_v1</td>
 <td align="left">ATtRACT/RBPDB-style consensus (curated)</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">motif_scan_ok</td>
 <td align="left">Consensus motif approx; not CLIP-validated at this
 locus</td>
@@ -1767,7 +1777,7 @@ locus</td>
 <td align="left">weak</td>
 <td align="left">curated_consensus_v1</td>
 <td align="left">ATtRACT/RBPDB-style consensus (curated)</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">motif_scan_ok</td>
 <td align="left">Consensus motif approx; not CLIP-validated at this
 locus</td>
@@ -1786,7 +1796,7 @@ locus</td>
 <td align="left">weak</td>
 <td align="left">curated_consensus_v1</td>
 <td align="left">ATtRACT/RBPDB-style consensus (curated)</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">motif_scan_ok</td>
 <td align="left">Consensus motif approx; not CLIP-validated at this
 locus</td>
@@ -1805,7 +1815,7 @@ locus</td>
 <td align="left">weak</td>
 <td align="left">curated_consensus_v1</td>
 <td align="left">ATtRACT/RBPDB-style consensus (curated)</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">motif_scan_ok</td>
 <td align="left">Consensus motif approx; not CLIP-validated at this
 locus</td>
@@ -1824,7 +1834,7 @@ locus</td>
 <td align="left">weak</td>
 <td align="left">curated_consensus_v1</td>
 <td align="left">ATtRACT/RBPDB-style consensus (curated)</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">motif_scan_ok</td>
 <td align="left">Consensus motif approx; not CLIP-validated at this
 locus</td>
@@ -1843,7 +1853,7 @@ locus</td>
 <td align="left">weak</td>
 <td align="left">curated_consensus_v1</td>
 <td align="left">ATtRACT/RBPDB-style consensus (curated)</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">motif_scan_ok</td>
 <td align="left">Consensus motif approx; not CLIP-validated at this
 locus</td>
@@ -1862,7 +1872,7 @@ locus</td>
 <td align="left">weak</td>
 <td align="left">curated_consensus_v1</td>
 <td align="left">ATtRACT/RBPDB-style consensus (curated)</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">motif_scan_ok</td>
 <td align="left">Consensus motif approx; not CLIP-validated at this
 locus</td>
@@ -1881,7 +1891,7 @@ locus</td>
 <td align="left">weak</td>
 <td align="left">curated_consensus_v1</td>
 <td align="left">ATtRACT/RBPDB-style consensus (curated)</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">motif_scan_ok</td>
 <td align="left">Consensus motif approx; not CLIP-validated at this
 locus</td>
@@ -1900,7 +1910,7 @@ locus</td>
 <td align="left">weak</td>
 <td align="left">curated_consensus_v1</td>
 <td align="left">ATtRACT/RBPDB-style consensus (curated)</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">motif_scan_ok</td>
 <td align="left">Consensus motif approx; not CLIP-validated at this
 locus</td>
@@ -1955,7 +1965,7 @@ locus</td>
 <td align="left">binary_prior</td>
 <td align="left">curated_v1</td>
 <td align="left">literature_curated_neuronal_RBP_set</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">prior_annotation</td>
 <td align="left">Not a quantitative ENCODE/GTEx measurement; flag as
 prior only</td>
@@ -1970,7 +1980,7 @@ prior only</td>
 <td align="left">binary_prior</td>
 <td align="left">curated_v1</td>
 <td align="left">literature_curated_neuronal_RBP_set</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">prior_annotation</td>
 <td align="left">Not a quantitative ENCODE/GTEx measurement; flag as
 prior only</td>
@@ -1985,7 +1995,7 @@ prior only</td>
 <td align="left">binary_prior</td>
 <td align="left">curated_v1</td>
 <td align="left">literature_curated_neuronal_RBP_set</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">prior_annotation</td>
 <td align="left">Not a quantitative ENCODE/GTEx measurement; flag as
 prior only</td>
@@ -2000,7 +2010,7 @@ prior only</td>
 <td align="left">binary_prior</td>
 <td align="left">curated_v1</td>
 <td align="left">literature_curated_neuronal_RBP_set</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">prior_annotation</td>
 <td align="left">Not a quantitative ENCODE/GTEx measurement; flag as
 prior only</td>
@@ -2015,7 +2025,7 @@ prior only</td>
 <td align="left">binary_prior</td>
 <td align="left">curated_v1</td>
 <td align="left">literature_curated_neuronal_RBP_set</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">prior_annotation</td>
 <td align="left">Not a quantitative ENCODE/GTEx measurement; flag as
 prior only</td>
@@ -2030,7 +2040,7 @@ prior only</td>
 <td align="left">binary_prior</td>
 <td align="left">curated_v1</td>
 <td align="left">literature_curated_neuronal_RBP_set</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">prior_annotation</td>
 <td align="left">Not a quantitative ENCODE/GTEx measurement; flag as
 prior only</td>
@@ -2045,7 +2055,7 @@ prior only</td>
 <td align="left">binary_prior</td>
 <td align="left">curated_v1</td>
 <td align="left">literature_curated_neuronal_RBP_set</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">prior_annotation</td>
 <td align="left">Not a quantitative ENCODE/GTEx measurement; flag as
 prior only</td>
@@ -2060,7 +2070,7 @@ prior only</td>
 <td align="left">binary_prior</td>
 <td align="left">curated_v1</td>
 <td align="left">literature_curated_neuronal_RBP_set</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">prior_annotation</td>
 <td align="left">Not a quantitative ENCODE/GTEx measurement; flag as
 prior only</td>
@@ -2075,7 +2085,7 @@ prior only</td>
 <td align="left">binary_prior</td>
 <td align="left">curated_v1</td>
 <td align="left">literature_curated_neuronal_RBP_set</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">prior_annotation</td>
 <td align="left">Not a quantitative ENCODE/GTEx measurement; flag as
 prior only</td>
@@ -2090,7 +2100,7 @@ prior only</td>
 <td align="left">binary_prior</td>
 <td align="left">curated_v1</td>
 <td align="left">literature_curated_neuronal_RBP_set</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">prior_annotation</td>
 <td align="left">Not a quantitative ENCODE/GTEx measurement; flag as
 prior only</td>
@@ -2105,7 +2115,7 @@ prior only</td>
 <td align="left">binary_prior</td>
 <td align="left">curated_v1</td>
 <td align="left">literature_curated_neuronal_RBP_set</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">prior_annotation</td>
 <td align="left">Not a quantitative ENCODE/GTEx measurement; flag as
 prior only</td>
@@ -2120,7 +2130,7 @@ prior only</td>
 <td align="left">binary_prior</td>
 <td align="left">curated_v1</td>
 <td align="left">literature_curated_neuronal_RBP_set</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">prior_annotation</td>
 <td align="left">Not a quantitative ENCODE/GTEx measurement; flag as
 prior only</td>
@@ -2135,7 +2145,7 @@ prior only</td>
 <td align="left">binary_prior</td>
 <td align="left">curated_v1</td>
 <td align="left">literature_curated_neuronal_RBP_set</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">prior_annotation</td>
 <td align="left">Not a quantitative ENCODE/GTEx measurement; flag as
 prior only</td>
@@ -2150,7 +2160,7 @@ prior only</td>
 <td align="left">binary_prior</td>
 <td align="left">curated_v1</td>
 <td align="left">literature_curated_neuronal_RBP_set</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">prior_annotation</td>
 <td align="left">Not a quantitative ENCODE/GTEx measurement; flag as
 prior only</td>
@@ -2165,7 +2175,7 @@ prior only</td>
 <td align="left">binary_prior</td>
 <td align="left">curated_v1</td>
 <td align="left">literature_curated_neuronal_RBP_set</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">prior_annotation</td>
 <td align="left">Not a quantitative ENCODE/GTEx measurement; flag as
 prior only</td>
@@ -2180,7 +2190,7 @@ prior only</td>
 <td align="left">binary_prior</td>
 <td align="left">curated_v1</td>
 <td align="left">literature_curated_neuronal_RBP_set</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">prior_annotation</td>
 <td align="left">Not a quantitative ENCODE/GTEx measurement; flag as
 prior only</td>
@@ -2195,7 +2205,7 @@ prior only</td>
 <td align="left">binary_prior</td>
 <td align="left">curated_v1</td>
 <td align="left">literature_curated_neuronal_RBP_set</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">prior_annotation</td>
 <td align="left">Not a quantitative ENCODE/GTEx measurement; flag as
 prior only</td>
@@ -2210,7 +2220,7 @@ prior only</td>
 <td align="left">binary_prior</td>
 <td align="left">curated_v1</td>
 <td align="left">literature_curated_neuronal_RBP_set</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">prior_annotation</td>
 <td align="left">Not a quantitative ENCODE/GTEx measurement; flag as
 prior only</td>
@@ -2225,7 +2235,7 @@ prior only</td>
 <td align="left">binary_prior</td>
 <td align="left">curated_v1</td>
 <td align="left">literature_curated_neuronal_RBP_set</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">prior_annotation</td>
 <td align="left">Not a quantitative ENCODE/GTEx measurement; flag as
 prior only</td>
@@ -2240,7 +2250,7 @@ prior only</td>
 <td align="left">binary_prior</td>
 <td align="left">curated_v1</td>
 <td align="left">literature_curated_neuronal_RBP_set</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">prior_annotation</td>
 <td align="left">Not a quantitative ENCODE/GTEx measurement; flag as
 prior only</td>
@@ -2296,7 +2306,7 @@ annotation</h2>
 confirmed in this run</td>
 <td align="left">RBP2GO</td>
 <td align="left"><a href="https://rbp2go.dkfz.de/" class="uri">https://rbp2go.dkfz.de/</a></td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">curated_annotation</td>
 <td align="left">Functional labels are priors; not proof of SHANK3
 engagement</td>
@@ -2312,7 +2322,7 @@ engagement</td>
 confirmed in this run</td>
 <td align="left">RBP2GO</td>
 <td align="left"><a href="https://rbp2go.dkfz.de/" class="uri">https://rbp2go.dkfz.de/</a></td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">curated_annotation</td>
 <td align="left">Functional labels are priors; not proof of SHANK3
 engagement</td>
@@ -2328,7 +2338,7 @@ engagement</td>
 confirmed in this run</td>
 <td align="left">RBP2GO</td>
 <td align="left"><a href="https://rbp2go.dkfz.de/" class="uri">https://rbp2go.dkfz.de/</a></td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">curated_annotation</td>
 <td align="left">Functional labels are priors; not proof of SHANK3
 engagement</td>
@@ -2344,7 +2354,7 @@ engagement</td>
 confirmed in this run</td>
 <td align="left">RBP2GO</td>
 <td align="left"><a href="https://rbp2go.dkfz.de/" class="uri">https://rbp2go.dkfz.de/</a></td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">curated_annotation</td>
 <td align="left">Functional labels are priors; not proof of SHANK3
 engagement</td>
@@ -2360,7 +2370,7 @@ engagement</td>
 confirmed in this run</td>
 <td align="left">RBP2GO</td>
 <td align="left"><a href="https://rbp2go.dkfz.de/" class="uri">https://rbp2go.dkfz.de/</a></td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">curated_annotation</td>
 <td align="left">Functional labels are priors; not proof of SHANK3
 engagement</td>
@@ -2376,7 +2386,7 @@ engagement</td>
 confirmed in this run</td>
 <td align="left">RBP2GO</td>
 <td align="left"><a href="https://rbp2go.dkfz.de/" class="uri">https://rbp2go.dkfz.de/</a></td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">curated_annotation</td>
 <td align="left">Functional labels are priors; not proof of SHANK3
 engagement</td>
@@ -2392,7 +2402,7 @@ engagement</td>
 confirmed in this run</td>
 <td align="left">RBP2GO</td>
 <td align="left"><a href="https://rbp2go.dkfz.de/" class="uri">https://rbp2go.dkfz.de/</a></td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">curated_annotation</td>
 <td align="left">Functional labels are priors; not proof of SHANK3
 engagement</td>
@@ -2408,7 +2418,7 @@ engagement</td>
 confirmed in this run</td>
 <td align="left">RBP2GO</td>
 <td align="left"><a href="https://rbp2go.dkfz.de/" class="uri">https://rbp2go.dkfz.de/</a></td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">curated_annotation</td>
 <td align="left">Functional labels are priors; not proof of SHANK3
 engagement</td>
@@ -2424,7 +2434,7 @@ engagement</td>
 confirmed in this run</td>
 <td align="left">RBP2GO</td>
 <td align="left"><a href="https://rbp2go.dkfz.de/" class="uri">https://rbp2go.dkfz.de/</a></td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">curated_annotation</td>
 <td align="left">Functional labels are priors; not proof of SHANK3
 engagement</td>
@@ -2440,7 +2450,7 @@ engagement</td>
 confirmed in this run</td>
 <td align="left">RBP2GO</td>
 <td align="left"><a href="https://rbp2go.dkfz.de/" class="uri">https://rbp2go.dkfz.de/</a></td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">curated_annotation</td>
 <td align="left">Functional labels are priors; not proof of SHANK3
 engagement</td>
@@ -2456,7 +2466,7 @@ engagement</td>
 confirmed in this run</td>
 <td align="left">RBP2GO</td>
 <td align="left"><a href="https://rbp2go.dkfz.de/" class="uri">https://rbp2go.dkfz.de/</a></td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">curated_annotation</td>
 <td align="left">Functional labels are priors; not proof of SHANK3
 engagement</td>
@@ -2472,7 +2482,7 @@ engagement</td>
 confirmed in this run</td>
 <td align="left">RBP2GO</td>
 <td align="left"><a href="https://rbp2go.dkfz.de/" class="uri">https://rbp2go.dkfz.de/</a></td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">curated_annotation</td>
 <td align="left">Functional labels are priors; not proof of SHANK3
 engagement</td>
@@ -2488,7 +2498,7 @@ engagement</td>
 confirmed in this run</td>
 <td align="left">RBP2GO</td>
 <td align="left"><a href="https://rbp2go.dkfz.de/" class="uri">https://rbp2go.dkfz.de/</a></td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">curated_annotation</td>
 <td align="left">Functional labels are priors; not proof of SHANK3
 engagement</td>
@@ -2504,7 +2514,7 @@ engagement</td>
 confirmed in this run</td>
 <td align="left">RBP2GO</td>
 <td align="left"><a href="https://rbp2go.dkfz.de/" class="uri">https://rbp2go.dkfz.de/</a></td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">curated_annotation</td>
 <td align="left">Functional labels are priors; not proof of SHANK3
 engagement</td>
@@ -2520,7 +2530,7 @@ engagement</td>
 confirmed in this run</td>
 <td align="left">RBP2GO</td>
 <td align="left"><a href="https://rbp2go.dkfz.de/" class="uri">https://rbp2go.dkfz.de/</a></td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">curated_annotation</td>
 <td align="left">Functional labels are priors; not proof of SHANK3
 engagement</td>
@@ -2536,7 +2546,7 @@ engagement</td>
 confirmed in this run</td>
 <td align="left">RBP2GO</td>
 <td align="left"><a href="https://rbp2go.dkfz.de/" class="uri">https://rbp2go.dkfz.de/</a></td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">curated_annotation</td>
 <td align="left">Functional labels are priors; not proof of SHANK3
 engagement</td>
@@ -2552,7 +2562,7 @@ engagement</td>
 confirmed in this run</td>
 <td align="left">RBP2GO</td>
 <td align="left"><a href="https://rbp2go.dkfz.de/" class="uri">https://rbp2go.dkfz.de/</a></td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">curated_annotation</td>
 <td align="left">Functional labels are priors; not proof of SHANK3
 engagement</td>
@@ -2568,7 +2578,7 @@ engagement</td>
 confirmed in this run</td>
 <td align="left">RBP2GO</td>
 <td align="left"><a href="https://rbp2go.dkfz.de/" class="uri">https://rbp2go.dkfz.de/</a></td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">curated_annotation</td>
 <td align="left">Functional labels are priors; not proof of SHANK3
 engagement</td>
@@ -2584,7 +2594,7 @@ engagement</td>
 confirmed in this run</td>
 <td align="left">RBP2GO</td>
 <td align="left"><a href="https://rbp2go.dkfz.de/" class="uri">https://rbp2go.dkfz.de/</a></td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">curated_annotation</td>
 <td align="left">Functional labels are priors; not proof of SHANK3
 engagement</td>
@@ -2600,7 +2610,7 @@ engagement</td>
 confirmed in this run</td>
 <td align="left">RBP2GO</td>
 <td align="left"><a href="https://rbp2go.dkfz.de/" class="uri">https://rbp2go.dkfz.de/</a></td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">curated_annotation</td>
 <td align="left">Functional labels are priors; not proof of SHANK3
 engagement</td>
@@ -2831,7 +2841,7 @@ classified as nuclear
 regulatory/enhancer/promoter/antisense/intron…</td>
 <td align="left">GRCh38</td>
 <td align="left">NA</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">skipped_not_regulatory_context</td>
 <td align="left">No TF inference on RNA; step gated by locus class</td>
 </tr>
@@ -2852,7 +2862,7 @@ classified as nuclear
 regulatory/enhancer/promoter/antisense/intron…</td>
 <td align="left">GRCh38</td>
 <td align="left">NA</td>
-<td align="left">2026-09-15</td>
+<td align="left">2026-09-17</td>
 <td align="left">skipped_not_regulatory_context</td>
 <td align="left">No TF inference on RNA; step gated by locus class</td>
 </tr>
@@ -2864,21 +2874,23 @@ regulatory/enhancer/promoter/antisense/intron…</td>
 <div id="chemistry-aware-mechanism-ranking" class="section level1" number="9">
 <h1><span class="header-section-number">9</span> Chemistry-aware
 mechanism ranking</h1>
-<p>Eight chemistry/mechanism rules are applied (architecture unknown;
-RNase-H unknown; phenotype direction; PS protein engagement; MOE
-occupancy bias; 5m-dC caveats; structure hypothetical; sequence !=
+<p>Chemistry/mechanism rules apply the revised supplier-informed
+chemistry (likely_uniform_MOE; gapmer not supported; RNase-H direct
+SHANK3 mRNA low_support; PS protein engagement with linkage map pending;
+MOE steric/occupancy bias; 5m-dC reported-unconfirmed caveat; FAM
+excluded from unlabeled mechanism; structure hypothetical; sequence !=
 proof). Labels scored as hypotheses only.</p>
-<table>
+<table style="width:100%;">
 <colgroup>
 <col width="3%" />
 <col width="1%" />
-<col width="7%" />
-<col width="5%" />
-<col width="4%" />
 <col width="6%" />
-<col width="10%" />
-<col width="42%" />
-<col width="17%" />
+<col width="4%" />
+<col width="3%" />
+<col width="5%" />
+<col width="8%" />
+<col width="34%" />
+<col width="32%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -2898,129 +2910,137 @@ proof). Labels scored as hypotheses only.</p>
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">1</td>
 <td align="left">RBP occlusion</td>
-<td align="left">8</td>
-<td align="left">unknown</td>
+<td align="left">9</td>
+<td align="left">low_support</td>
 <td align="left">T</td>
 <td align="left">PTBP2,RBFOX1,RBFOX3,SRSF1,AGO2</td>
 <td align="left">+3 Rule3/4: occlusion of repressor can increase
-expression; PS favors protein engagement || +2 Rule5: 2’-MOE favors
-o…</td>
-<td align="left">Hypothesis only. Do not treat as confirmed
-mechanism.</td>
+expression; PS favors protein engagement || +3 Rule5:
+likely_uniform_…</td>
+<td align="left">Hypothesis only. Do not treat as confirmed mechanism.
+FAM excluded from unlabeled mechanism interpretation. 5m-dC rep…</td>
 </tr>
 <tr class="even">
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">2</td>
-<td align="left">RNA stabilization</td>
-<td align="left">3</td>
-<td align="left">unknown</td>
+<td align="left">RBP displacement</td>
+<td align="left">4</td>
+<td align="left">low_support</td>
 <td align="left">T</td>
 <td align="left">PTBP2,RBFOX1,RBFOX3,SRSF1,AGO2</td>
-<td align="left">+2 Rule3: phenotype-compatible (stabilization) || +1
-Occupancy mechanisms can stabilize RNA in some contexts (hypothe…</td>
-<td align="left">Hypothesis only. Do not treat as confirmed
-mechanism.</td>
+<td align="left">+2 Rule4: PS ASO may displace RBP complexes || +2
+Rule5: uniform MOE occupancy can displace RBPs</td>
+<td align="left">Hypothesis only. Do not treat as confirmed mechanism.
+FAM excluded from unlabeled mechanism interpretation. 5m-dC rep…</td>
 </tr>
 <tr class="odd">
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">3</td>
-<td align="left">splicing or processing</td>
-<td align="left">3</td>
-<td align="left">unknown</td>
+<td align="left">unresolved</td>
+<td align="left">4</td>
+<td align="left">low_support</td>
 <td align="left">T</td>
 <td align="left">PTBP2,RBFOX1,RBFOX3,SRSF1,AGO2</td>
-<td align="left">+3 Splicing-related RBP prioritized</td>
-<td align="left">Hypothesis only. Do not treat as confirmed
-mechanism.</td>
+<td align="left">+1 Rule4 caveat: PS linkage pattern awaits supplier
+notation — PS map not invented || +1 Rule6: 5m-dC reported_but_ne…</td>
+<td align="left">Hypothesis only. Do not treat as confirmed mechanism.
+FAM excluded from unlabeled mechanism interpretation. 5m-dC rep…</td>
 </tr>
 <tr class="even">
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">4</td>
-<td align="left">unresolved</td>
+<td align="left">RNA-structure remodeling</td>
 <td align="left">3</td>
-<td align="left">unknown</td>
+<td align="left">low_support</td>
 <td align="left">T</td>
 <td align="left">PTBP2,RBFOX1,RBFOX3,SRSF1,AGO2</td>
-<td align="left">+1 Rule6: 5m-dC may alter recognition vs unmodified
-models || +2 Rule8: sequence/DB evidence alone cannot confirm mec…</td>
-<td align="left">Hypothesis only. Do not treat as confirmed
-mechanism.</td>
+<td align="left">+1 Rule5: steric MOE binding may remodel local
+structure (hypothesis) || +2 Rule7: site structure context available
+(…</td>
+<td align="left">Hypothesis only. Do not treat as confirmed mechanism.
+FAM excluded from unlabeled mechanism interpretation. 5m-dC rep…</td>
 </tr>
 <tr class="odd">
 <td align="left">ASO_4_5_2_4</td>
 <td align="left">5</td>
-<td align="left">RBP displacement</td>
-<td align="left">2</td>
-<td align="left">unknown</td>
+<td align="left">RNA stabilization</td>
+<td align="left">3</td>
+<td align="left">low_support</td>
 <td align="left">T</td>
 <td align="left">PTBP2,RBFOX1,RBFOX3,SRSF1,AGO2</td>
-<td align="left">+2 Rule4: PS ASO may displace RBP complexes</td>
-<td align="left">Hypothesis only. Do not treat as confirmed
-mechanism.</td>
+<td align="left">+2 Rule3: phenotype-compatible (stabilization /
+occupancy) || +1 Occupancy mechanisms can stabilize RNA in some
+conte…</td>
+<td align="left">Hypothesis only. Do not treat as confirmed mechanism.
+FAM excluded from unlabeled mechanism interpretation. 5m-dC rep…</td>
 </tr>
 <tr class="even">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">1</td>
 <td align="left">RBP occlusion</td>
-<td align="left">8</td>
-<td align="left">unknown</td>
+<td align="left">9</td>
+<td align="left">low_support</td>
 <td align="left">T</td>
 <td align="left">PTBP2,RBFOX1,RBFOX3,SRSF1,AGO2</td>
 <td align="left">+3 Rule3/4: occlusion of repressor can increase
-expression; PS favors protein engagement || +2 Rule5: 2’-MOE favors
-o…</td>
-<td align="left">Hypothesis only. Do not treat as confirmed
-mechanism.</td>
+expression; PS favors protein engagement || +3 Rule5:
+likely_uniform_…</td>
+<td align="left">Hypothesis only. Do not treat as confirmed mechanism.
+FAM excluded from unlabeled mechanism interpretation. 5m-dC rep…</td>
 </tr>
 <tr class="odd">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">2</td>
-<td align="left">RNA stabilization</td>
-<td align="left">3</td>
-<td align="left">unknown</td>
+<td align="left">RBP displacement</td>
+<td align="left">4</td>
+<td align="left">low_support</td>
 <td align="left">T</td>
 <td align="left">PTBP2,RBFOX1,RBFOX3,SRSF1,AGO2</td>
-<td align="left">+2 Rule3: phenotype-compatible (stabilization) || +1
-Occupancy mechanisms can stabilize RNA in some contexts (hypothe…</td>
-<td align="left">Hypothesis only. Do not treat as confirmed
-mechanism.</td>
+<td align="left">+2 Rule4: PS ASO may displace RBP complexes || +2
+Rule5: uniform MOE occupancy can displace RBPs</td>
+<td align="left">Hypothesis only. Do not treat as confirmed mechanism.
+FAM excluded from unlabeled mechanism interpretation. 5m-dC rep…</td>
 </tr>
 <tr class="even">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">3</td>
-<td align="left">splicing or processing</td>
-<td align="left">3</td>
-<td align="left">unknown</td>
+<td align="left">unresolved</td>
+<td align="left">4</td>
+<td align="left">low_support</td>
 <td align="left">T</td>
 <td align="left">PTBP2,RBFOX1,RBFOX3,SRSF1,AGO2</td>
-<td align="left">+3 Splicing-related RBP prioritized</td>
-<td align="left">Hypothesis only. Do not treat as confirmed
-mechanism.</td>
+<td align="left">+1 Rule4 caveat: PS linkage pattern awaits supplier
+notation — PS map not invented || +1 Rule6: 5m-dC reported_but_ne…</td>
+<td align="left">Hypothesis only. Do not treat as confirmed mechanism.
+FAM excluded from unlabeled mechanism interpretation. 5m-dC rep…</td>
 </tr>
 <tr class="odd">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">4</td>
-<td align="left">unresolved</td>
+<td align="left">RNA-structure remodeling</td>
 <td align="left">3</td>
-<td align="left">unknown</td>
+<td align="left">low_support</td>
 <td align="left">T</td>
 <td align="left">PTBP2,RBFOX1,RBFOX3,SRSF1,AGO2</td>
-<td align="left">+1 Rule6: 5m-dC may alter recognition vs unmodified
-models || +2 Rule8: sequence/DB evidence alone cannot confirm mec…</td>
-<td align="left">Hypothesis only. Do not treat as confirmed
-mechanism.</td>
+<td align="left">+1 Rule5: steric MOE binding may remodel local
+structure (hypothesis) || +2 Rule7: site structure context available
+(…</td>
+<td align="left">Hypothesis only. Do not treat as confirmed mechanism.
+FAM excluded from unlabeled mechanism interpretation. 5m-dC rep…</td>
 </tr>
 <tr class="even">
 <td align="left">ASO_4_5_2_6</td>
 <td align="left">5</td>
-<td align="left">RBP displacement</td>
-<td align="left">2</td>
-<td align="left">unknown</td>
+<td align="left">RNA stabilization</td>
+<td align="left">3</td>
+<td align="left">low_support</td>
 <td align="left">T</td>
 <td align="left">PTBP2,RBFOX1,RBFOX3,SRSF1,AGO2</td>
-<td align="left">+2 Rule4: PS ASO may displace RBP complexes</td>
-<td align="left">Hypothesis only. Do not treat as confirmed
-mechanism.</td>
+<td align="left">+2 Rule3: phenotype-compatible (stabilization /
+occupancy) || +1 Occupancy mechanisms can stabilize RNA in some
+conte…</td>
+<td align="left">Hypothesis only. Do not treat as confirmed mechanism.
+FAM excluded from unlabeled mechanism interpretation. 5m-dC rep…</td>
 </tr>
 </tbody>
 </table>
@@ -3036,9 +3056,9 @@ interpretation</h1>
 <ul>
 <li>Top mechanism hypothesis: <strong>RBP occlusion</strong></li>
 <li>Top RBPs: PTBP2, RBFOX1, RBFOX3, SRSF1, AGO2</li>
-<li>RNase-H: <strong>unknown</strong> (unsupported by chemistry
-assumption; architecture unknown; phenotype argues against simple
-on-target RNase-H knockdown)</li>
+<li>RNase-H: <strong>low_support</strong> (gapmer not supported;
+likely_uniform_MOE favors steric/occupancy; phenotype argues against
+simple on-target RNase-H knockdown)</li>
 <li>Exact SHANK3 match present: TRUE</li>
 </ul>
 </div>
@@ -3048,9 +3068,9 @@ on-target RNase-H knockdown)</li>
 <ul>
 <li>Top mechanism hypothesis: <strong>RBP occlusion</strong></li>
 <li>Top RBPs: PTBP2, RBFOX1, RBFOX3, SRSF1, AGO2</li>
-<li>RNase-H: <strong>unknown</strong> (unsupported by chemistry
-assumption; architecture unknown; phenotype argues against simple
-on-target RNase-H knockdown)</li>
+<li>RNase-H: <strong>low_support</strong> (gapmer not supported;
+likely_uniform_MOE favors steric/occupancy; phenotype argues against
+simple on-target RNase-H knockdown)</li>
 <li>Exact SHANK3 match present: TRUE</li>
 </ul>
 </div>
@@ -3075,8 +3095,8 @@ recommended (each states which hypothesis it tests):</p>
 <col width="2%" />
 <col width="5%" />
 <col width="20%" />
-<col width="29%" />
-<col width="38%" />
+<col width="27%" />
+<col width="40%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3162,7 +3182,7 @@ repressive_splicing)</td>
 <td align="left">RNase-H cleavage assay in vitro with cognate chemistry
 (architecture test)</td>
 <td align="left">Tests whether chemistry/architecture supports RNase-H
-(expected unknown/unsupported unless gapmer confirmed)</td>
+(expected low_support under likely_uniform_MOE; gapmer not supp…</td>
 </tr>
 <tr class="even">
 <td align="left">ASO_4_5_2_4</td>
@@ -3268,7 +3288,7 @@ repressive_splicing)</td>
 <td align="left">RNase-H cleavage assay in vitro with cognate chemistry
 (architecture test)</td>
 <td align="left">Tests whether chemistry/architecture supports RNase-H
-(expected unknown/unsupported unless gapmer confirmed)</td>
+(expected low_support under likely_uniform_MOE; gapmer not supp…</td>
 </tr>
 <tr class="even">
 <td align="left">ASO_4_5_2_6</td>
@@ -3374,7 +3394,7 @@ context_dependent)</td>
 <td align="left">RNase-H cleavage assay in vitro with cognate chemistry
 (architecture test)</td>
 <td align="left">Tests whether chemistry/architecture supports RNase-H
-(expected unknown/unsupported unless gapmer confirmed)</td>
+(expected low_support under likely_uniform_MOE; gapmer not supp…</td>
 </tr>
 <tr class="even">
 <td align="left">ASO_4_5_2_4</td>
@@ -3480,7 +3500,7 @@ context_dependent)</td>
 <td align="left">RNase-H cleavage assay in vitro with cognate chemistry
 (architecture test)</td>
 <td align="left">Tests whether chemistry/architecture supports RNase-H
-(expected unknown/unsupported unless gapmer confirmed)</td>
+(expected low_support under likely_uniform_MOE; gapmer not supp…</td>
 </tr>
 <tr class="even">
 <td align="left">ASO_4_5_2_6</td>
@@ -3586,7 +3606,7 @@ context_dependent)</td>
 <td align="left">RNase-H cleavage assay in vitro with cognate chemistry
 (architecture test)</td>
 <td align="left">Tests whether chemistry/architecture supports RNase-H
-(expected unknown/unsupported unless gapmer confirmed)</td>
+(expected low_support under likely_uniform_MOE; gapmer not supp…</td>
 </tr>
 <tr class="even">
 <td align="left">ASO_4_5_2_4</td>
@@ -3692,7 +3712,7 @@ context_dependent)</td>
 <td align="left">RNase-H cleavage assay in vitro with cognate chemistry
 (architecture test)</td>
 <td align="left">Tests whether chemistry/architecture supports RNase-H
-(expected unknown/unsupported unless gapmer confirmed)</td>
+(expected low_support under likely_uniform_MOE; gapmer not supp…</td>
 </tr>
 <tr class="even">
 <td align="left">ASO_4_5_2_6</td>
@@ -3735,13 +3755,13 @@ translation regulation hypothesized</td>
 provenance</h1>
 <table>
 <colgroup>
-<col width="12%" />
-<col width="7%" />
-<col width="38%" />
-<col width="4%" />
-<col width="4%" />
 <col width="8%" />
-<col width="23%" />
+<col width="17%" />
+<col width="28%" />
+<col width="3%" />
+<col width="3%" />
+<col width="6%" />
+<col width="31%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3760,17 +3780,17 @@ provenance</h1>
 <td align="left">GENCODE Release 45</td>
 <td align="left"><a href="https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_45/gencode.v45.annotation.gtf.gz" class="uri">https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_45/gencode.v45.annotation.gtf.gz</a></td>
 <td align="left">GRCh38</td>
-<td align="left">2026-09-15</td>
-<td align="left">2026-09-15 14:00:41 UTC</td>
-<td align="left">Full GENCODE annotation GTF ok</td>
+<td align="left">2026-09-17</td>
+<td align="left">2026-09-17 14:18:45 UTC</td>
+<td align="left">cached</td>
 </tr>
 <tr class="even">
 <td align="left">TxDb.Hsapiens.UCSC.hg38.knownGene</td>
 <td align="left">3.18.0</td>
 <td align="left">Bioconductor AnnotationPackage</td>
 <td align="left">GRCh38</td>
-<td align="left">2026-09-15</td>
-<td align="left">2026-09-15 14:00:41 UTC</td>
+<td align="left">2026-09-17</td>
+<td align="left">2026-09-17 14:18:45 UTC</td>
 <td align="left">Primary transcript source for SHANK3 mapping</td>
 </tr>
 <tr class="odd">
@@ -3778,8 +3798,8 @@ provenance</h1>
 <td align="left">1.4.5</td>
 <td align="left">Bioconductor BSgenome</td>
 <td align="left">GRCh38</td>
-<td align="left">2026-09-15</td>
-<td align="left">2026-09-15 14:00:41 UTC</td>
+<td align="left">2026-09-17</td>
+<td align="left">2026-09-17 14:18:45 UTC</td>
 <td align="left">Genome sequence GRCh38/hg38 only</td>
 </tr>
 <tr class="even">
@@ -3787,8 +3807,8 @@ provenance</h1>
 <td align="left">ENCODE Portal API</td>
 <td align="left"><a href="https://www.encodeproject.org/search/?type=Experiment&amp;assay_title=eCLIP&amp;assembly=GRCh38&amp;format=json&amp;limit=50" class="uri">https://www.encodeproject.org/search/?type=Experiment&amp;assay_title=eCLIP&amp;assembly=GRCh38&amp;format=json&amp;limit=50</a></td>
 <td align="left">GRCh38</td>
-<td align="left">2026-09-15</td>
-<td align="left">2026-09-15 14:00:58 UTC</td>
+<td align="left">2026-09-17</td>
+<td align="left">2026-09-17 14:19:06 UTC</td>
 <td align="left">Metadata search only; peak BED download attempted
 separately</td>
 </tr>
@@ -3797,8 +3817,8 @@ separately</td>
 <td align="left">POSTAR3</td>
 <td align="left"><a href="http://postar.ncrnalab.org/" class="uri">http://postar.ncrnalab.org/</a></td>
 <td align="left">GRCh38</td>
-<td align="left">2026-09-15</td>
-<td align="left">2026-09-15 14:00:58 UTC</td>
+<td align="left">2026-09-17</td>
+<td align="left">2026-09-17 14:19:06 UTC</td>
 <td align="left">No automated bulk SHANK3 peak dump used; overlaps not
 fabricated</td>
 </tr>
@@ -3807,8 +3827,8 @@ fabricated</td>
 <td align="left">oRNAment</td>
 <td align="left"><a href="https://rnabiology.ircm.qc.ca/oRNAment/" class="uri">https://rnabiology.ircm.qc.ca/oRNAment/</a></td>
 <td align="left">GRCh38</td>
-<td align="left">2026-09-15</td>
-<td align="left">2026-09-15 14:00:58 UTC</td>
+<td align="left">2026-09-17</td>
+<td align="left">2026-09-17 14:19:07 UTC</td>
 <td align="left">Motif resource referenced; bulk matrices may be
 unreachable</td>
 </tr>
@@ -3817,8 +3837,8 @@ unreachable</td>
 <td align="left">ATtRACT</td>
 <td align="left"><a href="https://attract.cnic.es/" class="uri">https://attract.cnic.es/</a></td>
 <td align="left">GRCh38</td>
-<td align="left">2026-09-15</td>
-<td align="left">2026-09-15 14:00:58 UTC</td>
+<td align="left">2026-09-17</td>
+<td align="left">2026-09-17 14:19:07 UTC</td>
 <td align="left">Motif resource referenced</td>
 </tr>
 <tr class="even">
@@ -3826,8 +3846,8 @@ unreachable</td>
 <td align="left">RBPDB</td>
 <td align="left"><a href="http://rbpdb.ccbr.utoronto.ca/" class="uri">http://rbpdb.ccbr.utoronto.ca/</a></td>
 <td align="left">GRCh38</td>
-<td align="left">2026-09-15</td>
-<td align="left">2026-09-15 14:00:58 UTC</td>
+<td align="left">2026-09-17</td>
+<td align="left">2026-09-17 14:19:07 UTC</td>
 <td align="left">Motif resource referenced</td>
 </tr>
 <tr class="odd">
@@ -3835,8 +3855,8 @@ unreachable</td>
 <td align="left">RBP2GO</td>
 <td align="left"><a href="https://rbp2go.dkfz.de/" class="uri">https://rbp2go.dkfz.de/</a></td>
 <td align="left">GRCh38</td>
-<td align="left">2026-09-15</td>
-<td align="left">2026-09-15 14:00:58 UTC</td>
+<td align="left">2026-09-17</td>
+<td align="left">2026-09-17 14:19:07 UTC</td>
 <td align="left">Function annotation resource referenced</td>
 </tr>
 <tr class="even">
@@ -3844,8 +3864,8 @@ unreachable</td>
 <td align="left">ENCODE Portal</td>
 <td align="left"><a href="https://www.encodeproject.org/" class="uri">https://www.encodeproject.org/</a></td>
 <td align="left">GRCh38</td>
-<td align="left">2026-09-15</td>
-<td align="left">2026-09-15 14:01:45 UTC</td>
+<td align="left">2026-09-17</td>
+<td align="left">2026-09-17 14:19:07 UTC</td>
 <td align="left">TF/chromatin step conditional</td>
 </tr>
 <tr class="odd">
@@ -3853,8 +3873,8 @@ unreachable</td>
 <td align="left">ChIP-Atlas</td>
 <td align="left"><a href="https://chip-atlas.org/" class="uri">https://chip-atlas.org/</a></td>
 <td align="left">GRCh38</td>
-<td align="left">2026-09-15</td>
-<td align="left">2026-09-15 14:01:45 UTC</td>
+<td align="left">2026-09-17</td>
+<td align="left">2026-09-17 14:19:07 UTC</td>
 <td align="left">Referenced; peaks not fabricated</td>
 </tr>
 <tr class="even">
@@ -3862,9 +3882,30 @@ unreachable</td>
 <td align="left">SCREEN / ENCODE cCREs</td>
 <td align="left"><a href="https://screen.wenglab.org/" class="uri">https://screen.wenglab.org/</a></td>
 <td align="left">GRCh38</td>
-<td align="left">2026-09-15</td>
-<td align="left">2026-09-15 14:01:45 UTC</td>
+<td align="left">2026-09-17</td>
+<td align="left">2026-09-17 14:19:07 UTC</td>
 <td align="left">Referenced for enhancer/promoter context</td>
+</tr>
+<tr class="odd">
+<td align="left">PS_linkage_pattern</td>
+<td align="left">parse_from_supplier_notation</td>
+<td align="left">supplier_notation_string_not_provided</td>
+<td align="left">GRCh38</td>
+<td align="left">2026-09-17</td>
+<td align="left">2026-09-17 14:19:38 UTC</td>
+<td align="left">TODO: supplier PS linkage notation string required. No
+PS map invented. Status=awaiting_supplier_notation.</td>
+</tr>
+<tr class="even">
+<td align="left">ASO_chemistry_config</td>
+<td align="left">MOE/likely_uniform_MOE/not_supported_by_current_supplier_notation</td>
+<td align="left"><a href="file://_config.yml#chemistry" class="uri">file://_config.yml#chemistry</a></td>
+<td align="left">GRCh38</td>
+<td align="left">2026-09-17</td>
+<td align="left">2026-09-17 14:19:38 UTC</td>
+<td align="left">Core chemistry: MOE. All bases reported in MOE
+brackets. Architecture: likely_uniform_MOE. Gapmer:
+not_supported_by_c…</td>
 </tr>
 </tbody>
 </table>
@@ -3875,9 +3916,18 @@ unreachable</td>
 <h1><span class="header-section-number">14</span> Limitations and
 missing information</h1>
 <ul>
-<li>ASO <strong>architecture</strong> not provided (cannot confirm
-gapmer / mixmer / fully modified).</li>
-<li><strong>RNase-H compatibility unknown</strong>; not assumed.</li>
+<li>Architecture interpreted as <strong>likely_uniform_MOE</strong>;
+gapmer <strong>not_supported_by_current_supplier_notation</strong>.</li>
+<li><strong>RNase-H direct SHANK3 mRNA: low_support</strong> — not
+assumed; steric/occupancy/RBP/structure favored.</li>
+<li><strong>5m-dC: reported_but_needs_confirmation</strong> — caveat
+only; not treated as experimentally confirmed.</li>
+<li><strong>PS linkage pattern</strong> set to
+<code>parse_from_supplier_notation</code>, but the supplier notation
+string is <strong>not yet provided</strong> (TODO; PS map not
+invented).</li>
+<li><strong>FAM label</strong> present in supplier construct but
+<strong>excluded</strong> from unlabeled mechanism interpretation.</li>
 <li>Neuron/NPC <strong>eCLIP peak overlaps</strong> at the precise site
 generally unavailable in this automated run (metadata may be cached;
 peaks not fabricated).</li>
@@ -3886,20 +3936,20 @@ priors</strong>.</li>
 <li>Structure values omit MOE/PS/5m-dC parameterization.</li>
 <li>No experimental ASO engagement assay integrated.</li>
 <li>Genome builds other than GRCh38 were <strong>not</strong> used.</li>
-<li>PDF tables show <strong>readable column subsets</strong> (layout
-fix); full-width result tables remain in <code>results/*.tsv</code>.
-Analysis values are unchanged.</li>
+<li>PDF tables show <strong>readable column subsets</strong>; full-width
+result tables remain in <code>results/*.tsv</code>.</li>
 </ul>
 </div>
 <div id="conclusions-non-confirmatory" class="section level1" number="15">
 <h1><span class="header-section-number">15</span> Conclusions
 (non-confirmatory)</h1>
 <p>Both ASOs should be interpreted under chemistry-aware occupancy / RBP
-/ structure / splicing hypotheses rather than assumed RNase-H gapmer
-knockdown. The highest-scoring mechanism labels are <strong>hypotheses
-only</strong>. Definitive mechanism assignment requires the validation
-suite above, architecture disclosure, and locus-resolved
-CLIP/structure/functional genetics in neuron/NPC systems.</p>
+/ structure / splicing hypotheses. Gapmer/RNase-H cleavage of SHANK3
+mRNA has low support under likely_uniform_MOE. The highest-scoring
+mechanism labels are <strong>hypotheses only</strong>. Definitive
+mechanism assignment requires the validation suite above, architecture
+disclosure, and locus-resolved CLIP/structure/functional genetics in
+neuron/NPC systems.</p>
 </div>
 <div id="reproducibility" class="section level1" number="16">
 <h1><span class="header-section-number">16</span> Reproducibility</h1>

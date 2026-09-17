@@ -34,7 +34,7 @@ build_validation_table <- function(cfg, rbp_rank) {
         grepl("immunoprecipitation after ASO", e) ~ "Distinguishes occlusion vs recruitment of the RBP",
         grepl("EMSA", e) ~ "Tests direct ASO–RBP or ASO–RNA–RBP competition with matched chemistry",
         grepl("DMS|SHAPE", e) ~ "Tests RNA-structure remodeling hypothesis at the site",
-        grepl("RNase-H cleavage", e) ~ "Tests whether chemistry/architecture supports RNase-H (expected unknown/unsupported unless gapmer confirmed)",
+        grepl("RNase-H cleavage", e) ~ "Tests whether chemistry/architecture supports RNase-H (expected low_support under likely_uniform_MOE; gapmer not supported by current supplier notation)",
         grepl("Nascent transcription", e) ~ "Tests transcriptional/enhancer regulation hypothesis",
         grepl("Isoform-resolved|splicing", e) ~ "Tests splicing or processing hypothesis",
         grepl("Polysome|ribosome", e) ~ "Tests translation regulation hypothesis",
@@ -72,7 +72,14 @@ print_pipeline_summary <- function(cfg, qc_result, map_result, rbp_rank, mech_re
 
   cat("\n========== SHANK3 ASO MoA PIPELINE SUMMARY ==========\n")
   cat("Genome build: GRCh38 only | Gene: SHANK3\n")
-  cat("Chemistry: PS + 2'-MOE + 5m-dC | architecture: unknown | RNase-H: unknown\n")
+  chem <- chemistry_annotation(cfg)
+  cat("Chemistry: core=", chem$core_chemistry,
+      " | architecture=", chem$architecture,
+      " | gapmer=", chem$gapmer,
+      " | RNase-H(SHANK3)=", chem$rnase_h_direct_SHANK3_mRNA,
+      " | 5m-dC=", chem$five_methyl_dC,
+      " | PS_linkage=", chem$ps_linkage_status,
+      " | FAM_in_mech=", chem$fam_label_in_unlabeled_mechanism, "\n", sep = "")
   cat("Exact SHANK3 matches (rows): ", exact_n, "\n", sep = "")
   cat("Approximate SHANK3 matches (rows): ", approx_n, "\n", sep = "")
   cat("Transcriptome/genomic off-target hits recorded (chr22 screen): ", ot_n, "\n", sep = "")
@@ -86,23 +93,32 @@ print_pipeline_summary <- function(cfg, qc_result, map_result, rbp_rank, mech_re
     cat("\n--- ", id, " ---\n", sep = "")
     cat("Top RBPs: ", paste(top$rbp, collapse = ", "), "\n", sep = "")
     cat("Top mechanism hypothesis: ", top_mech$mechanism_label[1] %||% "unresolved", "\n", sep = "")
-    cat("RNase-H supported/unsupported/unknown: unknown (unsupported by chemistry assumption; architecture unknown; phenotype directionally inconsistent with simple on-target RNase-H knockdown)\n")
+    cat("RNase-H supported/unsupported/unknown: ",
+        chem$rnase_h_direct_SHANK3_mRNA,
+        " (gapmer=", chem$gapmer, "; likely_uniform_MOE favors steric/occupancy)\n", sep = "")
   }
   cat("\nMissing info for definitive interpretation:\n")
-  cat("  - ASO architecture (gapmer vs mixmer vs fully MOE, etc.)\n")
-  cat("  - Experimental confirmation of on-target engagement (e.g., LNA/ASO-seq, rsmapping)\n")
+  cat("  - Supplier PS linkage notation string (ps_linkage_pattern awaits parse; map not invented)\n")
+  cat("  - Experimental confirmation of 5m-dC (currently reported_but_needs_confirmation)\n")
+  cat("  - Experimental confirmation of on-target engagement\n")
   cat("  - Neuron/NPC eCLIP peak overlaps at the precise site\n")
   cat("  - Quantitative expression of candidate RBPs in the treated cell system\n")
   cat("  - Structure probing ± ASO with matched chemistry\n")
   cat("  - Functional genetics (RBP KD/OE epistasis with ASO)\n")
+  cat("  - FAM is present in supplier construct but excluded from unlabeled mechanism interpretation\n")
   cat("====================================================\n\n")
 
   summary_path <- file.path(cfg$project_root, "results/PIPELINE_SUMMARY.txt")
   sink(summary_path)
-  # re-print by calling recursively would double; write key lines
   cat("Exact SHANK3 match rows: ", exact_n, "\n", sep = "")
   cat("Approximate SHANK3 match rows: ", approx_n, "\n", sep = "")
   cat("Off-target rows (chr22): ", ot_n, "\n", sep = "")
+  cat("Chemistry architecture: ", chem$architecture, "\n", sep = "")
+  cat("Gapmer: ", chem$gapmer, "\n", sep = "")
+  cat("RNase-H direct SHANK3 mRNA: ", chem$rnase_h_direct_SHANK3_mRNA, "\n", sep = "")
+  cat("5m-dC: ", chem$five_methyl_dC, "\n", sep = "")
+  cat("PS linkage status: ", chem$ps_linkage_status, "\n", sep = "")
+  cat("FAM in unlabeled mechanism: ", chem$fam_label_in_unlabeled_mechanism, "\n", sep = "")
   for (aso in cfg$asos) {
     id <- aso$id
     top <- ranked %>% dplyr::filter(aso_id == id, in_top_report) %>% dplyr::arrange(dplyr::desc(score))
@@ -110,10 +126,10 @@ print_pipeline_summary <- function(cfg, qc_result, map_result, rbp_rank, mech_re
     cat(id, " top RBPs: ", paste(top$rbp, collapse = ", "), "\n", sep = "")
     cat(id, " top mechanism: ", top_mech$mechanism_label[1] %||% "unresolved", "\n", sep = "")
   }
-  cat("RNase-H: unknown/unsupported by assumption\n")
+  cat("RNase-H: ", chem$rnase_h_direct_SHANK3_mRNA, "\n", sep = "")
   sink()
 
-  invisible(list(exact = exact_n, approx = approx_n, offtargets = ot_n))
+  invisible(list(exact = exact_n, approx = approx_n, offtargets = ot_n, chemistry = chem))
 }
 
 write_report_index <- function(cfg) {

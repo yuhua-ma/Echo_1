@@ -87,9 +87,12 @@ Rscript -e 'rmarkdown::render("report/FINAL_SHANK3_ASO_MECHANISM_REPORT.Rmd",
 
 ## Chemistry note
 
-Both ASOs use a phosphorothioate backbone with 2'-MOE sugar chemistry and 5-methyl-dC at every cytosine.
-Architecture is **unknown**, so RNase-H-mediated cleavage is labeled **unknown / unsupported by design assumption**
-unless architecture evidence is supplied later. Phenotype for both ASOs is **increased SHANK3 expression**.
+Revised chemistry: core **MOE** (all bases in MOE brackets), phosphorothioate backbone,
+architecture **likely_uniform_MOE**, gapmer **not_supported_by_current_supplier_notation**,
+RNase-H direct SHANK3 mRNA **low_support**, 5m-dC **reported_but_needs_confirmation**,
+FAM present in supplier construct but excluded from unlabeled mechanism interpretation.
+PS linkage pattern awaits supplier notation (map not invented).
+Phenotype for both ASOs is **increased SHANK3 expression**.
 
 ## Citation / provenance
 

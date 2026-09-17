@@ -21,3 +21,11 @@ Reason: <text>:2:0: unexpected end of input
 2026-09-15 14:06:39 | Step 03 structure complete. vienna_fold=TRUE 
 2026-09-15 14:06:40 | Step 06 RBP ranking complete 
 2026-09-15 14:06:40 | Step 07 mechanism ranking complete 
+2026-09-17 14:18:45 | Step 01 sequence QC complete: 2 ASOs 
+2026-09-17 14:19:01 | Step 02 mapping complete. exact rows=13 
+2026-09-17 14:19:06 | Step 03 structure complete. vienna_fold=TRUE 
+2026-09-17 14:19:07 | Step 04 RBP analysis complete. motif_hits=101 
+2026-09-17 14:19:07 | Step 05 TF/chromatin skipped (non-regulatory context) 
+2026-09-17 14:19:18 | Step 06 RBP ranking complete 
+2026-09-17 14:19:38 | Step 06 RBP ranking complete 
+2026-09-17 14:19:38 | Step 07 mechanism ranking complete (revised chemistry) 

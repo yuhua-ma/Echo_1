@@ -158,7 +158,7 @@ tsv_note <- function(rel_path) {
 
 This report summarizes a reproducible **R-only** workflow for two SHANK3-associated ASOs
 (`r paste(vapply(cfg$asos, function(x) x$id, character(1)), collapse = ", ")`)
-in *Homo sapiens* **GRCh38**. Both ASOs are linked to **increased SHANK3 expression**. Chemistry is **phosphorothioate + 2'-MOE with all cytosines as 5-methyl-dC**; **architecture is unknown** and **RNase-H compatibility is unknown**. Sequence/database evidence is used only to generate **ranked hypotheses**, not confirmed mechanisms.
+in *Homo sapiens* **GRCh38**. Both ASOs are linked to **increased SHANK3 expression**. Chemistry (revised): **core=MOE**, all bases in MOE brackets, **PS backbone**, architecture **likely_uniform_MOE**, gapmer **not supported** by current supplier notation, RNase-H direct SHANK3 mRNA **low_support**, 5m-dC **reported but needs confirmation**, FAM present in supplier construct but **excluded** from unlabeled mechanism interpretation. Sequence/database evidence is used only to generate **ranked hypotheses**, not confirmed mechanisms.
 
 ```{r}
 exact_n <- if (is.null(map)) 0 else sum(map$exact_shank3_match, na.rm = TRUE)
@@ -186,11 +186,11 @@ if (!is.null(qc)) {
         sequence = cleaned_sequence,
         len = length_nt,
         GC = gc_percent,
-        backbone = chemistry_backbone,
-        MOE = chemistry_moe,
-        m5dC = chemistry_five_methyl_dC,
+        core = chemistry_core,
         arch = chemistry_architecture,
-        RNaseH = chemistry_rnase_h_compatible
+        gapmer = chemistry_gapmer,
+        RNaseH = chemistry_rnase_h_direct_SHANK3_mRNA,
+        m5dC = chemistry_five_methyl_dC
       )
   } else {
     qc %>% dplyr::select(aso_id, cleaned_sequence, length_nt, gc_percent,
@@ -203,7 +203,7 @@ if (!is.null(qc)) {
 }
 ```
 
-**Chemistry rules applied throughout:** do not assume gapmer architecture; do not assume RNase-H activity; annotate every C as 5m-dC while retaining canonical bases for alignment/motifs.
+**Chemistry rules applied throughout:** treat architecture as **likely_uniform_MOE**; gapmer **not supported** by current supplier notation; RNase-H cleavage of SHANK3 mRNA is **low_support** (favor steric/occupancy/RBP/structure); 5m-dC is **reported_but_needs_confirmation** (caveat only); FAM label is noted but **not** included in unlabeled mechanism interpretation; PS linkage pattern awaits supplier notation (map not invented). Canonical bases retained for alignment/motifs.
 
 # Target gene and phenotype context
 
@@ -415,7 +415,7 @@ if (!is.null(tf)) {
 
 # Chemistry-aware mechanism ranking
 
-Eight chemistry/mechanism rules are applied (architecture unknown; RNase-H unknown; phenotype direction; PS protein engagement; MOE occupancy bias; 5m-dC caveats; structure hypothetical; sequence != proof). Labels scored as hypotheses only.
+Chemistry/mechanism rules apply the revised supplier-informed chemistry (likely_uniform_MOE; gapmer not supported; RNase-H direct SHANK3 mRNA low_support; PS protein engagement with linkage map pending; MOE steric/occupancy bias; 5m-dC reported-unconfirmed caveat; FAM excluded from unlabeled mechanism; structure hypothetical; sequence != proof). Labels scored as hypotheses only.
 
 ```{r}
 if (!is.null(hyp)) {
@@ -451,7 +451,7 @@ if (!is.null(hyp) && !is.null(ranked)) {
     tr <- ranked %>% dplyr::filter(aso_id == id, in_top_report) %>% dplyr::arrange(dplyr::desc(score))
     cat("- Top mechanism hypothesis: **", tm$mechanism_label[1] %||% "unresolved", "**\n", sep = "")
     cat("- Top RBPs: ", paste(tr$rbp, collapse = ", "), "\n", sep = "")
-    cat("- RNase-H: **unknown** (unsupported by chemistry assumption; architecture unknown; phenotype argues against simple on-target RNase-H knockdown)\n")
+    cat("- RNase-H: **low_support** (gapmer not supported; likely_uniform_MOE favors steric/occupancy; phenotype argues against simple on-target RNase-H knockdown)\n")
     cat("- Exact SHANK3 match present: ", any(map$aso_id == id & map$exact_shank3_match, na.rm = TRUE), "\n\n", sep = "")
   }
 }
@@ -510,19 +510,22 @@ if (!is.null(prov)) {
 
 # Limitations and missing information
 
-- ASO **architecture** not provided (cannot confirm gapmer / mixmer / fully modified).
-- **RNase-H compatibility unknown**; not assumed.
+- Architecture interpreted as **likely_uniform_MOE**; gapmer **not_supported_by_current_supplier_notation**.
+- **RNase-H direct SHANK3 mRNA: low_support** — not assumed; steric/occupancy/RBP/structure favored.
+- **5m-dC: reported_but_needs_confirmation** — caveat only; not treated as experimentally confirmed.
+- **PS linkage pattern** set to `parse_from_supplier_notation`, but the supplier notation string is **not yet provided** (TODO; PS map not invented).
+- **FAM label** present in supplier construct but **excluded** from unlabeled mechanism interpretation.
 - Neuron/NPC **eCLIP peak overlaps** at the precise site generally unavailable in this automated run (metadata may be cached; peaks not fabricated).
 - Motif/expression layers include **explicitly labeled priors**.
 - Structure values omit MOE/PS/5m-dC parameterization.
 - No experimental ASO engagement assay integrated.
 - Genome builds other than GRCh38 were **not** used.
-- PDF tables show **readable column subsets** (layout fix); full-width result tables remain in `results/*.tsv`. Analysis values are unchanged.
+- PDF tables show **readable column subsets**; full-width result tables remain in `results/*.tsv`.
 
 # Conclusions (non-confirmatory)
 
 ```{r}
-cat("Both ASOs should be interpreted under chemistry-aware occupancy / RBP / structure / splicing hypotheses rather than assumed RNase-H gapmer knockdown. ")
+cat("Both ASOs should be interpreted under chemistry-aware occupancy / RBP / structure / splicing hypotheses. Gapmer/RNase-H cleavage of SHANK3 mRNA has low support under likely_uniform_MOE. ")
 cat("The highest-scoring mechanism labels are **hypotheses only**. ")
 if (exact_n == 0) cat(cfg$ambiguity_statement, " ")
 cat("Definitive mechanism assignment requires the validation suite above, architecture disclosure, and locus-resolved CLIP/structure/functional genetics in neuron/NPC systems.\n")

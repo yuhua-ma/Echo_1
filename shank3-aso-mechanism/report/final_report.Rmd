@@ -14,7 +14,7 @@ sumtxt <- tryCatch(readLines(file.path(root, "results/PIPELINE_SUMMARY.txt")), e
 
 # Chemistry reminder
 
-PS backbone, 2'-MOE, all cytosines 5m-dC; architecture **unknown**; RNase-H compatibility **unknown**. Phenotype: increased SHANK3 expression for both ASOs.
+Core chemistry **MOE** (all bases in MOE brackets), PS backbone, architecture **likely_uniform_MOE**, gapmer **not supported**, RNase-H(SHANK3) **low_support**, 5m-dC **reported_but_needs_confirmation**, FAM present but excluded from unlabeled mechanism. Phenotype: increased SHANK3 expression for both ASOs.
 
 # Top mechanism hypotheses
 
