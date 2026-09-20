@@ -17,12 +17,23 @@ shank3-aso-mechanism/
 ├── renv.lock
 ├── R/                         # analysis modules
 ├── report/                    # RMarkdown reports
+├── docs/                      # Project Context reading guides (mirrored for GitHub)
 ├── data/raw/                  # cached downloads + provenance
 ├── data/processed/
 ├── results/
 ├── figures/
 └── logs/
 ```
+
+## Documentation (Project Context mirror)
+
+Readable on GitHub if Cursor Project Context sync is unavailable:
+
+| Doc | Path |
+|-----|------|
+| Results reading guide | [`docs/results-reading-guide.md`](docs/results-reading-guide.md) |
+| PI vs our pipeline comparison | [`docs/pi-vs-ours-comparison.md`](docs/pi-vs-ours-comparison.md) |
+| PI UTR prediction spreadsheet | [`docs/inputs/Shank3_prediction_UTR.xlsx`](docs/inputs/Shank3_prediction_UTR.xlsx) |
 
 ## Requirements
 
