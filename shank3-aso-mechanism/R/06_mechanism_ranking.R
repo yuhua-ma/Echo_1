@@ -23,6 +23,13 @@
 #   8. Sequence/database evidence alone ≠ confirmed mechanism
 #   9. FAM present in supplier construct but excluded from unlabeled mechanism interpretation
 
+top_n_rbps <- function(cfg, default = 15L) {
+  n <- cfg$ranking$top_n_rbps %||% default
+  n <- suppressWarnings(as.integer(n))
+  if (is.na(n) || n < 1L) n <- as.integer(default)
+  n
+}
+
 rank_rbps <- function(cfg, rbp_result, struct_result = NULL) {
   suppressPackageStartupMessages(library(dplyr))
   root <- cfg$project_root
@@ -30,6 +37,7 @@ rank_rbps <- function(cfg, rbp_result, struct_result = NULL) {
   expr <- rbp_result$expression
   func <- rbp_result$function_annot
   clip <- rbp_result$clip
+  n_top <- top_n_rbps(cfg)
 
   aso_ids <- unique(c(expr$aso_id, motif$aso_id, func$aso_id))
   rows <- list()
@@ -112,25 +120,34 @@ rank_rbps <- function(cfg, rbp_result, struct_result = NULL) {
   }
 
   ranked <- bind_rows(rows) %>%
+    # One row per ASO–RBP (keep highest score if duplicates arise)
+    group_by(aso_id, rbp) %>%
+    slice_max(order_by = score, n = 1, with_ties = FALSE) %>%
+    ungroup() %>%
     group_by(aso_id) %>%
     arrange(desc(score), rbp) %>%
     mutate(rank = row_number()) %>%
     ungroup()
 
-  # Ensure diversity in top set: try include repressive, activating, structure-related
+  # Top-N set (config: ranking.top_n_rbps); keep class diversity when present
   top <- ranked %>%
     group_by(aso_id) %>%
     group_modify(~ {
       d <- .x
-      pick <- d %>% filter(rank <= 5)
-      # force-include best of each class if not present
+      pick <- d %>% filter(rank <= n_top)
+      # force-include best of each class if not already in the top-N window
       for (cl in c("repressive", "activating_stabilizing", "structure_related")) {
         if (!any(pick$rbp_class == cl)) {
           extra <- d %>% filter(rbp_class == cl) %>% slice_head(n = 1)
-          pick <- bind_rows(pick, extra) %>% distinct(rbp, .keep_all = TRUE)
+          if (nrow(extra)) {
+            pick <- bind_rows(pick, extra) %>%
+              distinct(rbp, .keep_all = TRUE) %>%
+              arrange(desc(score), rbp) %>%
+              slice_head(n = n_top)
+          }
         }
       }
-      pick %>% slice_head(n = 5) %>% mutate(in_top_report = TRUE)
+      pick %>% mutate(in_top_report = TRUE)
     }) %>%
     ungroup()
 
@@ -140,8 +157,9 @@ rank_rbps <- function(cfg, rbp_result, struct_result = NULL) {
 
   out <- file.path(root, "results/06_ranked_rbps.tsv")
   write_tsv(ranked, out)
-  log_message("Step 06 RBP ranking complete")
-  list(ranked = ranked, top = top, tsv = out)
+  log_message("Step 06 RBP ranking complete; top_n_rbps=", n_top,
+              " in_top_report rows=", sum(ranked$in_top_report))
+  list(ranked = ranked, top = top, tsv = out, top_n = n_top)
 }
 
 rank_mechanisms <- function(cfg, qc_result, map_result, struct_result, rbp_result, rbp_rank, tf_result) {
@@ -150,6 +168,7 @@ rank_mechanisms <- function(cfg, qc_result, map_result, struct_result, rbp_resul
   chem <- chemistry_annotation(cfg)
   mapping <- map_result$mapping
   ranked <- rbp_rank$ranked
+  n_top <- rbp_rank$top_n %||% top_n_rbps(cfg)
 
   labels <- c(
     "RBP occlusion", "RBP displacement", "RNA-structure remodeling", "RNA stabilization",
@@ -270,7 +289,7 @@ rank_mechanisms <- function(cfg, qc_result, map_result, struct_result, rbp_resul
         chemistry_fam_in_unlabeled_mechanism = chem$fam_label_in_unlabeled_mechanism,
         exact_shank3_match = exact,
         approximate_shank3_match = approx,
-        top_rbps = paste(head(top_rbps$rbp, 5), collapse = ","),
+        top_rbps = paste(utils::head(unique(top_rbps$rbp), n_top), collapse = ","),
         rationale = paste(rationale[[lab]], collapse = " || "),
         caveat = paste(
           "Hypothesis only. Do not treat as confirmed mechanism.",

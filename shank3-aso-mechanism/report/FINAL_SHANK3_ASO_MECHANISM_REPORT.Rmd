@@ -367,7 +367,9 @@ if (!is.null(func)) {
 
 # Ranked RBP hypotheses
 
-Transparent scoring: **+3 / +2 / +1 / -2** rules in `R/06_mechanism_ranking.R`. Top 3-5 RBPs per ASO attempt to include repressive, activating/stabilizing, and structure-related classes.
+Transparent scoring: **+3 / +2 / +1 / -2** rules in `R/06_mechanism_ranking.R`.
+Top `r if (is.null(cfg$ranking$top_n_rbps)) 15 else cfg$ranking$top_n_rbps` RBPs per ASO (`ranking.top_n_rbps` in `_config.yml`)
+attempt to include repressive, activating/stabilizing, and structure-related classes when present.
 
 ```{r}
 if (!is.null(ranked)) {
@@ -428,7 +430,7 @@ if (!is.null(hyp)) {
         mechanism = shorten(mechanism_label, 26),
         score = hypothesis_score,
         RNaseH = rnase_h_status,
-        top_rbps = shorten(top_rbps, 28)
+        top_rbps = shorten(top_rbps, 72)
       )
   } else {
     hyp_show <- hyp_show %>%

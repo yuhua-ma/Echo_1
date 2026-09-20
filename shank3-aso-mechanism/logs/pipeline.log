@@ -29,3 +29,5 @@ Reason: <text>:2:0: unexpected end of input
 2026-09-17 14:19:18 | Step 06 RBP ranking complete 
 2026-09-17 14:19:38 | Step 06 RBP ranking complete 
 2026-09-17 14:19:38 | Step 07 mechanism ranking complete (revised chemistry) 
+2026-09-20 15:39:40 | Step 06 RBP ranking complete; top_n_rbps=15 in_top_report rows=30 
+2026-09-20 15:39:40 | Step 07 mechanism ranking complete (revised chemistry) 

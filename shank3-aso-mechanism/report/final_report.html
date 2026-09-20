@@ -386,19 +386,19 @@ expression for both ASOs.</p>
 <col width="1%" />
 <col width="1%" />
 <col width="2%" />
-<col width="4%" />
-<col width="1%" />
-<col width="2%" />
-<col width="1%" />
-<col width="2%" />
-<col width="3%" />
-<col width="2%" />
 <col width="3%" />
 <col width="1%" />
 <col width="2%" />
+<col width="1%" />
 <col width="2%" />
-<col width="36%" />
-<col width="18%" />
+<col width="2%" />
+<col width="1%" />
+<col width="3%" />
+<col width="1%" />
+<col width="2%" />
+<col width="8%" />
+<col width="34%" />
+<col width="17%" />
 <col width="0%" />
 <col width="4%" />
 </colgroup>
@@ -451,7 +451,7 @@ expression for both ASOs.</p>
 <td align="left">FALSE</td>
 <td align="left">TRUE</td>
 <td align="left">TRUE</td>
-<td align="left">PTBP2,RBFOX1,RBFOX3,SRSF1,AGO2</td>
+<td align="left">PTBP2,RBFOX1,RBFOX3,SRSF1,AGO2,ELAVL2,ELAVL4,FMR1,IGF2BP1,PUM2,UPF1,CELF4,MOV10,ATXN2,CSTF2</td>
 <td align="left">+3 Rule3/4: occlusion of repressor can increase
 expression; PS favors protein engagement || +3 Rule5: likely_uniform_MOE
 / MOE brackets favor steric occupancy over RNase-H cleavage || +3 Top
@@ -483,7 +483,7 @@ invented).</td>
 <td align="left">FALSE</td>
 <td align="left">TRUE</td>
 <td align="left">TRUE</td>
-<td align="left">PTBP2,RBFOX1,RBFOX3,SRSF1,AGO2</td>
+<td align="left">PTBP2,RBFOX1,RBFOX3,SRSF1,AGO2,ELAVL2,ELAVL4,FMR1,IGF2BP1,PUM2,UPF1,CELF4,MOV10,ATXN2,CSTF2</td>
 <td align="left">+2 Rule4: PS ASO may displace RBP complexes || +2
 Rule5: uniform MOE occupancy can displace RBPs</td>
 <td align="left">Hypothesis only. Do not treat as confirmed mechanism.
@@ -513,7 +513,7 @@ invented).</td>
 <td align="left">FALSE</td>
 <td align="left">TRUE</td>
 <td align="left">TRUE</td>
-<td align="left">PTBP2,RBFOX1,RBFOX3,SRSF1,AGO2</td>
+<td align="left">PTBP2,RBFOX1,RBFOX3,SRSF1,AGO2,ELAVL2,ELAVL4,FMR1,IGF2BP1,PUM2,UPF1,CELF4,MOV10,ATXN2,CSTF2</td>
 <td align="left">+1 Rule4 caveat: PS linkage pattern awaits supplier
 notation — PS map not invented || +1 Rule6: 5m-dC
 reported_but_needs_confirmation — caveat only; not treated as confirmed
@@ -547,7 +547,7 @@ invented).</td>
 <td align="left">FALSE</td>
 <td align="left">TRUE</td>
 <td align="left">FALSE</td>
-<td align="left">PTBP2,RBFOX1,RBFOX3,SRSF1,AGO2</td>
+<td align="left">PTBP2,RBFOX1,RBFOX3,SRSF1,AGO2,ELAVL2,ELAVL4,FMR1,IGF2BP1,PUM2,UPF1,CELF4,MOV10,ATXN2,CSTF2</td>
 <td align="left">+3 Rule3/4: occlusion of repressor can increase
 expression; PS favors protein engagement || +3 Rule5: likely_uniform_MOE
 / MOE brackets favor steric occupancy over RNase-H cleavage || +3 Top
@@ -579,7 +579,7 @@ invented).</td>
 <td align="left">FALSE</td>
 <td align="left">TRUE</td>
 <td align="left">FALSE</td>
-<td align="left">PTBP2,RBFOX1,RBFOX3,SRSF1,AGO2</td>
+<td align="left">PTBP2,RBFOX1,RBFOX3,SRSF1,AGO2,ELAVL2,ELAVL4,FMR1,IGF2BP1,PUM2,UPF1,CELF4,MOV10,ATXN2,CSTF2</td>
 <td align="left">+2 Rule4: PS ASO may displace RBP complexes || +2
 Rule5: uniform MOE occupancy can displace RBPs</td>
 <td align="left">Hypothesis only. Do not treat as confirmed mechanism.
@@ -609,7 +609,7 @@ invented).</td>
 <td align="left">FALSE</td>
 <td align="left">TRUE</td>
 <td align="left">FALSE</td>
-<td align="left">PTBP2,RBFOX1,RBFOX3,SRSF1,AGO2</td>
+<td align="left">PTBP2,RBFOX1,RBFOX3,SRSF1,AGO2,ELAVL2,ELAVL4,FMR1,IGF2BP1,PUM2,UPF1,CELF4,MOV10,ATXN2,CSTF2</td>
 <td align="left">+1 Rule4 caveat: PS linkage pattern awaits supplier
 notation — PS map not invented || +1 Rule6: 5m-dC
 reported_but_needs_confirmation — caveat only; not treated as confirmed
@@ -633,10 +633,12 @@ Off-target rows (chr22): 2 Chemistry architecture: likely_uniform_MOE
 Gapmer: not_supported_by_current_supplier_notation RNase-H direct SHANK3
 mRNA: low_support 5m-dC: reported_but_needs_confirmation PS linkage
 status: awaiting_supplier_notation FAM in unlabeled mechanism: FALSE
-ASO_4_5_2_4 top RBPs: PTBP2, RBFOX1, RBFOX3, SRSF1, AGO2 ASO_4_5_2_4 top
-mechanism: RBP occlusion ASO_4_5_2_6 top RBPs: PTBP2, RBFOX1, RBFOX3,
-SRSF1, AGO2 ASO_4_5_2_6 top mechanism: RBP occlusion RNase-H:
-low_support</p>
+ASO_4_5_2_4 top RBPs: PTBP2, RBFOX1, RBFOX3, SRSF1, AGO2, ELAVL2,
+ELAVL4, FMR1, IGF2BP1, PUM2, UPF1, CELF4, MOV10, ATXN2, CSTF2
+ASO_4_5_2_4 top mechanism: RBP occlusion ASO_4_5_2_6 top RBPs: PTBP2,
+RBFOX1, RBFOX3, SRSF1, AGO2, ELAVL2, ELAVL4, FMR1, IGF2BP1, PUM2, UPF1,
+CELF4, MOV10, ATXN2, CSTF2 ASO_4_5_2_6 top mechanism: RBP occlusion
+RNase-H: low_support</p>
 <p>See <code>FINAL_SHANK3_ASO_MECHANISM_REPORT.Rmd</code> for the full
 15-section report.</p>
 </div>

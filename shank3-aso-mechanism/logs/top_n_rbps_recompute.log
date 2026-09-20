@@ -1,0 +1,1098 @@
+[[1]]
+[[1]]$value
+function (cols, status = "unavailable", warning = "") 
+{
+    df <- as.data.frame(matrix(nrow = 0, ncol = length(cols)))
+    names(df) <- cols
+    if ("status" %in% cols) {
+    }
+    attr(df, "status") <- status
+    attr(df, "warning") <- warning
+    df
+}
+
+[[1]]$visible
+[1] FALSE
+
+
+[[2]]
+[[2]]$value
+function (cfg) 
+{
+    suppressPackageStartupMessages({
+        library(Biostrings)
+        library(dplyr)
+    })
+    root <- cfg$project_root %||% project_root()
+    ensure_dirs(root)
+    chem <- chemistry_annotation(cfg)
+    rows <- lapply(cfg$asos, function(aso) {
+        raw <- aso$sequence %||% ""
+        cleaned <- gsub("[^ACGTUacgtu]", "", raw)
+        cleaned <- toupper(gsub("U", "T", cleaned))
+        valid <- grepl("^[ACGT]+$", cleaned) && nchar(cleaned) > 
+            0
+        dna <- if (valid) 
+            DNAString(cleaned)
+        else DNAString("")
+        rc <- if (valid) 
+            as.character(reverseComplement(dna))
+        else NA_character_
+        rna_compat <- if (valid) 
+            chartr("T", "U", cleaned)
+        else NA_character_
+        gc <- if (valid) {
+            alphabetFrequency(dna, baseOnly = TRUE)
+            round(100 * letterFrequency(dna, letters = c("G", 
+                "C"), as.prob = TRUE)[[1]], 2)
+        }
+        else NA_real_
+        len <- nchar(cleaned)
+        homo <- if (valid) {
+            m <- gregexpr("(A{4,}|C{4,}|G{4,}|T{4,})", cleaned, 
+                perl = TRUE)[[1]]
+            if (m[[1]] == -1) 
+                ""
+            else paste(regmatches(cleaned, list(m))[[1]], collapse = ",")
+        }
+        else NA_character_
+        extreme_gc <- !is.na(gc) && (gc < 25 || gc > 75)
+        self_comp_score <- if (valid && len >= 6) {
+            rc_s <- rc
+            scores <- vapply(4:min(8, floor(len/2)), function(k) {
+                kmers <- unique(substring(cleaned, 1:(len - k + 
+                  1), k:len))
+                sum(vapply(kmers, function(km) grepl(km, rc_s, 
+                  fixed = TRUE), logical(1)))
+            }, numeric(1))
+            as.integer(sum(scores))
+        }
+        else 0L
+        hairpin_flag <- if (valid && len >= 11) {
+            found <- FALSE
+            for (stem in 4:6) {
+                for (loop in 3:8) {
+                  if (2 * stem + loop > len) 
+                    next
+                  for (i in 1:(len - 2 * stem - loop + 1)) {
+                    left <- substr(cleaned, i, i + stem - 1)
+                    right <- substr(cleaned, i + stem + loop, 
+                      i + 2 * stem + loop - 1)
+                    if (identical(left, as.character(reverseComplement(DNAString(right))))) {
+                      found <- TRUE
+                      break
+                    }
+                  }
+                  if (found) 
+                    break
+                }
+                if (found) 
+                  break
+            }
+            found
+        }
+        else FALSE
+        cpg_count <- 0L
+        if (valid) {
+            m <- gregexpr("CG", cleaned, fixed = TRUE)[[1]]
+            cpg_count <- if (m[[1]] == -1) 
+                0L
+            else length(m)
+        }
+        chem_seq <- if (valid && (isTRUE(chem$five_methyl_dC_confirmed) || 
+            isTRUE(chem$five_methyl_dC_reported_unconfirmed))) {
+            gsub("C", "5mC", cleaned)
+        }
+        else if (valid) {
+            cleaned
+        }
+        else NA_character_
+        warnings <- c()
+        if (!valid) 
+            warnings <- c(warnings, "invalid_bases")
+        if (nzchar(homo %||% "")) 
+            warnings <- c(warnings, "homopolymer")
+        if (isTRUE(extreme_gc)) 
+            warnings <- c(warnings, "extreme_gc")
+        if (isTRUE(hairpin_flag)) 
+            warnings <- c(warnings, "hairpin_potential")
+        if (self_comp_score >= 5) 
+            warnings <- c(warnings, "self_complementarity")
+        if (cpg_count >= 2) 
+            warnings <- c(warnings, "cpg_rich")
+        if (isTRUE(chem$five_methyl_dC_reported_unconfirmed)) {
+            warnings <- c(warnings, "5m-dC_reported_unconfirmed")
+        }
+        if (identical(chem$ps_linkage_status, "awaiting_supplier_notation")) {
+            warnings <- c(warnings, "PS_linkage_awaiting_supplier_notation")
+        }
+        if (isTRUE(chem$fam_label_present) && !isTRUE(chem$fam_label_in_unlabeled_mechanism)) {
+            warnings <- c(warnings, "FAM_present_excluded_from_unlabeled_mechanism")
+        }
+        data.frame(aso_id = aso$id, input_sequence = raw, cleaned_sequence = cleaned, 
+            valid_acgt = valid, length_nt = len, gc_percent = gc, 
+            reverse_complement = rc, rna_compatible_sequence = rna_compat, 
+            chemistry_core = chem$core_chemistry, chemistry_backbone = chem$backbone, 
+            chemistry_moe = chem$moe, chemistry_all_bases_moe = chem$all_bases_in_moe_brackets, 
+            chemistry_five_methyl_dC = as.character(chem$five_methyl_dC), 
+            chemistry_five_methyl_dC_confirmed = chem$five_methyl_dC_confirmed, 
+            chemistry_architecture = chem$architecture, chemistry_gapmer = chem$gapmer, 
+            chemistry_rnase_h_compatible = chem$rnase_h_compatible, 
+            chemistry_rnase_h_direct_SHANK3_mRNA = chem$rnase_h_direct_SHANK3_mRNA, 
+            chemistry_ps_linkage_pattern = chem$ps_linkage_pattern, 
+            chemistry_ps_linkage_status = chem$ps_linkage_status, 
+            chemistry_fam_present = chem$fam_label_present, chemistry_fam_in_unlabeled_mechanism = chem$fam_label_in_unlabeled_mechanism, 
+            all_C_annotated_as_5mdC = isTRUE(chem$five_methyl_dC_confirmed) || 
+                isTRUE(chem$five_methyl_dC_reported_unconfirmed), 
+            chemistry_annotated_sequence = chem_seq, canonical_bases_for_alignment = cleaned, 
+            homopolymers = homo %||% "", extreme_gc = extreme_gc, 
+            self_complementarity_score = self_comp_score, hairpin_potential = hairpin_flag, 
+            cpg_count = as.integer(cpg_count), qc_warnings = paste(warnings, 
+                collapse = ";"), status = if (valid) 
+                "ok"
+            else "invalid_sequence", stringsAsFactors = FALSE)
+    })
+    qc <- bind_rows(rows)
+    out_tsv <- file.path(root, "results/01_sequence_qc.tsv")
+    out_fa <- file.path(root, "results/01_aso_sequences.fasta")
+    write_tsv(qc, out_tsv)
+    valid_qc <- qc %>% filter(valid_acgt)
+    if (nrow(valid_qc)) {
+        dna_set <- DNAStringSet(valid_qc$cleaned_sequence)
+        names(dna_set) <- paste0(valid_qc$aso_id, "|chemistry=", 
+            chem$core_chemistry, ";PS;MOE_brackets=", chem$all_bases_in_moe_brackets, 
+            "|architecture=", chem$architecture, "|gapmer=", 
+            chem$gapmer, "|rnaseH_SHANK3=", chem$rnase_h_direct_SHANK3_mRNA, 
+            "|5m-dC=", chem$five_methyl_dC, "|FAM_in_mech=", 
+            chem$fam_label_in_unlabeled_mechanism, "|PS_linkage=", 
+            chem$ps_linkage_status)
+        writeXStringSet(dna_set, out_fa)
+    }
+    else {
+        writeLines("", out_fa)
+    }
+    log_message("Step 01 sequence QC complete: ", nrow(qc), " ASOs")
+    list(qc = qc, tsv = out_tsv, fasta = out_fa)
+}
+
+[[2]]$visible
+[1] FALSE
+
+
+[[3]]
+[[3]]$value
+function (cfg, qc_result) 
+{
+    suppressPackageStartupMessages({
+        library(Biostrings)
+        library(GenomicRanges)
+        library(dplyr)
+        library(readr)
+    })
+    root <- cfg$project_root
+    ensure_dirs(root)
+    up <- as.integer(cfg$window_upstream %||% 200)
+    down <- as.integer(cfg$window_downstream %||% 200)
+    gencode_dl <- download_gencode(cfg)
+    append_provenance("TxDb.Hsapiens.UCSC.hg38.knownGene", as.character(utils::packageVersion("TxDb.Hsapiens.UCSC.hg38.knownGene")), 
+        "Bioconductor AnnotationPackage", "GRCh38", notes = "Primary transcript source for SHANK3 mapping")
+    append_provenance("BSgenome.Hsapiens.UCSC.hg38", as.character(utils::packageVersion("BSgenome.Hsapiens.UCSC.hg38")), 
+        "Bioconductor BSgenome", "GRCh38", notes = "Genome sequence GRCh38/hg38 only")
+    annot <- tryCatch(.load_shank3_from_bsgenome(cfg), error = function(e) {
+        log_message("Annotation load failed: ", conditionMessage(e))
+        NULL
+    })
+    qc <- qc_result$qc
+    map_rows <- list()
+    window_seqs <- list()
+    window_beds <- list()
+    offtarget_rows <- list()
+    for (i in seq_len(nrow(qc))) {
+        aso_id <- qc$aso_id[[i]]
+        if (!isTRUE(qc$valid_acgt[[i]])) {
+            map_rows[[length(map_rows) + 1]] <- data.frame(aso_id = aso_id, 
+                match_class = "invalid_aso", exact_shank3_match = FALSE, 
+                approximate_shank3_match = FALSE, feature_type = NA_character_, 
+                transcript_id = NA_character_, gene_symbol = "SHANK3", 
+                chrom = NA_character_, start = NA_integer_, end = NA_integer_, 
+                strand = NA_character_, mismatches = NA_integer_, 
+                rank = NA_integer_, support_note = "ASO failed QC", 
+                neuronal_expression_support = "unknown", status = "invalid_aso", 
+                warning = "skip_mapping", stringsAsFactors = FALSE)
+            next
+        }
+        sense <- qc$cleaned_sequence[[i]]
+        rc <- qc$reverse_complement[[i]]
+        found_exact <- FALSE
+        found_approx <- FALSE
+        candidates <- list()
+        if (!is.null(annot) && length(annot$tx_seqs)) {
+            for (tn in names(annot$tx_seqs)) {
+                subj <- annot$tx_seqs[[tn]]
+                m0 <- .find_matches_in_subject(DNAString(rc), 
+                  subj, 0L)
+                if (nrow(m0)) {
+                  found_exact <- TRUE
+                  for (j in seq_len(nrow(m0))) {
+                    candidates[[length(candidates) + 1]] <- data.frame(aso_id = aso_id, 
+                      match_class = "exact_transcript_rc", exact_shank3_match = TRUE, 
+                      approximate_shank3_match = FALSE, feature_type = "transcript_exon_spliced", 
+                      transcript_id = tn, gene_symbol = "SHANK3", 
+                      chrom = annot$tx_meta$seqnames[annot$tx_meta$transcript_id == 
+                        tn][1], start = m0$start[[j]], end = m0$end[[j]], 
+                      strand = annot$tx_meta$strand[annot$tx_meta$transcript_id == 
+                        tn][1], mismatches = 0L, query_coord_space = "transcript", 
+                      support_note = "Exact reverse-complement match in SHANK3 spliced transcript", 
+                      neuronal_expression_support = "SHANK3_neuronal_gene", 
+                      isoform_shared = NA, rank_score = 100, 
+                      status = "ok", warning = "", stringsAsFactors = FALSE)
+                    w_start <- max(1, m0$start[[j]] - up)
+                    w_end <- min(length(subj), m0$end[[j]] + 
+                      down)
+                    win <- subseq(subj, w_start, w_end)
+                    wid <- paste0(aso_id, "|", tn, "|tx", w_start, 
+                      "-", w_end)
+                    window_seqs[[wid]] <- win
+                    window_beds[[length(window_beds) + 1]] <- data.frame(chrom = paste0("transcript:", 
+                      tn), start = w_start - 1L, end = w_end, 
+                      name = wid, score = 1000, strand = "+", 
+                      aso_id = aso_id, match_class = "exact_transcript_rc", 
+                      stringsAsFactors = FALSE)
+                  }
+                }
+                for (mm in 1:2) {
+                  mA <- .find_matches_in_subject(DNAString(rc), 
+                    subj, as.integer(mm))
+                  if (nrow(mA)) {
+                    found_approx <- TRUE
+                    for (j in seq_len(nrow(mA))) {
+                      if (found_exact && any(abs(mA$start[[j]] - 
+                        vapply(candidates, function(x) x$start[[1]], 
+                          1)) < 1)) 
+                        next
+                      candidates[[length(candidates) + 1]] <- data.frame(aso_id = aso_id, 
+                        match_class = paste0("approx_transcript_rc_mm", 
+                          mm), exact_shank3_match = FALSE, approximate_shank3_match = TRUE, 
+                        feature_type = "transcript_exon_spliced", 
+                        transcript_id = tn, gene_symbol = "SHANK3", 
+                        chrom = annot$tx_meta$seqnames[annot$tx_meta$transcript_id == 
+                          tn][1], start = mA$start[[j]], end = mA$end[[j]], 
+                        strand = annot$tx_meta$strand[annot$tx_meta$transcript_id == 
+                          tn][1], mismatches = as.integer(mm), 
+                        query_coord_space = "transcript", support_note = paste0("Approximate RC match (", 
+                          mm, " mismatch) in SHANK3 transcript"), 
+                        neuronal_expression_support = "SHANK3_neuronal_gene", 
+                        isoform_shared = NA, rank_score = 80 - 
+                          10 * mm, status = "ok", warning = "approximate_only", 
+                        stringsAsFactors = FALSE)
+                    }
+                  }
+                }
+                mS <- .find_matches_in_subject(DNAString(sense), 
+                  subj, 0L)
+                if (nrow(mS)) {
+                  for (j in seq_len(nrow(mS))) {
+                    candidates[[length(candidates) + 1]] <- data.frame(aso_id = aso_id, 
+                      match_class = "exact_transcript_sense", 
+                      exact_shank3_match = TRUE, approximate_shank3_match = FALSE, 
+                      feature_type = "transcript_sense_identical", 
+                      transcript_id = tn, gene_symbol = "SHANK3", 
+                      chrom = annot$tx_meta$seqnames[annot$tx_meta$transcript_id == 
+                        tn][1], start = mS$start[[j]], end = mS$end[[j]], 
+                      strand = annot$tx_meta$strand[annot$tx_meta$transcript_id == 
+                        tn][1], mismatches = 0L, query_coord_space = "transcript", 
+                      support_note = "Exact sense match (same sequence as transcript; atypical ASO binding geometry)", 
+                      neuronal_expression_support = "SHANK3_neuronal_gene", 
+                      isoform_shared = NA, rank_score = 60, status = "ok", 
+                      warning = "sense_match_not_rc", stringsAsFactors = FALSE)
+                  }
+                }
+            }
+        }
+        if (!is.null(annot)) {
+            loc <- annot$locus_seq
+            gene_gr <- annot$gene
+            locus_gr <- annot$locus
+            for (qname in c("rc", "sense")) {
+                q <- if (qname == "rc") 
+                  rc
+                else sense
+                mG <- .find_matches_in_subject(DNAString(q), 
+                  loc, 0L)
+                if (nrow(mG)) {
+                  if (qname == "rc") 
+                    found_exact <- TRUE
+                  for (j in seq_len(nrow(mG))) {
+                    g_start <- start(locus_gr) + mG$start[[j]] - 
+                      1L
+                    g_end <- start(locus_gr) + mG$end[[j]] - 
+                      1L
+                    in_gene <- g_start >= start(gene_gr) && g_end <= 
+                      end(gene_gr)
+                    feat <- if (in_gene) 
+                      "genomic_gene_body_or_intronic"
+                    else "genomic_flanking"
+                    candidates[[length(candidates) + 1]] <- data.frame(aso_id = aso_id, 
+                      match_class = paste0("exact_genomic_", 
+                        qname), exact_shank3_match = in_gene || 
+                        qname == "rc", approximate_shank3_match = FALSE, 
+                      feature_type = feat, transcript_id = NA_character_, 
+                      gene_symbol = "SHANK3", chrom = as.character(seqnames(gene_gr)), 
+                      start = as.integer(g_start), end = as.integer(g_end), 
+                      strand = as.character(strand(gene_gr)), 
+                      mismatches = 0L, query_coord_space = "genomic", 
+                      support_note = "Exact match in SHANK3 genomic locus window (±5kb)", 
+                      neuronal_expression_support = "SHANK3_neuronal_gene", 
+                      isoform_shared = NA, rank_score = if (qname == 
+                        "rc") 
+                        90
+                      else 50, status = "ok", warning = "", stringsAsFactors = FALSE)
+                    w_start <- max(1L, mG$start[[j]] - up)
+                    w_end <- min(length(loc), mG$end[[j]] + down)
+                    win <- subseq(loc, w_start, w_end)
+                    wid <- paste0(aso_id, "|genomic|", as.character(seqnames(gene_gr)), 
+                      ":", start(locus_gr) + w_start - 1, "-", 
+                      start(locus_gr) + w_end - 1)
+                    window_seqs[[wid]] <- win
+                    window_beds[[length(window_beds) + 1]] <- data.frame(chrom = as.character(seqnames(gene_gr)), 
+                      start = as.integer(start(locus_gr) + w_start - 
+                        1L - 1L), end = as.integer(start(locus_gr) + 
+                        w_end - 1L), name = wid, score = 900, 
+                      strand = as.character(strand(gene_gr)), 
+                      aso_id = aso_id, match_class = paste0("exact_genomic_", 
+                        qname), stringsAsFactors = FALSE)
+                  }
+                }
+            }
+        }
+        ot <- tryCatch(.run_offtarget_screen(rc, NULL), error = function(e) data.frame())
+        if (nrow(ot)) {
+            ot$aso_id <- aso_id
+            offtarget_rows[[length(offtarget_rows) + 1]] <- ot
+        }
+        if (!length(candidates)) {
+            map_rows[[length(map_rows) + 1]] <- data.frame(aso_id = aso_id, 
+                match_class = "no_exact_shank3_match", exact_shank3_match = FALSE, 
+                approximate_shank3_match = found_approx, feature_type = NA_character_, 
+                transcript_id = NA_character_, gene_symbol = "SHANK3", 
+                chrom = if (!is.null(annot)) 
+                  as.character(seqnames(annot$gene))
+                else NA_character_, start = NA_integer_, end = NA_integer_, 
+                strand = NA_character_, mismatches = NA_integer_, 
+                query_coord_space = NA_character_, support_note = ambiguity_statement(cfg), 
+                neuronal_expression_support = "unknown", isoform_shared = NA, 
+                rank_score = 0, status = "no_exact_match", warning = "ambiguity_statement_required", 
+                stringsAsFactors = FALSE)
+        }
+        else {
+            cdf <- bind_rows(candidates)
+            cdf <- cdf %>% mutate(feature_rank = case_when(grepl("transcript", 
+                feature_type) ~ 3, grepl("gene_body", feature_type) ~ 
+                2, TRUE ~ 1), rank_score = rank_score + feature_rank) %>% 
+                arrange(desc(rank_score), mismatches, match_class) %>% 
+                mutate(rank = row_number())
+            if (sum(cdf$exact_shank3_match, na.rm = TRUE) > 1) {
+                cdf$isoform_shared <- duplicated(paste(cdf$start, 
+                  cdf$end)) | duplicated(paste(cdf$start, cdf$end), 
+                  fromLast = TRUE)
+            }
+            map_rows[[length(map_rows) + 1]] <- cdf
+        }
+    }
+    mapping <- bind_rows(map_rows)
+    out_map <- file.path(root, "results/02_shank3_mapping.tsv")
+    write_tsv(mapping, out_map)
+    out_fa <- file.path(root, "results/02_target_windows.fasta")
+    if (length(window_seqs)) {
+        ss <- DNAStringSet(window_seqs)
+        writeXStringSet(ss, out_fa)
+    }
+    else {
+        writeLines(">no_windows\n", out_fa)
+    }
+    out_bed <- file.path(root, "results/02_target_windows.bed")
+    if (length(window_beds)) {
+        bed <- bind_rows(window_beds)
+        write.table(bed[, c("chrom", "start", "end", "name", 
+            "score", "strand")], out_bed, sep = "\t", quote = FALSE, 
+            row.names = FALSE, col.names = FALSE)
+    }
+    else {
+        writeLines("", out_bed)
+    }
+    out_ot <- file.path(root, "results/02_offtargets_chr22.tsv")
+    if (length(offtarget_rows)) 
+        write_tsv(bind_rows(offtarget_rows), out_ot)
+    else {
+        write_tsv(data.frame(aso_id = character(), chrom = character(), 
+            start = integer(), end = integer(), strand = character(), 
+            match_type = character(), status = character(), warning = character()), 
+            out_ot)
+    }
+    write_tsv(data.frame(resource = c("GENCODE", "TxDb", "BSgenome"), 
+        version = c(gencode_dl$version %||% cfg$resources$gencode$version, 
+            if (!is.null(annot)) annot$annotation_version else NA, 
+            as.character(utils::packageVersion("BSgenome.Hsapiens.UCSC.hg38"))), 
+        url = c(gencode_dl$url %||% cfg$resources$gencode$url, 
+            "Bioconductor", "Bioconductor"), genome_build = "GRCh38", 
+        download_date = as.character(Sys.Date()), gencode_status = gencode_dl$status, 
+        gencode_warning = gencode_dl$warning %||% "", stringsAsFactors = FALSE), 
+        file.path(root, "data/processed/02_annotation_provenance.tsv"))
+    n_exact <- sum(mapping$exact_shank3_match, na.rm = TRUE)
+    if (n_exact == 0) {
+        log_message("AMBIGUITY: ", ambiguity_statement(cfg))
+    }
+    log_message("Step 02 mapping complete. exact rows=", n_exact)
+    list(mapping = mapping, windows_fasta = out_fa, windows_bed = out_bed, 
+        offtargets = out_ot, tsv = out_map, gencode = gencode_dl, 
+        annot_ok = !is.null(annot))
+}
+
+[[3]]$visible
+[1] FALSE
+
+
+[[4]]
+[[4]]$value
+function (cfg, map_result, qc_result) 
+{
+    suppressPackageStartupMessages({
+        library(Biostrings)
+        library(dplyr)
+        library(ggplot2)
+    })
+    root <- cfg$project_root
+    ensure_dirs(root)
+    figdir <- file.path(root, "figures/03_structure")
+    dir.create(figdir, recursive = TRUE, showWarnings = FALSE)
+    work <- file.path(root, "data/processed/vienna")
+    dir.create(work, recursive = TRUE, showWarnings = FALSE)
+    vien <- .vienna_available()
+    warn_file <- file.path(root, "logs/vienna_status.txt")
+    writeLines(c(paste("RNAfold available:", vien$RNAfold, vien$RNAfold_path), 
+        paste("RNAplfold available:", vien$RNAplfold, vien$RNAplfold_path), 
+        paste("checked_at:", format(Sys.time(), tz = "UTC", usetz = TRUE))), 
+        warn_file)
+    if (!vien$RNAfold) {
+        log_message("WARNING: RNAfold missing — structure results will be empty; commands recorded.")
+    }
+    windows_fa <- map_result$windows_fasta
+    struct_rows <- list()
+    acc_rows <- list()
+    commands <- list()
+    has_windows <- file.exists(windows_fa) && length(readLines(windows_fa, 
+        warn = FALSE)) > 2
+    seqs <- if (has_windows) {
+        tryCatch(readDNAStringSet(windows_fa), error = function(e) DNAStringSet())
+    }
+    else DNAStringSet()
+    if (length(seqs) && grepl("^no_windows", names(seqs)[1])) 
+        seqs <- DNAStringSet()
+    qc <- qc_result$qc
+    for (i in seq_len(nrow(qc))) {
+        if (!isTRUE(qc$valid_acgt[[i]])) 
+            next
+        aso_id <- qc$aso_id[[i]]
+        aso_rna <- chartr("T", "U", qc$cleaned_sequence[[i]])
+        prefix <- paste0("aso_self_", aso_id)
+        if (vien$RNAfold) {
+            res <- .run_rnafold(aso_rna, work, prefix)
+            parsed <- .parse_rnafold_output(res$stdout)
+            commands[[length(commands) + 1]] <- data.frame(aso_id = aso_id, 
+                context = "aso_self", command = res$command, 
+                status = "ran", stringsAsFactors = FALSE)
+            struct_rows[[length(struct_rows) + 1]] <- data.frame(aso_id = aso_id, 
+                window_id = prefix, context = "aso_self", sequence_rna = aso_rna, 
+                structure_dotbracket = parsed$structure %||% 
+                  NA_character_, mfe_kcal_mol = parsed$mfe %||% 
+                  NA_real_, site_structure_class = NA_character_, 
+                mean_unpaired_probability = NA_real_, approx_hybridization_energy = NA_real_, 
+                local_structural_change_note = "ASO self-fold only; MOE/PS/5m-dC not modeled", 
+                chemistry_caveat = "Values are canonical-RNA approximations; not exact biochemical measurements for MOE/PS/5m-dC ASOs", 
+                status = "ok", warning = "", stringsAsFactors = FALSE)
+        }
+        else {
+            cmd <- paste("RNAfold --noPS -i", file.path(work, 
+                paste0(prefix, ".fa")))
+            commands[[length(commands) + 1]] <- data.frame(aso_id = aso_id, 
+                context = "aso_self", command = cmd, status = "skipped_missing_RNAfold", 
+                stringsAsFactors = FALSE)
+            struct_rows[[length(struct_rows) + 1]] <- data.frame(aso_id = aso_id, 
+                window_id = prefix, context = "aso_self", sequence_rna = aso_rna, 
+                structure_dotbracket = NA_character_, mfe_kcal_mol = NA_real_, 
+                site_structure_class = NA_character_, mean_unpaired_probability = NA_real_, 
+                approx_hybridization_energy = NA_real_, local_structural_change_note = NA_character_, 
+                chemistry_caveat = "ViennaRNA missing; no fabricated structure", 
+                status = "vienna_missing", warning = "RNAfold not found", 
+                stringsAsFactors = FALSE)
+        }
+    }
+    if (length(seqs)) {
+        for (nm in names(seqs)) {
+            aso_id <- sub("\\|.*", "", nm)
+            seq_chr <- as.character(seqs[[nm]])
+            prefix <- gsub("[^A-Za-z0-9_]+", "_", nm)
+            site_len <- nchar(qc$cleaned_sequence[qc$aso_id == 
+                aso_id][1] %||% "18")
+            up <- as.integer(cfg$window_upstream %||% 200)
+            site_start <- up + 1L
+            site_end <- up + as.integer(site_len)
+            if (vien$RNAfold) {
+                res <- .run_rnafold(seq_chr, work, prefix)
+                parsed <- .parse_rnafold_output(res$stdout)
+                commands[[length(commands) + 1]] <- data.frame(aso_id = aso_id, 
+                  context = "window", command = res$command, 
+                  status = "ran", stringsAsFactors = FALSE)
+                site_class <- .classify_site_context(parsed$structure, 
+                  site_start, site_end)
+                aso_rna <- chartr("T", "U", qc$cleaned_sequence[qc$aso_id == 
+                  aso_id][[1]])
+                site_seq <- substr(chartr("T", "U", seq_chr), 
+                  site_start, min(nchar(seq_chr), site_end))
+                hyb <- .run_hybridization_approx(aso_rna, site_seq, 
+                  work, paste0(prefix, "_hyb"))
+                commands[[length(commands) + 1]] <- data.frame(aso_id = aso_id, 
+                  context = "hybridization_approx", command = hyb$command, 
+                  status = "ran", stringsAsFactors = FALSE)
+                unpaired <- NA_real_
+                if (vien$RNAplfold) {
+                  pl <- .run_rnaplfold(seq_chr, work, prefix)
+                  unpaired <- pl$mean_unpaired_prob
+                  commands[[length(commands) + 1]] <- data.frame(aso_id = aso_id, 
+                    context = "RNAplfold", command = pl$command, 
+                    status = "ran", stringsAsFactors = FALSE)
+                }
+                else {
+                  commands[[length(commands) + 1]] <- data.frame(aso_id = aso_id, 
+                    context = "RNAplfold", command = "RNAplfold -W 70 -L 40 -u 1", 
+                    status = "skipped_missing_RNAplfold", stringsAsFactors = FALSE)
+                }
+                struct_rows[[length(struct_rows) + 1]] <- data.frame(aso_id = aso_id, 
+                  window_id = nm, context = "target_window", 
+                  sequence_rna = chartr("T", "U", seq_chr), structure_dotbracket = parsed$structure %||% 
+                    NA_character_, mfe_kcal_mol = parsed$mfe %||% 
+                    NA_real_, site_structure_class = site_class, 
+                  mean_unpaired_probability = unpaired, approx_hybridization_energy = hyb$energy %||% 
+                    NA_real_, local_structural_change_note = paste("Compare window MFE to ASO-bound approx (", 
+                    hyb$note, ").", "Not a precise delta-delta-G for modified ASO chemistry."), 
+                  chemistry_caveat = "Canonical RNA ViennaRNA model; MOE/PS/5m-dC not represented", 
+                  status = "ok", warning = "", stringsAsFactors = FALSE)
+                acc_rows[[length(acc_rows) + 1]] <- data.frame(aso_id = aso_id, 
+                  window_id = nm, site_start = site_start, site_end = site_end, 
+                  site_structure_class = site_class, mean_unpaired_probability = unpaired, 
+                  window_mfe = parsed$mfe %||% NA_real_, status = "ok", 
+                  warning = if (vien$RNAplfold) 
+                    ""
+                  else "RNAplfold_missing", stringsAsFactors = FALSE)
+                if (!is.null(parsed$structure) && !is.na(parsed$structure)) {
+                  db <- strsplit(parsed$structure, "")[[1]]
+                  dfp <- data.frame(pos = seq_along(db), paired = as.integer(db != 
+                    "."))
+                  p <- ggplot(dfp, aes(pos, paired)) + geom_col(width = 1) + 
+                    annotate("rect", xmin = site_start, xmax = site_end, 
+                      ymin = -0.05, ymax = 1.05, alpha = 0.15) + 
+                    labs(title = paste("Structure pairing:", 
+                      aso_id), subtitle = "Shaded = approximate ASO site; canonical RNA only", 
+                      x = "Position", y = "Paired (1) / unpaired (0)") + 
+                    theme_bw()
+                  ggsave(file.path(figdir, paste0(prefix, "_pairing.png")), 
+                    p, width = 8, height = 3, dpi = 120)
+                }
+            }
+            else {
+                cmd <- paste("RNAfold --noPS -i <window.fa>")
+                commands[[length(commands) + 1]] <- data.frame(aso_id = aso_id, 
+                  context = "window", command = cmd, status = "skipped_missing_RNAfold", 
+                  stringsAsFactors = FALSE)
+                struct_rows[[length(struct_rows) + 1]] <- data.frame(aso_id = aso_id, 
+                  window_id = nm, context = "target_window", 
+                  sequence_rna = chartr("T", "U", seq_chr), structure_dotbracket = NA_character_, 
+                  mfe_kcal_mol = NA_real_, site_structure_class = NA_character_, 
+                  mean_unpaired_probability = NA_real_, approx_hybridization_energy = NA_real_, 
+                  local_structural_change_note = NA_character_, 
+                  chemistry_caveat = "ViennaRNA missing; results not fabricated", 
+                  status = "vienna_missing", warning = "RNAfold not found", 
+                  stringsAsFactors = FALSE)
+                acc_rows[[length(acc_rows) + 1]] <- data.frame(aso_id = aso_id, 
+                  window_id = nm, site_start = NA_integer_, site_end = NA_integer_, 
+                  site_structure_class = NA_character_, mean_unpaired_probability = NA_real_, 
+                  window_mfe = NA_real_, status = "vienna_missing", 
+                  warning = "RNAfold not found", stringsAsFactors = FALSE)
+            }
+        }
+    }
+    else {
+        log_message("No target windows for structure analysis")
+        struct_rows[[length(struct_rows) + 1]] <- data.frame(aso_id = NA_character_, 
+            window_id = NA_character_, context = "none", sequence_rna = NA_character_, 
+            structure_dotbracket = NA_character_, mfe_kcal_mol = NA_real_, 
+            site_structure_class = NA_character_, mean_unpaired_probability = NA_real_, 
+            approx_hybridization_energy = NA_real_, local_structural_change_note = NA_character_, 
+            chemistry_caveat = "No windows", status = "no_windows", 
+            warning = "No target windows extracted", stringsAsFactors = FALSE)
+    }
+    struct_df <- bind_rows(struct_rows)
+    acc_df <- if (length(acc_rows)) 
+        bind_rows(acc_rows)
+    else data.frame(aso_id = character(), window_id = character(), 
+        site_start = integer(), site_end = integer(), site_structure_class = character(), 
+        mean_unpaired_probability = numeric(), window_mfe = numeric(), 
+        status = character(), warning = character())
+    cmd_df <- if (length(commands)) 
+        bind_rows(commands)
+    else data.frame()
+    out_s <- file.path(root, "results/03_rna_structure.tsv")
+    out_a <- file.path(root, "results/03_accessibility.tsv")
+    out_c <- file.path(root, "logs/03_vienna_commands.tsv")
+    write_tsv(struct_df, out_s)
+    write_tsv(acc_df, out_a)
+    write_tsv(cmd_df, out_c)
+    log_message("Step 03 structure complete. vienna_fold=", vien$RNAfold)
+    list(structure = struct_df, accessibility = acc_df, commands = cmd_df, 
+        tsv = out_s, accessibility_tsv = out_a, vienna = vien)
+}
+
+[[4]]$visible
+[1] FALSE
+
+
+[[5]]
+[[5]]$value
+function (cfg, map_result, qc_result) 
+{
+    suppressPackageStartupMessages({
+        library(dplyr)
+        library(readr)
+    })
+    root <- cfg$project_root
+    ensure_dirs(root)
+    today <- as.character(Sys.Date())
+    mapping <- map_result$mapping
+    priors <- .neuronal_rbp_priors()
+    motifs <- .rbp_consensus_motifs()
+    encode_meta <- .query_encode_eclip_metadata(cfg)
+    postar <- .download_postar_hint(cfg)
+    for (src in c("oRNAment", "ATtRACT", "RBPDB", "RBP2GO", "UCSC_ENCODE")) {
+        u <- cfg$resources[[tolower(src)]]$url %||% cfg$resources[[gsub("-", 
+            "", tolower(src))]]$url
+    }
+    append_provenance("oRNAment", cfg$resources$ornament$version, 
+        cfg$resources$ornament$url, "GRCh38", notes = "Motif resource referenced; bulk matrices may be unreachable")
+    append_provenance("ATtRACT", cfg$resources$attract$version, 
+        cfg$resources$attract$url, "GRCh38", notes = "Motif resource referenced")
+    append_provenance("RBPDB", cfg$resources$rbpdb$version, cfg$resources$rbpdb$url, 
+        "GRCh38", notes = "Motif resource referenced")
+    append_provenance("RBP2GO", cfg$resources$rbp2go$version, 
+        cfg$resources$rbp2go$url, "GRCh38", notes = "Function annotation resource referenced")
+    clip_rows <- list()
+    for (aso_id in unique(qc_result$qc$aso_id)) {
+        sites <- mapping %>% filter(aso_id == !!aso_id, !is.na(chrom), 
+            !is.na(start))
+        if (!nrow(sites)) {
+            clip_rows[[length(clip_rows) + 1]] <- data.frame(aso_id = aso_id, 
+                rbp = NA_character_, clip_source = "ENCODE_eCLIP;POSTAR3;UCSC_ENCODE", 
+                clip_dataset_id = NA_character_, cell_type = paste(cfg$cell_types, 
+                  collapse = ","), chrom = NA_character_, peak_start = NA_integer_, 
+                peak_end = NA_integer_, peak_strand = NA_character_, 
+                site_start = NA_integer_, site_end = NA_integer_, 
+                overlap_0nt = FALSE, overlap_10nt = FALSE, overlap_30nt = FALSE, 
+                nearest_distance_nt = NA_integer_, evidence_strength = "none", 
+                genome_build = "GRCh38", resource_version = "n/a", 
+                resource_url = cfg$resources$encode_eclip$url, 
+                download_date = today, status = "no_site_coords", 
+                warning = "No genomic site for overlap; CLIP peaks not invented", 
+                stringsAsFactors = FALSE)
+            next
+        }
+        for (r in seq_len(min(3, nrow(sites)))) {
+            clip_rows[[length(clip_rows) + 1]] <- data.frame(aso_id = aso_id, 
+                rbp = NA_character_, clip_source = "ENCODE_eCLIP;POSTAR3;UCSC_ENCODE", 
+                clip_dataset_id = if (!is.null(encode_meta)) 
+                  "encode_search_cached"
+                else NA_character_, cell_type = paste(cfg$cell_types, 
+                  collapse = ","), chrom = sites$chrom[[r]], 
+                peak_start = NA_integer_, peak_end = NA_integer_, 
+                peak_strand = NA_character_, site_start = as.integer(sites$start[[r]]), 
+                site_end = as.integer(sites$end[[r]]), overlap_0nt = FALSE, 
+                overlap_10nt = FALSE, overlap_30nt = FALSE, nearest_distance_nt = NA_integer_, 
+                evidence_strength = "none", genome_build = "GRCh38", 
+                resource_version = if (!is.null(encode_meta)) 
+                  "ENCODE_API_live"
+                else "unavailable", resource_url = cfg$resources$encode_eclip$url, 
+                download_date = today, status = if (!is.null(encode_meta)) 
+                  "metadata_only_no_peak_overlap"
+                else "encode_unreachable", warning = paste("eCLIP peak BED files not auto-downloaded for SHANK3 locus in this run;", 
+                  postar$warning, "; overlaps left empty (not fabricated)"), 
+                stringsAsFactors = FALSE)
+        }
+    }
+    clip_df <- bind_rows(clip_rows)
+    for (cc in .rbp_required_clip_cols) if (!cc %in% names(clip_df)) 
+        clip_df[[cc]] <- NA
+    clip_df <- clip_df[, .rbp_required_clip_cols]
+    motif_df <- .scan_motifs_in_windows(map_result$windows_fasta, 
+        motifs, qc_result$qc$aso_id)
+    for (cc in .rbp_required_motif_cols) if (!cc %in% names(motif_df)) 
+        motif_df[[cc]] <- NA
+    if (!nrow(motif_df)) {
+        motif_df <- data.frame(matrix(ncol = length(.rbp_required_motif_cols), 
+            nrow = 0))
+        names(motif_df) <- .rbp_required_motif_cols
+    }
+    else {
+        motif_df <- motif_df[, .rbp_required_motif_cols]
+    }
+    expr_rows <- list()
+    for (aso_id in unique(qc_result$qc$aso_id)) {
+        for (ct in cfg$cell_types) {
+            for (j in seq_len(nrow(priors))) {
+                expr_rows[[length(expr_rows) + 1]] <- data.frame(aso_id = aso_id, 
+                  rbp = priors$rbp[[j]], expression_source = "curated_neuronal_prior_not_quant_RNAseq", 
+                  cell_type = ct, expressed = if (ct == "neuron") 
+                    priors$neuron_expressed[[j]]
+                  else priors$npc_expressed[[j]], expression_value = NA_real_, 
+                  expression_units = "binary_prior", resource_version = "curated_v1", 
+                  resource_url = "literature_curated_neuronal_RBP_set", 
+                  download_date = today, status = "prior_annotation", 
+                  warning = "Not a quantitative ENCODE/GTEx measurement; flag as prior only", 
+                  stringsAsFactors = FALSE)
+            }
+        }
+    }
+    expr_df <- bind_rows(expr_rows)
+    expr_df <- expr_df[, .rbp_required_expr_cols]
+    func_rows <- list()
+    for (aso_id in unique(qc_result$qc$aso_id)) {
+        for (j in seq_len(nrow(priors))) {
+            func_rows[[length(func_rows) + 1]] <- data.frame(aso_id = aso_id, 
+                rbp = priors$rbp[[j]], function_source = "RBP2GO_style_curated", 
+                molecular_function = priors$molecular_function[[j]], 
+                rna_process = priors$rna_process[[j]], regulatory_direction_hint = priors$regulatory_direction_hint[[j]], 
+                shank3_relevance_note = "Candidate neuronal RBP; locus-specific CLIP not confirmed in this run", 
+                resource_version = cfg$resources$rbp2go$version %||% 
+                  "RBP2GO", resource_url = cfg$resources$rbp2go$url, 
+                download_date = today, status = "curated_annotation", 
+                warning = "Functional labels are priors; not proof of SHANK3 engagement", 
+                stringsAsFactors = FALSE)
+        }
+    }
+    func_df <- bind_rows(func_rows)
+    func_df <- func_df[, .rbp_required_func_cols]
+    out_clip <- file.path(root, "results/04_rbp_clip_overlap.tsv")
+    out_motif <- file.path(root, "results/04_rbp_motif_overlap.tsv")
+    out_expr <- file.path(root, "results/04_rbp_expression.tsv")
+    out_func <- file.path(root, "results/04_rbp_function.tsv")
+    write_tsv(clip_df, out_clip)
+    write_tsv(motif_df, out_motif)
+    write_tsv(expr_df, out_expr)
+    write_tsv(func_df, out_func)
+    log_message("Step 04 RBP analysis complete. motif_hits=", 
+        nrow(motif_df))
+    list(clip = clip_df, motif = motif_df, expression = expr_df, 
+        function_annot = func_df, clip_tsv = out_clip, motif_tsv = out_motif, 
+        expr_tsv = out_expr, func_tsv = out_func)
+}
+
+[[5]]$visible
+[1] FALSE
+
+
+[[6]]
+[[6]]$value
+function (cfg, map_result) 
+{
+    suppressPackageStartupMessages(library(dplyr))
+    root <- cfg$project_root
+    ensure_dirs(root)
+    mapping <- map_result$mapping
+    regulatory <- .is_regulatory_context(mapping)
+    append_provenance("ENCODE_TF", "ENCODE Portal", "https://www.encodeproject.org/", 
+        "GRCh38", notes = "TF/chromatin step conditional")
+    append_provenance("ChIP-Atlas", cfg$resources$chip_atlas$version, 
+        cfg$resources$chip_atlas$url, "GRCh38", notes = "Referenced; peaks not fabricated")
+    append_provenance("SCREEN_cCREs", cfg$resources$screen$version, 
+        cfg$resources$screen$url, "GRCh38", notes = "Referenced for enhancer/promoter context")
+    out_tsv <- file.path(root, "results/05_tf_chromatin.tsv")
+    out_bed <- file.path(root, "results/05_regulatory_locus.bed")
+    if (!regulatory) {
+        df <- data.frame(aso_id = unique(mapping$aso_id %||% 
+            NA_character_), tf = NA_character_, motif_id = NA_character_, 
+            source = NA_character_, chrom = NA_character_, start = NA_integer_, 
+            end = NA_integer_, strand = NA_character_, score = NA_real_, 
+            assay = NA_character_, cell_type = NA_character_, 
+            evidence_note = "TF/chromatin analysis skipped: target context not classified as nuclear regulatory/enhancer/promoter/antisense/intronic regulatory RNA", 
+            genome_build = "GRCh38", resource_url = NA_character_, 
+            download_date = as.character(Sys.Date()), status = "skipped_not_regulatory_context", 
+            warning = "No TF inference on RNA; step gated by locus class", 
+            stringsAsFactors = FALSE)
+        write_tsv(df, out_tsv)
+        writeLines("", out_bed)
+        log_message("Step 05 TF/chromatin skipped (non-regulatory context)")
+        return(list(tf = df, bed = out_bed, tsv = out_tsv, ran = FALSE))
+    }
+    gen <- mapping %>% filter(!is.na(chrom), grepl("^chr", chrom), 
+        !is.na(start))
+    if (nrow(gen)) {
+        up <- as.integer(cfg$window_upstream %||% 200)
+        down <- as.integer(cfg$window_downstream %||% 200)
+        bed <- gen %>% transmute(chrom, start = pmax(0L, as.integer(start) - 
+            up - 1L), end = as.integer(end) + down, name = paste(aso_id, 
+            match_class, sep = "_"), score = 500, strand = ifelse(is.na(strand), 
+            ".", strand))
+        write.table(bed, out_bed, sep = "\t", quote = FALSE, 
+            row.names = FALSE, col.names = FALSE)
+    }
+    else {
+        writeLines("", out_bed)
+    }
+    tf_df <- .run_tf_motif_scan_dna(cfg, map_result)
+    if (!nrow(tf_df)) {
+        tf_df <- data.frame(aso_id = unique(mapping$aso_id), 
+            tf = NA_character_, motif_id = NA_character_, source = "JASPAR/ENCODE/ChIP-Atlas/SCREEN", 
+            chrom = NA_character_, start = NA_integer_, end = NA_integer_, 
+            strand = NA_character_, score = NA_real_, assay = "none", 
+            cell_type = paste(cfg$cell_types, collapse = ","), 
+            evidence_note = "Regulatory context flagged but no motif hits / ChIP peaks available", 
+            genome_build = "GRCh38", resource_url = cfg$resources$jaspar$url, 
+            download_date = as.character(Sys.Date()), status = "no_tf_hits", 
+            warning = "ChIP peaks not auto-fetched; motifs empty", 
+            stringsAsFactors = FALSE)
+    }
+    write_tsv(tf_df, out_tsv)
+    log_message("Step 05 TF/chromatin complete. rows=", nrow(tf_df))
+    list(tf = tf_df, bed = out_bed, tsv = out_tsv, ran = TRUE)
+}
+
+[[6]]$visible
+[1] FALSE
+
+
+[[7]]
+[[7]]$value
+function (cfg, qc_result, map_result, struct_result, rbp_result, 
+    rbp_rank, tf_result) 
+{
+    suppressPackageStartupMessages(library(dplyr))
+    root <- cfg$project_root
+    chem <- chemistry_annotation(cfg)
+    mapping <- map_result$mapping
+    ranked <- rbp_rank$ranked
+    n_top <- rbp_rank$top_n %||% top_n_rbps(cfg)
+    labels <- c("RBP occlusion", "RBP displacement", "RNA-structure remodeling", 
+        "RNA stabilization", "RNase-H-mediated degradation", 
+        "transcriptional/enhancer regulation", "splicing or processing", 
+        "translation regulation", "off-target mechanism", "unresolved")
+    rows <- list()
+    for (aso in cfg$asos) {
+        aso_id <- aso$id
+        msub <- mapping %>% filter(aso_id == !!aso_id)
+        exact <- any(msub$exact_shank3_match, na.rm = TRUE)
+        approx <- any(msub$approximate_shank3_match, na.rm = TRUE)
+        top_rbps <- ranked %>% filter(aso_id == !!aso_id, in_top_report) %>% 
+            arrange(desc(score))
+        has_repressor <- any(top_rbps$rbp_class == "repressive")
+        has_struct <- any(grepl("structure", top_rbps$rbp_class)) || 
+            any(struct_result$structure$aso_id == aso_id & !is.na(struct_result$structure$site_structure_class))
+        regulatory_tf <- isTRUE(tf_result$ran)
+        scores <- setNames(rep(0, length(labels)), labels)
+        rationale <- setNames(vector("list", length(labels)), 
+            labels)
+        add <- function(lab, pts, why) {
+            scores[[lab]] <<- scores[[lab]] + pts
+            rationale[[lab]] <<- c(rationale[[lab]], paste0(if (pts >= 
+                0) "+" else "", pts, " ", why))
+        }
+        add("RNase-H-mediated degradation", -6, paste0("Rule1/2: gapmer=", 
+            chem$gapmer, "; rnase_h_direct_SHANK3_mRNA=", chem$rnase_h_direct_SHANK3_mRNA, 
+            "; architecture=", chem$architecture))
+        add("RNase-H-mediated degradation", -3, "Rule3: phenotype is increased SHANK3 — on-target RNase-H cleavage typically decreases RNA")
+        add("RNA stabilization", 2, "Rule3: phenotype-compatible (stabilization / occupancy)")
+        add("RBP occlusion", 3, "Rule3/4: occlusion of repressor can increase expression; PS favors protein engagement")
+        add("RBP displacement", 2, "Rule4: PS ASO may displace RBP complexes")
+        if (identical(chem$ps_linkage_status, "awaiting_supplier_notation")) {
+            add("unresolved", 1, "Rule4 caveat: PS linkage pattern awaits supplier notation — PS map not invented")
+        }
+        if (isTRUE(chem$moe) || grepl("uniform_MOE|MOE", chem$architecture, 
+            ignore.case = TRUE)) {
+            add("RBP occlusion", 3, "Rule5: likely_uniform_MOE / MOE brackets favor steric occupancy over RNase-H cleavage")
+            add("RBP displacement", 2, "Rule5: uniform MOE occupancy can displace RBPs")
+            add("RNA-structure remodeling", 1, "Rule5: steric MOE binding may remodel local structure (hypothesis)")
+            add("RNase-H-mediated degradation", -3, "Rule5: uniform MOE designs have low support for RNase-H of SHANK3 mRNA")
+        }
+        if (isTRUE(chem$five_methyl_dC_reported_unconfirmed)) {
+            add("unresolved", 1, "Rule6: 5m-dC reported_but_needs_confirmation — caveat only; not treated as confirmed chemistry")
+        }
+        else if (isTRUE(chem$five_methyl_dC_confirmed)) {
+            add("unresolved", 1, "Rule6: confirmed 5m-dC may alter recognition vs unmodified models")
+        }
+        if (has_struct) {
+            add("RNA-structure remodeling", 2, "Rule7: site structure context available (still hypothetical)")
+        }
+        else {
+            add("RNA-structure remodeling", 0, "Rule7: limited structure evidence")
+        }
+        add("unresolved", 2, "Rule8: sequence/DB evidence alone cannot confirm mechanism")
+        if (isTRUE(chem$fam_label_present) && !isTRUE(chem$fam_label_in_unlabeled_mechanism)) {
+            add("unresolved", 0, "Rule9: FAM present in supplier construct but excluded from unlabeled mechanism interpretation")
+        }
+        if (has_repressor) {
+            add("RBP occlusion", 3, "Top RBPs include repressive class")
+            add("translation regulation", 1, "Repressor occlusion may affect translation/stability")
+        }
+        if (any(top_rbps$rna_process == "splicing", na.rm = TRUE)) {
+            add("splicing or processing", 3, "Splicing-related RBP prioritized")
+        }
+        if (any(top_rbps$rna_process == "translation", na.rm = TRUE)) {
+            add("translation regulation", 2, "Translation-related RBP prioritized")
+        }
+        if (regulatory_tf) {
+            add("transcriptional/enhancer regulation", 2, "Regulatory genomic context + TF motifs")
+        }
+        if (!exact) {
+            add("off-target mechanism", 2, "No/uncertain exact SHANK3 match — off-target possible")
+            add("unresolved", 2, "Ambiguity statement applies")
+        }
+        else {
+            add("off-target mechanism", 0, "Exact SHANK3 match present; off-target still possible")
+        }
+        add("RNA stabilization", 1, "Occupancy mechanisms can stabilize RNA in some contexts (hypothesis)")
+        rnase_h_status <- as.character(chem$rnase_h_direct_SHANK3_mRNA %||% 
+            "low_support")
+        ord <- sort(scores, decreasing = TRUE)
+        for (lab in names(ord)) {
+            rows[[length(rows) + 1]] <- data.frame(aso_id = aso_id, 
+                mechanism_label = lab, hypothesis_score = as.numeric(ord[[lab]]), 
+                rank = which(names(ord) == lab), is_top = which(names(ord) == 
+                  lab) == 1, rnase_h_status = rnase_h_status, 
+                rnase_h_supported = FALSE, chemistry_core = chem$core_chemistry, 
+                chemistry_architecture = chem$architecture, chemistry_gapmer = chem$gapmer, 
+                chemistry_moe = chem$moe, chemistry_all_bases_moe = chem$all_bases_in_moe_brackets, 
+                chemistry_ps = identical(chem$backbone, "phosphorothioate"), 
+                chemistry_ps_linkage_status = chem$ps_linkage_status, 
+                chemistry_5mdC = as.character(chem$five_methyl_dC), 
+                chemistry_fam_present = chem$fam_label_present, 
+                chemistry_fam_in_unlabeled_mechanism = chem$fam_label_in_unlabeled_mechanism, 
+                exact_shank3_match = exact, approximate_shank3_match = approx, 
+                top_rbps = paste(utils::head(unique(top_rbps$rbp), 
+                  n_top), collapse = ","), rationale = paste(rationale[[lab]], 
+                  collapse = " || "), caveat = paste("Hypothesis only. Do not treat as confirmed mechanism.", 
+                  "FAM excluded from unlabeled mechanism interpretation.", 
+                  if (isTRUE(chem$five_methyl_dC_reported_unconfirmed)) 
+                    "5m-dC reported but unconfirmed."
+                  else "", if (identical(chem$ps_linkage_status, 
+                    "awaiting_supplier_notation")) 
+                    "PS linkage map awaiting supplier notation (not invented)."
+                  else "", if (!exact) 
+                    ambiguity_statement(cfg)
+                  else ""), status = "scored", warning = "Chemistry-aware ranking; not experimental proof", 
+                stringsAsFactors = FALSE)
+        }
+    }
+    if (identical(chem$ps_linkage_status, "awaiting_supplier_notation")) {
+        append_provenance("PS_linkage_pattern", "parse_from_supplier_notation", 
+            "supplier_notation_string_not_provided", "GRCh38", 
+            notes = paste("TODO: supplier PS linkage notation string required.", 
+                "No PS map invented. Status=awaiting_supplier_notation."))
+    }
+    append_provenance("ASO_chemistry_config", paste(chem$core_chemistry, 
+        chem$architecture, chem$gapmer, sep = "/"), "file://_config.yml#chemistry", 
+        "GRCh38", notes = chem$note)
+    hyp <- bind_rows(rows) %>% arrange(aso_id, rank)
+    out <- file.path(root, "results/07_mechanism_hypotheses.tsv")
+    write_tsv(hyp, out)
+    log_message("Step 07 mechanism ranking complete (revised chemistry)")
+    list(hypotheses = hyp, tsv = out, chemistry = chem)
+}
+
+[[7]]$visible
+[1] FALSE
+
+
+[[8]]
+[[8]]$value
+function (cfg) 
+{
+    root <- cfg$project_root
+    files <- c("report/final_report.Rmd", "report/target_mapping_report.Rmd", 
+        "report/structure_report.Rmd", "report/rbp_evidence_report.Rmd", 
+        "report/tf_chromatin_report.Rmd", "report/FINAL_SHANK3_ASO_MECHANISM_REPORT.Rmd")
+    writeLines(files, file.path(root, "results/07_report_index.txt"))
+    files
+}
+
+[[8]]$visible
+[1] FALSE
+
+
+top_n_rbps config = 15 
+2026-09-20 15:39:40 | Step 06 RBP ranking complete; top_n_rbps=15 in_top_report rows=30 
+Unique RBPs scored per ASO:
+       aso_id n_scored
+1 ASO_4_5_2_4       18
+2 ASO_4_5_2_6       18
+in_top_report per ASO:
+       aso_id n_top
+1 ASO_4_5_2_4    15
+2 ASO_4_5_2_6    15
+Classes in top for ASO_4_5_2_4:
+               rbp_class n
+1 activating_stabilizing 4
+2                  other 3
+3             repressive 4
+4               splicing 3
+5      structure_related 1
+Top RBPs ASO_4_5_2_4:
+   rank     rbp score              rbp_class
+1     1   PTBP2     4             repressive
+2     2  RBFOX1     4               splicing
+3     3  RBFOX3     4               splicing
+4     4   SRSF1     4 activating_stabilizing
+5     5    AGO2     3             repressive
+6     6  ELAVL2     3 activating_stabilizing
+7     7  ELAVL4     3 activating_stabilizing
+8     8    FMR1     3                  other
+9     9 IGF2BP1     3 activating_stabilizing
+10   10    PUM2     3             repressive
+11   11    UPF1     3             repressive
+12   12   CELF4     2               splicing
+13   13   MOV10     2      structure_related
+14   14   ATXN2     1                  other
+15   15   CSTF2     1                  other
+2026-09-20 15:39:40 | Step 07 mechanism ranking complete (revised chemistry) 
+
+========== SHANK3 ASO MoA PIPELINE SUMMARY ==========
+Genome build: GRCh38 only | Gene: SHANK3
+Chemistry: core=MOE | architecture=likely_uniform_MOE | gapmer=not_supported_by_current_supplier_notation | RNase-H(SHANK3)=low_support | 5m-dC=reported_but_needs_confirmation | PS_linkage=awaiting_supplier_notation | FAM_in_mech=FALSE
+Exact SHANK3 matches (rows): 13
+Approximate SHANK3 matches (rows): 1
+Transcriptome/genomic off-target hits recorded (chr22 screen): 2
+
+--- ASO_4_5_2_4 ---
+Top RBPs: PTBP2, RBFOX1, RBFOX3, SRSF1, AGO2, ELAVL2, ELAVL4, FMR1, IGF2BP1, PUM2, UPF1, CELF4, MOV10, ATXN2, CSTF2
+Top mechanism hypothesis: RBP occlusion
+RNase-H supported/unsupported/unknown: low_support (gapmer=not_supported_by_current_supplier_notation; likely_uniform_MOE favors steric/occupancy)
+
+--- ASO_4_5_2_6 ---
+Top RBPs: PTBP2, RBFOX1, RBFOX3, SRSF1, AGO2, ELAVL2, ELAVL4, FMR1, IGF2BP1, PUM2, UPF1, CELF4, MOV10, ATXN2, CSTF2
+Top mechanism hypothesis: RBP occlusion
+RNase-H supported/unsupported/unknown: low_support (gapmer=not_supported_by_current_supplier_notation; likely_uniform_MOE favors steric/occupancy)
+
+Missing info for definitive interpretation:
+  - Supplier PS linkage notation string (ps_linkage_pattern awaits parse; map not invented)
+  - Experimental confirmation of 5m-dC (currently reported_but_needs_confirmation)
+  - Experimental confirmation of on-target engagement
+  - Neuron/NPC eCLIP peak overlaps at the precise site
+  - Quantitative expression of candidate RBPs in the treated cell system
+  - Structure probing ± ASO with matched chemistry
+  - Functional genetics (RBP KD/OE epistasis with ASO)
+  - FAM is present in supplier construct but excluded from unlabeled mechanism interpretation
+====================================================
+
+
+Mechanism top_rbps (is_top):
+       aso_id mechanism_label
+1 ASO_4_5_2_4   RBP occlusion
+2 ASO_4_5_2_6   RBP occlusion
+                                                                                     top_rbps
+1 PTBP2,RBFOX1,RBFOX3,SRSF1,AGO2,ELAVL2,ELAVL4,FMR1,IGF2BP1,PUM2,UPF1,CELF4,MOV10,ATXN2,CSTF2
+2 PTBP2,RBFOX1,RBFOX3,SRSF1,AGO2,ELAVL2,ELAVL4,FMR1,IGF2BP1,PUM2,UPF1,CELF4,MOV10,ATXN2,CSTF2

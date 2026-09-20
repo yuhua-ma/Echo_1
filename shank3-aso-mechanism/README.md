@@ -62,6 +62,15 @@ Rscript -e 'rmarkdown::render("report/FINAL_SHANK3_ASO_MECHANISM_REPORT.Rmd",
   output_dir = "report")'
 ```
 
+## Ranking knobs
+
+In `_config.yml`:
+
+```yaml
+ranking:
+  top_n_rbps: 15   # RBPs flagged in_top_report / shown in summaries (default 15)
+```
+
 ## Hard constraints (do not relax)
 
 - Analysis / statistics / plotting / reporting in **R only**

@@ -11,6 +11,9 @@ asos:
     sequence: TCCTGACTGTGCGCTGGG
   - id: ASO_4_5_2_6
     sequence: AGGGCACTAAGCAATGTA
+ranking:
+  # Number of top RBPs flagged in_top_report / printed in summaries and final report
+  top_n_rbps: 15
 chemistry:
   # Revised supplier-informed chemistry (2026-09)
   core_chemistry: MOE
