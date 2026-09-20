@@ -1,0 +1,3 @@
+chrom	start	end	strand	match_type	aso_id
+chr22	50731503	50731520	+	genomic_exact	ASO_4_5_2_4
+chr22	50731467	50731484	+	genomic_exact	ASO_4_5_2_6

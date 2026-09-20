@@ -1,0 +1,47 @@
++ step06_rbp_rank dispatched
+2026-09-17 14:19:38 | Step 06 RBP ranking complete 
+✔ step06_rbp_rank completed [523ms, 1.33 kB]
++ step07_mechanisms dispatched
+2026-09-17 14:19:38 | Step 07 mechanism ranking complete (revised chemistry) 
+✔ step07_mechanisms completed [128ms, 2.03 kB]
++ step07_validation dispatched
+✔ step07_validation completed [74ms, 1.37 kB]
++ step07_summary dispatched
+
+========== SHANK3 ASO MoA PIPELINE SUMMARY ==========
+Genome build: GRCh38 only | Gene: SHANK3
+Chemistry: core=MOE | architecture=likely_uniform_MOE | gapmer=not_supported_by_current_supplier_notation | RNase-H(SHANK3)=low_support | 5m-dC=reported_but_needs_confirmation | PS_linkage=awaiting_supplier_notation | FAM_in_mech=FALSE
+Exact SHANK3 matches (rows): 13
+Approximate SHANK3 matches (rows): 1
+Transcriptome/genomic off-target hits recorded (chr22 screen): 2
+
+--- ASO_4_5_2_4 ---
+Top RBPs: PTBP2, RBFOX1, RBFOX3, SRSF1, AGO2
+Top mechanism hypothesis: RBP occlusion
+RNase-H supported/unsupported/unknown: low_support (gapmer=not_supported_by_current_supplier_notation; likely_uniform_MOE favors steric/occupancy)
+
+--- ASO_4_5_2_6 ---
+Top RBPs: PTBP2, RBFOX1, RBFOX3, SRSF1, AGO2
+Top mechanism hypothesis: RBP occlusion
+RNase-H supported/unsupported/unknown: low_support (gapmer=not_supported_by_current_supplier_notation; likely_uniform_MOE favors steric/occupancy)
+
+Missing info for definitive interpretation:
+  - Supplier PS linkage notation string (ps_linkage_pattern awaits parse; map not invented)
+  - Experimental confirmation of 5m-dC (currently reported_but_needs_confirmation)
+  - Experimental confirmation of on-target engagement
+  - Neuron/NPC eCLIP peak overlaps at the precise site
+  - Quantitative expression of candidate RBPs in the treated cell system
+  - Structure probing ± ASO with matched chemistry
+  - Functional genetics (RBP KD/OE epistasis with ASO)
+  - FAM is present in supplier construct but excluded from unlabeled mechanism interpretation
+====================================================
+
+✔ step07_summary completed [53ms, 697 B]
++ render_reports dispatched
+Warning: LaTeX Warning: `!h' float specifier changed to `!ht'.
+Warning: LaTeX Warning: `!h' float specifier changed to `!ht'.
+Warning: LaTeX Warning: `!h' float specifier changed to `!ht'.
+✔ render_reports completed [4.6s, 297 B]
+✔ ended pipeline [7.4s, 5 completed, 7 skipped]
+Warning message:
+1 targets produced warnings. Run targets::tar_meta(fields = warnings, complete_only = TRUE) for the messages. 
