@@ -1,0 +1,50 @@
++ config dispatched
+✔ config completed [2s, 1.13 kB]
++ step01_sequence_qc dispatched
+2026-09-15 14:00:13 | Step 01 sequence QC complete: 2 ASOs 
+✔ step01_sequence_qc completed [253ms, 686 B]
++ report_index dispatched
+✔ report_index completed [0ms, 174 B]
++ step02_mapping dispatched
+  2135 genes were dropped because they have exons located on both strands
+  of the same reference sequence or on more than one reference sequence,
+  so cannot be represented by a single genomic range.
+  Use 'single.strand.genes.only=FALSE' to get all the genes in a
+  GRangesList object, or use suppressMessages() to suppress this message.
+2026-09-15 14:00:58 | Step 02 mapping complete. exact rows=13 
+✔ step02_mapping completed [44.5s, 1.09 kB]
++ step03_structure dispatched
+✖ step03_structure errored
+Error: invalid regular expression '\([ -0-9.]+\)\s*$', reason 'Invalid character range'
+
++ step04_rbp dispatched
+2026-09-15 14:00:59 | Step 04 RBP analysis complete. motif_hits=101 
+✔ step04_rbp completed [648ms, 3.04 kB]
++ step05_tf dispatched
+2026-09-15 14:00:59 | Step 05 TF/chromatin skipped (non-regulatory context) 
+✔ step05_tf completed [29ms, 565 B]
++ step06_rbp_rank dispatched
+✖ step06_rbp_rank errored
+Error: could not load dependency step03_structure of target step06_rbp_rank. invalid 'description' argument
+
++ step07_mechanisms dispatched
+✖ step07_mechanisms errored
+Error: could not load dependency step06_rbp_rank of target step07_mechanisms. invalid 'description' argument
+
++ step07_validation dispatched
+✖ step07_validation errored
+Error: could not load dependency step06_rbp_rank of target step07_validation. invalid 'description' argument
+
++ step07_summary dispatched
+✖ step07_summary errored
+Error: could not load dependency step07_mechanisms of target step07_summary. invalid 'description' argument
+
++ render_reports dispatched
+✖ render_reports errored
+Error: could not load dependency step07_validation of target render_reports. invalid 'description' argument
+
+✖ errored pipeline [48.1s, 6 completed, 0 skipped]
+Warning messages:
+1: TRE pattern compilation error 'Invalid character range' 
+2: 6 targets produced errors. Run targets::tar_meta(fields = error, complete_only = TRUE) for the messages. 
+3: 1 targets produced warnings. Run targets::tar_meta(fields = warnings, complete_only = TRUE) for the messages. 

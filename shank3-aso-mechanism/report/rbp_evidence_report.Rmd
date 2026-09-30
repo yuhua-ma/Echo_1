@@ -1,0 +1,51 @@
+---
+title: "SHANK3 ASO RBP Evidence Report"
+output:
+  html_document:
+    toc: true
+    theme: flatly
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+root <- if (file.exists("_config.yml")) getwd() else if (file.exists("../_config.yml")) normalizePath("..") else getwd()
+clip <- readr::read_tsv(file.path(root, "results/04_rbp_clip_overlap.tsv"), show_col_types = FALSE)
+motif <- readr::read_tsv(file.path(root, "results/04_rbp_motif_overlap.tsv"), show_col_types = FALSE)
+expr <- readr::read_tsv(file.path(root, "results/04_rbp_expression.tsv"), show_col_types = FALSE)
+func <- readr::read_tsv(file.path(root, "results/04_rbp_function.tsv"), show_col_types = FALSE)
+ranked <- readr::read_tsv(file.path(root, "results/06_ranked_rbps.tsv"), show_col_types = FALSE)
+```
+
+# Evidence policy
+
+CLIP peaks are **never invented**. Unreachable databases yield empty/partial tables with `status` / `warning` columns. Motif and expression layers may use clearly labeled curated priors.
+
+# CLIP overlaps
+
+```{r}
+knitr::kable(clip)
+```
+
+# Motif overlaps
+
+```{r}
+knitr::kable(head(motif, 50))
+```
+
+# Expression (neuron / NPC)
+
+```{r}
+knitr::kable(head(expr, 40))
+```
+
+# Function annotation
+
+```{r}
+knitr::kable(head(func, 40))
+```
+
+# Ranked RBPs
+
+```{r}
+knitr::kable(ranked %>% dplyr::filter(in_top_report))
+```

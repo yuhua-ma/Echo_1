@@ -1,0 +1,4 @@
+resource	version	url	genome_build	download_date	gencode_status	gencode_warning
+GENCODE	GENCODE Release 45	https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_45/gencode.v45.annotation.gtf.gz	GRCh38	2026-09-15	ok	
+TxDb	3.18.0	Bioconductor	GRCh38	2026-09-15	ok	
+BSgenome	1.4.5	Bioconductor	GRCh38	2026-09-15	ok	

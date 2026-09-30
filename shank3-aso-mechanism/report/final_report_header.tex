@@ -1,0 +1,10 @@
+% Extra LaTeX preamble for readable PDF ToC + tables
+% Avoid tocloft (conflicts with pandoc's TOC). Widen numberline box instead.
+\makeatletter
+\renewcommand{\numberline}[1]{\hb@xt@2.8em{#1\hfil}}
+\makeatother
+\usepackage{pdflscape}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{array}
+\usepackage{graphicx}
