@@ -2,7 +2,7 @@
 # qPCR bar plots: Cortex (CTX) + Striatum (STR)
 # Bars = mean; error bars = SEM; points = individual replicates (jitter).
 # Values transcribed from screenshot tables (European commas → decimal points).
-# Units: relative / normalized expression as shown in source tables (assay scale unknown).
+# Y-axis label: Absolute expression (label-only; values unchanged from transcription).
 
 suppressPackageStartupMessages({
   library(ggplot2)
@@ -143,12 +143,7 @@ make_region_plot <- function(region_code, title_text) {
     scale_y_continuous(expand = expansion(mult = c(0, 0.02)), limits = c(0, y_max)) +
     labs(
       title = title_text,
-      subtitle = "Bars = mean; error bars = SEM; points = individual animals (unequal n)",
-      y = "Normalized expression",
-      caption = paste0(
-        "Assay units as in source spreadsheet (relative/normalized scale; absolute units unknown). ",
-        "Transcribed from ", unique(d$source_file), "."
-      )
+      y = "Absolute expression"
     ) +
     theme_qpcr()
 }
@@ -190,10 +185,8 @@ p_combined <- ggplot() +
   scale_x_discrete(limits = group_levels, drop = FALSE) +
   scale_y_continuous(expand = expansion(mult = c(0, 0.08))) +
   labs(
-    title = "qPCR — Cortex (CTX) vs Striatum (STR)",
-    subtitle = "Bars = mean; error bars = SEM; points = individual animals (unequal n)",
-    y = "Normalized expression",
-    caption = "Assay units as in source spreadsheet (relative/normalized scale; absolute units unknown)."
+    title = "qPCR — Cortex (CTX), Striatum (STR)",
+    y = "Absolute expression"
   ) +
   theme_qpcr() +
   theme(
@@ -201,11 +194,6 @@ p_combined <- ggplot() +
     strip.text = element_text(face = "bold", size = 12, margin = margin(4, 4, 4, 4)),
     panel.spacing = unit(1.2, "lines")
   )
-
-# Also stack via patchwork as an alternate combined layout
-p_stack <- p_ctx / p_str + plot_annotation(
-  caption = "Assay units as in source spreadsheet (relative/normalized scale; absolute units unknown)."
-)
 
 out_ctx <- file.path(out_dir, "qpcr_CTX_barplot.png")
 out_str <- file.path(out_dir, "qpcr_STR_barplot.png")
