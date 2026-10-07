@@ -1,0 +1,17 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+_targets/
+*.tar.gz
+data/raw/gencode*
+data/processed/vienna/
+.Renviron
+.DS_Store
+renv/library/
+renv/staging/
+renv/local/
+# Generated pandoc intermediate only (keep hand-written preamble .tex)
+report/FINAL_SHANK3_ASO_MECHANISM_REPORT.tex
+report/*.log
+report/*_files/
