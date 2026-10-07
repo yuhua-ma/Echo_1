@@ -3,7 +3,7 @@
 # Bars = mean; error bars = SEM; points = individual replicates (jitter).
 # Day 21 is HT-only (no WT Day 21 invented).
 # Stats: within each region × day × genotype, one-way ANOVA + Tukey HSD
-# across treatments (Veh, New SCR, 2.6). Significant pairs only annotated.
+# written to CSV. Plot annotations off by default (show_stats = FALSE).
 # Y-axis: Absolute expression. No bottom caption / “vs” titles.
 
 suppressPackageStartupMessages({
@@ -17,6 +17,9 @@ suppressPackageStartupMessages({
 # Paths
 # ---------------------------------------------------------------------------
 args <- commandArgs(trailingOnly = FALSE)
+trailing <- commandArgs(trailingOnly = TRUE)
+show_stats <- isTRUE("--show-stats" %in% trailing)
+
 file_arg <- grep("^--file=", args, value = TRUE)
 script_dir <- if (length(file_arg)) {
   dirname(normalizePath(sub("^--file=", "", file_arg)))
@@ -349,7 +352,23 @@ build_day_annotations <- function(sig_df, summary_df, tip_pad = 0.03, step = 0.0
   bind_rows(out)
 }
 
-ann_all <- build_day_annotations(sig_tbl, summary_tbl)
+ann_all <- if (show_stats) {
+  build_day_annotations(sig_tbl, summary_tbl)
+} else {
+  data.frame(
+    day = factor(levels = day_levels),
+    day_num = integer(),
+    region = character(),
+    region_label = character(),
+    group1 = character(),
+    group2 = character(),
+    x1 = numeric(),
+    x2 = numeric(),
+    y_position = numeric(),
+    annotations = character(),
+    stringsAsFactors = FALSE
+  )
+}
 
 bracket_layers_data <- function(ann_df, tip_frac = 0.03) {
   if (nrow(ann_df) == 0) {
@@ -383,8 +402,8 @@ make_region_plot <- function(region_code, title_text) {
   br <- bracket_layers_data(ann)
 
   y_data_max <- max(d$expression, s$mean + ifelse(is.na(s$sem), 0, s$sem), na.rm = TRUE)
-  y_ann_max <- if (nrow(ann)) max(ann$y_position) else y_data_max
-  y_max <- max(y_data_max * 1.12, y_ann_max * 1.14)
+  y_ann_max <- if (show_stats && nrow(ann) > 0) max(ann$y_position) else y_data_max
+  y_max <- if (show_stats) max(y_data_max * 1.12, y_ann_max * 1.14) else y_data_max * 1.12
 
   pd <- position_dodge(width = 0.75)
 
@@ -423,7 +442,7 @@ make_region_plot <- function(region_code, title_text) {
     labs(title = title_text, y = "Absolute expression") +
     theme_qpcr()
 
-  if (nrow(br$segs) > 0) {
+  if (show_stats && nrow(br$segs) > 0) {
     p <- p +
       geom_segment(
         data = br$segs,
@@ -479,7 +498,7 @@ p_combined <- ggplot() +
     alpha = 0.95
   ) +
   {
-    if (nrow(br_all$segs) > 0) {
+    if (show_stats && nrow(br_all$segs) > 0) {
       list(
         geom_segment(
           data = br_all$segs,
@@ -497,13 +516,15 @@ p_combined <- ggplot() +
           inherit.aes = FALSE
         )
       )
-    } else list()
+    } else {
+      list()
+    }
   } +
   facet_wrap(~region_label, nrow = 1, scales = "free_y") +
   scale_fill_manual(values = day_fills, breaks = day_levels, drop = FALSE) +
   scale_shape_manual(values = day_shapes, breaks = day_levels, drop = FALSE) +
   scale_x_discrete(limits = group_levels, drop = FALSE) +
-  scale_y_continuous(expand = expansion(mult = c(0, 0.16))) +
+  scale_y_continuous(expand = expansion(mult = c(0, if (show_stats) 0.16 else 0.08))) +
   labs(
     title = "qPCR — Cortex (CTX), Striatum (STR)",
     y = "Absolute expression"
@@ -537,8 +558,8 @@ make_day21_ht_plot <- function(region_code, title_text) {
   s <- s %>% mutate(group = factor(as.character(group), levels = ht_groups))
 
   y_data_max <- max(d$expression, s$mean + ifelse(is.na(s$sem), 0, s$sem), na.rm = TRUE)
-  y_ann_max <- if (nrow(ann2)) max(ann2$y_position) else y_data_max
-  y_max <- max(y_data_max * 1.15, y_ann_max * 1.18)
+  y_ann_max <- if (show_stats && nrow(ann2) > 0) max(ann2$y_position) else y_data_max
+  y_max <- if (show_stats) max(y_data_max * 1.15, y_ann_max * 1.18) else y_data_max * 1.12
 
   p <- ggplot() +
     geom_col(
@@ -575,7 +596,7 @@ make_day21_ht_plot <- function(region_code, title_text) {
     theme_qpcr() +
     theme(legend.position = "none")
 
-  if (nrow(br$segs) > 0) {
+  if (show_stats && nrow(br$segs) > 0) {
     p <- p +
       geom_segment(
         data = br$segs,
@@ -629,6 +650,7 @@ message("Wrote: ", out_ctx_d21)
 message("Wrote: ", out_str_d21)
 message("Stats: ", stats_path)
 message("Summary: ", summary_path)
+message("Plot significance annotations: ", show_stats)
 
 message("Significant pairs:")
 print(as.data.frame(sig_tbl %>%
