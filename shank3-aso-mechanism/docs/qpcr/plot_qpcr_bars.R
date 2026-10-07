@@ -17,8 +17,11 @@ suppressPackageStartupMessages({
 # Paths
 # ---------------------------------------------------------------------------
 args <- commandArgs(trailingOnly = FALSE)
-trailing <- commandArgs(trailingOnly = TRUE)
-show_stats <- isTRUE("--show-stats" %in% trailing)
+# Hard default: never draw significance on plots. Opt-in with --show-stats only.
+show_stats <- FALSE
+if ("--show-stats" %in% commandArgs(trailingOnly = TRUE)) {
+  show_stats <- TRUE
+}
 
 file_arg <- grep("^--file=", args, value = TRUE)
 script_dir <- if (length(file_arg)) {
@@ -352,7 +355,7 @@ build_day_annotations <- function(sig_df, summary_df, tip_pad = 0.03, step = 0.0
   bind_rows(out)
 }
 
-ann_all <- if (show_stats) {
+ann_all <- if (isTRUE(show_stats)) {
   build_day_annotations(sig_tbl, summary_tbl)
 } else {
   data.frame(
@@ -398,12 +401,9 @@ bracket_layers_data <- function(ann_df, tip_frac = 0.03) {
 make_region_plot <- function(region_code, title_text) {
   d <- dat %>% filter(region == region_code)
   s <- summary_tbl %>% filter(region == region_code)
-  ann <- ann_all %>% filter(region == region_code)
-  br <- bracket_layers_data(ann)
 
   y_data_max <- max(d$expression, s$mean + ifelse(is.na(s$sem), 0, s$sem), na.rm = TRUE)
-  y_ann_max <- if (show_stats && nrow(ann) > 0) max(ann$y_position) else y_data_max
-  y_max <- if (show_stats) max(y_data_max * 1.12, y_ann_max * 1.14) else y_data_max * 1.12
+  y_max <- y_data_max * 1.12
 
   pd <- position_dodge(width = 0.75)
 
@@ -442,23 +442,27 @@ make_region_plot <- function(region_code, title_text) {
     labs(title = title_text, y = "Absolute expression") +
     theme_qpcr()
 
-  if (show_stats && nrow(br$segs) > 0) {
-    p <- p +
-      geom_segment(
-        data = br$segs,
-        aes(x = x, xend = xend, y = y, yend = yend),
-        linewidth = 0.4,
-        color = "#1A202C",
-        inherit.aes = FALSE
-      ) +
-      geom_text(
-        data = br$labs,
-        aes(x = x, y = y, label = label),
-        vjust = -0.35,
-        size = 4.2,
-        color = "#1A202C",
-        inherit.aes = FALSE
-      )
+  if (isTRUE(show_stats)) {
+    ann <- ann_all %>% filter(region == region_code)
+    br <- bracket_layers_data(ann)
+    if (nrow(br$segs) > 0) {
+      p <- p +
+        geom_segment(
+          data = br$segs,
+          aes(x = x, xend = xend, y = y, yend = yend),
+          linewidth = 0.4,
+          color = "#1A202C",
+          inherit.aes = FALSE
+        ) +
+        geom_text(
+          data = br$labs,
+          aes(x = x, y = y, label = label),
+          vjust = -0.35,
+          size = 4.2,
+          color = "#1A202C",
+          inherit.aes = FALSE
+        )
+    }
   }
   p
 }
@@ -467,7 +471,7 @@ p_ctx <- make_region_plot("CTX", "qPCR — Cortex (CTX), Day 7 and Day 21")
 p_str <- make_region_plot("STR", "qPCR — Striatum (STR), Day 7 and Day 21")
 
 # Combined facet
-br_all <- bracket_layers_data(ann_all)
+br_all <- if (isTRUE(show_stats)) bracket_layers_data(ann_all) else list(segs = data.frame(), labs = data.frame())
 pd <- position_dodge(width = 0.75)
 p_combined <- ggplot() +
   geom_col(
@@ -498,7 +502,7 @@ p_combined <- ggplot() +
     alpha = 0.95
   ) +
   {
-    if (show_stats && nrow(br_all$segs) > 0) {
+    if (isTRUE(show_stats) && nrow(br_all$segs) > 0) {
       list(
         geom_segment(
           data = br_all$segs,
@@ -541,25 +545,12 @@ make_day21_ht_plot <- function(region_code, title_text) {
   d <- dat %>% filter(region == region_code, day_num == 21, genotype == "HT")
   s <- summary_tbl %>% filter(region == region_code, day_num == 21, genotype == "HT")
   ht_groups <- c("HT-Veh", "HT-New SCR", "HT-2,6")
-  ann <- ann_all %>% filter(region == region_code, day_num == 21)
-  # Remap x to 1..3 for HT-only axis
-  if (nrow(ann) > 0) {
-    ann2 <- ann %>%
-      mutate(
-        x1 = match(group1, ht_groups),
-        x2 = match(group2, ht_groups)
-      )
-  } else {
-    ann2 <- ann
-  }
-  br <- bracket_layers_data(ann2)
 
   d <- d %>% mutate(group = factor(as.character(group), levels = ht_groups))
   s <- s %>% mutate(group = factor(as.character(group), levels = ht_groups))
 
   y_data_max <- max(d$expression, s$mean + ifelse(is.na(s$sem), 0, s$sem), na.rm = TRUE)
-  y_ann_max <- if (show_stats && nrow(ann2) > 0) max(ann2$y_position) else y_data_max
-  y_max <- if (show_stats) max(y_data_max * 1.15, y_ann_max * 1.18) else y_data_max * 1.12
+  y_max <- y_data_max * 1.12
 
   p <- ggplot() +
     geom_col(
@@ -596,23 +587,32 @@ make_day21_ht_plot <- function(region_code, title_text) {
     theme_qpcr() +
     theme(legend.position = "none")
 
-  if (show_stats && nrow(br$segs) > 0) {
-    p <- p +
-      geom_segment(
-        data = br$segs,
-        aes(x = x, xend = xend, y = y, yend = yend),
-        linewidth = 0.4,
-        color = "#1A202C",
-        inherit.aes = FALSE
-      ) +
-      geom_text(
-        data = br$labs,
-        aes(x = x, y = y, label = label),
-        vjust = -0.35,
-        size = 4.2,
-        color = "#1A202C",
-        inherit.aes = FALSE
-      )
+  if (isTRUE(show_stats)) {
+    ann <- ann_all %>% filter(region == region_code, day_num == 21)
+    ann2 <- if (nrow(ann) > 0) {
+      ann %>% mutate(x1 = match(group1, ht_groups), x2 = match(group2, ht_groups))
+    } else {
+      ann
+    }
+    br <- bracket_layers_data(ann2)
+    if (nrow(br$segs) > 0) {
+      p <- p +
+        geom_segment(
+          data = br$segs,
+          aes(x = x, xend = xend, y = y, yend = yend),
+          linewidth = 0.4,
+          color = "#1A202C",
+          inherit.aes = FALSE
+        ) +
+        geom_text(
+          data = br$labs,
+          aes(x = x, y = y, label = label),
+          vjust = -0.35,
+          size = 4.2,
+          color = "#1A202C",
+          inherit.aes = FALSE
+        )
+    }
   }
   p
 }
@@ -650,7 +650,10 @@ message("Wrote: ", out_ctx_d21)
 message("Wrote: ", out_str_d21)
 message("Stats: ", stats_path)
 message("Summary: ", summary_path)
-message("Plot significance annotations: ", show_stats)
+message("Plot significance annotations (show_stats): ", show_stats)
+message("ann_all rows for plotting: ", nrow(ann_all))
+stopifnot(!show_stats || nrow(ann_all) >= 0)
+if (!show_stats) stopifnot(nrow(ann_all) == 0)
 
 message("Significant pairs:")
 print(as.data.frame(sig_tbl %>%
